@@ -13,7 +13,7 @@ const SaleSection: React.FC = () => {
     <section 
       className="py-24 bg-cover bg-center"
       style={{
-        backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200')"
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/placeholder.svg')"
       }}
     >
       <div className="container-custom text-center">

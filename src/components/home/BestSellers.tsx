@@ -16,28 +16,28 @@ const products: Product[] = [
     id: 'p1',
     name: 'Velvet Touch Button-Up',
     price: 120.99,
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     category: 'shirts'
   },
   {
     id: 'p2',
     name: 'Classic Denim Jacket',
     price: 179.50,
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     category: 'jackets'
   },
   {
     id: 'p3',
     name: 'Urban Slim Fit Pants',
     price: 89.99,
-    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     category: 'pants'
   },
   {
     id: 'p4',
     name: 'Premium Cotton Hoodie',
     price: 65.00,
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     category: 'hoodies'
   }
 ];

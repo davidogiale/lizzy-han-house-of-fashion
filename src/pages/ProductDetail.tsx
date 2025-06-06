@@ -30,9 +30,9 @@ const product = {
   ],
   sizes: ['S', 'M', 'L', 'XL'],
   images: [
-    'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=800'
+    '/placeholder.svg',
+    '/placeholder.svg',
+    '/placeholder.svg'
   ],
   material: 'Our velvet touch fabric is a premium blend of 95% cotton and 5% elastane, providing both comfort and flexibility. The cotton is ethically sourced and sustainable.',
   care: 'Machine wash cold on gentle cycle with similar colors. Tumble dry low. Do not bleach. Iron on low if needed.',

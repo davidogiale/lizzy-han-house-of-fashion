@@ -17,7 +17,7 @@ const slides: Slide[] = [
     id: 1,
     title: "Vogue Sweaters",
     subtitle: "Explore our premium collection",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=1200",
+    image: "/placeholder.svg",
     ctaText: "Shop Now",
     ctaLink: "/shop/men"
   },
@@ -25,7 +25,7 @@ const slides: Slide[] = [
     id: 2,
     title: "Summer Collection",
     subtitle: "Lightweight fabrics for hot days",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200",
+    image: "/placeholder.svg",
     ctaText: "Explore Collection",
     ctaLink: "/shop/women"
   },
@@ -33,7 +33,7 @@ const slides: Slide[] = [
     id: 3,
     title: "Accessories",
     subtitle: "Complete your look with our accessories",
-    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=1200",
+    image: "/placeholder.svg",
     ctaText: "Discover More",
     ctaLink: "/shop/accessories"
   }

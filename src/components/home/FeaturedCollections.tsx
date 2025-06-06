@@ -13,19 +13,19 @@ const collections: Collection[] = [
   {
     id: 'men',
     name: 'Men',
-    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     link: '/shop/men'
   },
   {
     id: 'women',
     name: 'Women',
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     link: '/shop/women'
   },
   {
     id: 'accessories',
     name: 'Accessories',
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     link: '/shop/accessories'
   }
 ];

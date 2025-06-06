@@ -22,7 +22,7 @@ const products: Product[] = [
     name: 'Velvet Touch Button-Up',
     price: 120.99,
     category: 'shirts',
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['brown', 'black', 'white'],
     sizes: ['s', 'm', 'l', 'xl']
   },
@@ -31,7 +31,7 @@ const products: Product[] = [
     name: 'Classic Denim Jacket',
     price: 179.50,
     category: 'jackets',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['blue', 'black'],
     sizes: ['m', 'l', 'xl']
   },
@@ -40,7 +40,7 @@ const products: Product[] = [
     name: 'Urban Slim Fit Pants',
     price: 89.99,
     category: 'pants',
-    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['black', 'gray', 'navy'],
     sizes: ['s', 'm', 'l', 'xl', 'xxl']
   },
@@ -49,7 +49,7 @@ const products: Product[] = [
     name: 'Premium Cotton Hoodie',
     price: 65.00,
     category: 'hoodies',
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['gray', 'black', 'green'],
     sizes: ['s', 'm', 'l', 'xl']
   },
@@ -58,7 +58,7 @@ const products: Product[] = [
     name: 'Modern Fit Oxford Shirt',
     price: 85.00,
     category: 'shirts',
-    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['white', 'blue', 'pink'],
     sizes: ['s', 'm', 'l', 'xl']
   },
@@ -67,7 +67,7 @@ const products: Product[] = [
     name: 'Essential T-Shirt',
     price: 29.99,
     category: 'shirts',
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=600',
+    image: '/placeholder.svg',
     colors: ['white', 'black', 'gray'],
     sizes: ['xs', 's', 'm', 'l', 'xl', 'xxl']
   },

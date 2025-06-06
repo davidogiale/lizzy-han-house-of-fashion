@@ -14,21 +14,21 @@ const testimonials: Testimonial[] = [
   {
     id: 't1',
     name: 'Sarah Johnson',
-    avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
+    avatar: '/placeholder.svg',
     rating: 5,
     comment: 'The quality of their clothing is outstanding. Every piece I have purchased has exceeded my expectations in terms of fit and durability.'
   },
   {
     id: 't2',
     name: 'Michael Chen',
-    avatar: 'https://randomuser.me/api/portraits/men/22.jpg',
+    avatar: '/placeholder.svg',
     rating: 4,
     comment: 'Fast shipping and the customer service team was incredibly helpful when I needed to exchange a size. Highly recommend!'
   },
   {
     id: 't3',
     name: 'Emma Davis',
-    avatar: 'https://randomuser.me/api/portraits/women/32.jpg',
+    avatar: '/placeholder.svg',
     rating: 5,
     comment: 'I love the sustainable approach to fashion. The materials are high-quality and the designs are timeless. Will definitely shop here again.'
   }
