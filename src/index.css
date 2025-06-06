@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +39,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -94,8 +91,28 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+  }
+  h1, h2 {
+    @apply font-playfair font-bold;
+  }
+  h3 {
+    @apply font-inter font-semibold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 hover:bg-primary/90 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+  }
+  .btn-accent {
+    @apply bg-accent text-primary px-6 py-3 hover:bg-accent/90 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+  }
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-6 py-3 hover:bg-primary/5 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+  }
+  .container-custom {
+    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
