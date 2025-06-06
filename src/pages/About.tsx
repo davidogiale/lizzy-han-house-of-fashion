@@ -7,7 +7,7 @@ const About: React.FC = () => {
     <Layout>
       <div 
         className="h-80 bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200')" }}
+        style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/placeholder.svg')" }}
       >
         <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white">About Us</h1>
       </div>
@@ -26,7 +26,7 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <img 
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600" 
+                src="/placeholder.svg" 
                 alt="Our workshop" 
                 className="w-full h-96 object-cover"
               />
@@ -97,7 +97,7 @@ const About: React.FC = () => {
             <div className="text-center">
               <div className="mb-4 overflow-hidden rounded-full">
                 <img 
-                  src="https://randomuser.me/api/portraits/women/44.jpg" 
+                  src="/placeholder.svg" 
                   alt="Emma Wilson - Founder & Creative Director" 
                   className="w-48 h-48 object-cover mx-auto"
                 />
@@ -113,7 +113,7 @@ const About: React.FC = () => {
             <div className="text-center">
               <div className="mb-4 overflow-hidden rounded-full">
                 <img 
-                  src="https://randomuser.me/api/portraits/men/32.jpg" 
+                  src="/placeholder.svg" 
                   alt="David Chen - Head of Production" 
                   className="w-48 h-48 object-cover mx-auto"
                 />
@@ -129,7 +129,7 @@ const About: React.FC = () => {
             <div className="text-center">
               <div className="mb-4 overflow-hidden rounded-full">
                 <img 
-                  src="https://randomuser.me/api/portraits/women/68.jpg" 
+                  src="/placeholder.svg" 
                   alt="Sophia Martinez - Lead Designer" 
                   className="w-48 h-48 object-cover mx-auto"
                 />
@@ -145,7 +145,7 @@ const About: React.FC = () => {
             <div className="text-center">
               <div className="mb-4 overflow-hidden rounded-full">
                 <img 
-                  src="https://randomuser.me/api/portraits/men/75.jpg" 
+                  src="/placeholder.svg" 
                   alt="Marcus Johnson - Sustainability Officer" 
                   className="w-48 h-48 object-cover mx-auto"
                 />

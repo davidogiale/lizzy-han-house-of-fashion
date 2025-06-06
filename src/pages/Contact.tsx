@@ -47,7 +47,7 @@ const Contact: React.FC = () => {
     <Layout>
       <div 
         className="h-80 bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=1200')" }}
+        style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/placeholder.svg')" }}
       >
         <h1 className="text-4xl md:text-5xl font-playfair font-bold text-white">Contact Us</h1>
       </div>
