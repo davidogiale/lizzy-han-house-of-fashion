@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     name: 'Sarah Johnson',
     avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
     rating: 5,
-    comment: 'The quality of their clothing is outstanding. Every piece I've purchased has exceeded my expectations in terms of fit and durability.'
+    comment: 'The quality of their clothing is outstanding. Every piece I have purchased has exceeded my expectations in terms of fit and durability.'
   },
   {
     id: 't2',
