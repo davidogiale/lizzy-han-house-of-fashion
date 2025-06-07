@@ -1,97 +1,80 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 
-interface Slide {
-  id: number;
-  title: string;
-  subtitle: string;
-  image: string;
-  ctaText: string;
-  ctaLink: string;
-}
-
-const slides: Slide[] = [
-  {
-    id: 1,
-    title: "Vogue Sweaters",
-    subtitle: "Explore our premium collection",
-    image: "/placeholder.svg",
-    ctaText: "Shop Now",
-    ctaLink: "/shop/men"
-  },
-  {
-    id: 2,
-    title: "Summer Collection",
-    subtitle: "Lightweight fabrics for hot days",
-    image: "/placeholder.svg",
-    ctaText: "Explore Collection",
-    ctaLink: "/shop/women"
-  },
-  {
-    id: 3,
-    title: "Accessories",
-    subtitle: "Complete your look with our accessories",
-    image: "/placeholder.svg",
-    ctaText: "Discover More",
-    ctaLink: "/shop/accessories"
-  }
-];
-
 const Hero: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="relative h-[70vh] overflow-hidden">
-      {slides.map((slide, index) => (
-        <div 
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${slide.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className="container-custom h-full flex flex-col justify-center items-center md:items-start text-center md:text-left">
+    <div className="relative h-[70vh] overflow-hidden bg-gradient-to-r from-slate-800 to-slate-600">
+      <div className="container-custom h-full flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
+          {/* Left side - Text content */}
+          <div className="text-center lg:text-left">
             <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              {slide.title}
+              Vogue Sweaters
             </h1>
-            <p className="text-white text-lg md:text-xl mb-8 max-w-md">
-              {slide.subtitle}
+            <p className="text-white text-lg md:text-xl mb-8 max-w-md mx-auto lg:mx-0">
+              Explore our premium collection
             </p>
-            <Link to={slide.ctaLink}>
+            <Link to="/shop">
               <Button className="btn-accent">
-                {slide.ctaText}
+                Shop Now
               </Button>
             </Link>
           </div>
+          
+          {/* Right side - Image grid */}
+          <div className="hidden lg:grid grid-cols-2 gap-4 h-96">
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg h-32 flex items-center justify-center">
+                <img 
+                  src="/placeholder.svg" 
+                  alt="Fashion Model 1" 
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+              <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg h-56 flex items-center justify-center">
+                <img 
+                  src="/placeholder.svg" 
+                  alt="Fashion Model 2" 
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg h-56 flex items-center justify-center">
+                <img 
+                  src="/placeholder.svg" 
+                  alt="Fashion Model 3" 
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+              <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg h-32 flex items-center justify-center">
+                <img 
+                  src="/placeholder.svg" 
+                  alt="Fashion Model 4" 
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
-
-      {/* Slide indicators */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`h-2 rounded-full transition-all ${
-              index === currentSlide ? 'w-8 bg-accent' : 'w-2 bg-white/60'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
+      </div>
+      
+      {/* Mobile image section */}
+      <div className="lg:hidden mt-8 px-4">
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <img 
+            src="/placeholder.svg" 
+            alt="Fashion Collection" 
+            className="w-full h-32 object-cover rounded-lg"
           />
-        ))}
+          <img 
+            src="/placeholder.svg" 
+            alt="Fashion Collection" 
+            className="w-full h-32 object-cover rounded-lg"
+          />
+        </div>
       </div>
     </div>
   );
