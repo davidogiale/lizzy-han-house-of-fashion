@@ -34,7 +34,9 @@ const Hero2: React.FC = () => {
             <h2 className="text-3xl font-extrabold mb-2">Vogue Sweaters</h2>
             <p className="mb-4">Explore our premium collection</p>
             <Link to="/shop">
-              <Button className="px-8 py-3">Shop</Button>
+              <Button className="btn-accent px-8 py-3">
+                  Shop
+                </Button>
             </Link>
           </div>
         </div>
