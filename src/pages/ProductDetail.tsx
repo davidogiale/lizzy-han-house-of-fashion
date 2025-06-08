@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -236,9 +235,8 @@ const ProductDetail: React.FC = () => {
             
             {/* Product Details Tabs */}
             <Tabs defaultValue="description">
-              <TabsList className="grid grid-cols-3 mb-4">
+              <TabsList className="grid grid-cols-2 mb-4">
                 <TabsTrigger value="description">Description</TabsTrigger>
-                <TabsTrigger value="material">Materials & Care</TabsTrigger>
                 <TabsTrigger value="reviews">Reviews</TabsTrigger>
               </TabsList>
               <TabsContent value="description" className="text-dark">
@@ -249,12 +247,6 @@ const ProductDetail: React.FC = () => {
                     <li key={index}>{feature}</li>
                   ))}
                 </ul>
-              </TabsContent>
-              <TabsContent value="material" className="text-dark">
-                <h4 className="font-semibold mb-2">Material</h4>
-                <p className="mb-4">{product.material}</p>
-                <h4 className="font-semibold mb-2">Care Instructions</h4>
-                <p>{product.care}</p>
               </TabsContent>
               <TabsContent value="reviews" className="text-dark">
                 <div className="mb-4">
