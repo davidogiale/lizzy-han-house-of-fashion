@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { SearchDialog } from "@/components/ui/SearchDialog";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 bg-white z-50 shadow-sm">
@@ -39,7 +41,10 @@ const Header: React.FC = () => {
 
           {/* Icon Navigation */}
           <div className="hidden lg:flex items-center space-x-6">
-            <button className="text-primary hover:text-accent transition-colors">
+            <button 
+              className="text-primary hover:text-accent transition-colors"
+              onClick={() => setIsSearchOpen(true)}
+            >
               <Search size={20} />
             </button>
             <Link to="/account" className="text-primary hover:text-accent transition-colors">
@@ -83,7 +88,13 @@ const Header: React.FC = () => {
                 Contact
               </Link>
               <div className="flex space-x-6 pt-2">
-                <button className="text-primary hover:text-accent transition-colors">
+                <button 
+                  className="text-primary hover:text-accent transition-colors"
+                  onClick={() => {
+                    setIsSearchOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                >
                   <Search size={20} />
                 </button>
                 <Link 
@@ -115,6 +126,8 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
+      
+      <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </header>
   );
 };
