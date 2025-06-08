@@ -13,7 +13,7 @@ import Hero2 from '@/components/home/Hero2';
 const Index = () => {
   return (
     <Layout>
-      <Hero2 />
+      <Hero />
       <FeaturedCollections />
       <NewArrivalsCarousel />
       <ShopTheLook />
