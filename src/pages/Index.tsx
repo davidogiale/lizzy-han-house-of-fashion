@@ -8,11 +8,12 @@ import ShopTheLook from '@/components/home/ShopTheLook';
 import CustomerFavorites from '@/components/home/CustomerFavorites';
 import InstagramFeed from '@/components/home/InstagramFeed';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
+import Hero2 from '@/components/home/Hero2';
 
 const Index = () => {
   return (
     <Layout>
-      <Hero />
+      <Hero2 />
       <FeaturedCollections />
       <NewArrivalsCarousel />
       <ShopTheLook />
