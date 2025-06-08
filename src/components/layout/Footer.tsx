@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-playfair text-xl font-bold mb-4">Vogue</h3>
             <p className="text-gray-300 mb-4">
-              Elevate your style with our premium collection of modern, sustainable fashion.
+              Elevating women's style with our premium collection of modern, sustainable fashion that celebrates individuality and confidence.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-white hover:text-accent transition-colors">
@@ -34,18 +34,28 @@ const Footer: React.FC = () => {
             <h3 className="font-inter text-lg font-semibold mb-4">Shop</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/shop/men" className="text-gray-300 hover:text-accent transition-colors">
-                  Men's Collection
+                <Link to="/shop/dresses" className="text-gray-300 hover:text-accent transition-colors">
+                  Dresses
                 </Link>
               </li>
               <li>
-                <Link to="/shop/women" className="text-gray-300 hover:text-accent transition-colors">
-                  Women's Collection
+                <Link to="/shop/tops" className="text-gray-300 hover:text-accent transition-colors">
+                  Tops
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop/bottoms" className="text-gray-300 hover:text-accent transition-colors">
+                  Bottoms
                 </Link>
               </li>
               <li>
                 <Link to="/shop/accessories" className="text-gray-300 hover:text-accent transition-colors">
                   Accessories
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop/new-arrivals" className="text-gray-300 hover:text-accent transition-colors">
+                  New Arrivals
                 </Link>
               </li>
               <li>
@@ -110,7 +120,7 @@ const Footer: React.FC = () => {
         <div className="mt-12 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-sm text-gray-400">
-              &copy; {currentYear} Vogue. All rights reserved.
+              &copy; {currentYear} Vogue Women's Fashion. All rights reserved.
             </p>
           </div>
           <div className="flex items-center space-x-2">
