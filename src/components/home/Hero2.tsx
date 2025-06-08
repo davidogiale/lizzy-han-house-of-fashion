@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 const Hero2: React.FC = () => {
   const items = [
-    { label: 'JACKET', image: '/images/jacket.jpg' },
-    { label: 'SHIRT', image: '/images/shirt.jpg' },
-    { label: 'HOODIE', image: '/images/hoodie.jpg' },
+    { label: 'JACKET', image: 'jacket.png' },
+    { label: 'SHIRT', image: 'shirt.jpg' },
+    { label: 'HOODIE', image: 'hoodie.png' },
   ];
 
   return (
