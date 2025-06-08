@@ -31,9 +31,6 @@ const Header: React.FC = () => {
             <Link to="/shop" className="text-primary hover:text-accent transition-colors">
               Shop
             </Link>
-            <Link to="/about" className="text-primary hover:text-accent transition-colors">
-              About Us
-            </Link>
             <Link to="/contact" className="text-primary hover:text-accent transition-colors">
               Contact
             </Link>
@@ -72,13 +69,6 @@ const Header: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Shop
-              </Link>
-              <Link 
-                to="/about" 
-                className="text-primary hover:text-accent transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About Us
               </Link>
               <Link 
                 to="/contact" 

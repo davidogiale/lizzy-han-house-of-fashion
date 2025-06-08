@@ -6,10 +6,8 @@ import FeaturedCollections from '@/components/home/FeaturedCollections';
 import NewArrivalsCarousel from '@/components/home/NewArrivalsCarousel';
 import ShopTheLook from '@/components/home/ShopTheLook';
 import CustomerFavorites from '@/components/home/CustomerFavorites';
-import SaleSection from '@/components/home/SaleSection';
 import InstagramFeed from '@/components/home/InstagramFeed';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
-import NewsletterSection from '@/components/home/NewsletterSection';
 
 const Index = () => {
   return (
@@ -19,10 +17,8 @@ const Index = () => {
       <NewArrivalsCarousel />
       <ShopTheLook />
       <CustomerFavorites />
-      <SaleSection />
       <InstagramFeed />
       <TestimonialsSection />
-      <NewsletterSection />
     </Layout>
   );
 };
