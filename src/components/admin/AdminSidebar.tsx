@@ -17,31 +17,36 @@ const menuItems = [
   {
     title: "Overview",
     icon: BarChart3,
-    href: "#overview",
+    href: "overview",
   },
   {
     title: "Orders",
     icon: ShoppingCart,
-    href: "#orders",
+    href: "orders",
   },
   {
     title: "Products",
     icon: Package,
-    href: "#products",
+    href: "products",
   },
   {
     title: "Customers",
     icon: Users,
-    href: "#customers",
+    href: "customers",
   },
   {
     title: "Settings",
     icon: Settings,
-    href: "#settings",
+    href: "settings",
   },
 ];
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  currentPage: string;
+  onPageChange: (page: string) => void;
+}
+
+export function AdminSidebar({ currentPage, onPageChange }: AdminSidebarProps) {
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
@@ -57,11 +62,12 @@ export function AdminSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    isActive={currentPage === item.href}
+                    onClick={() => onPageChange(item.href)}
+                  >
+                    <item.icon />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
