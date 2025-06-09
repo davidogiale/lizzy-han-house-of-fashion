@@ -5,26 +5,21 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden bg-gradient-to-r from-rose-800 to-pink-600">
+    <div className="relative h-[70vh] overflow-hidden bg-background">
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content */}
           <div className="text-center lg:text-left">
-            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <h1 className="text-foreground text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
               Effortless Style for Every Woman
             </h1>
-            <p className="text-white text-lg md:text-xl mb-8 max-w-md mx-auto lg:mx-0">
+            <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-md mx-auto lg:mx-0">
               Discover your perfect look with our curated collection of feminine fashion
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link to="/shop/new-arrivals">
-                <Button className="btn-accent px-8 py-3">
-                  Shop New Arrivals
-                </Button>
-              </Link>
+            <div className="flex justify-center lg:justify-start">
               <Link to="/shop">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-primary px-8 py-3">
-                  Explore Collections
+                <Button className="btn-accent px-8 py-3">
+                  Shop
                 </Button>
               </Link>
             </div>
