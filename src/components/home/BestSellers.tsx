@@ -1,48 +1,40 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-}
-
-const products: Product[] = [
-  {
-    id: 'p1',
-    name: 'Velvet Touch Button-Up',
-    price: 120.99,
-    image: '/placeholder.svg',
-    category: 'shirts'
-  },
-  {
-    id: 'p2',
-    name: 'Classic Denim Jacket',
-    price: 179.50,
-    image: '/placeholder.svg',
-    category: 'jackets'
-  },
-  {
-    id: 'p3',
-    name: 'Urban Slim Fit Pants',
-    price: 89.99,
-    image: '/placeholder.svg',
-    category: 'pants'
-  },
-  {
-    id: 'p4',
-    name: 'Premium Cotton Hoodie',
-    price: 65.00,
-    image: '/placeholder.svg',
-    category: 'hoodies'
-  }
-];
+import { Heart, Loader2 } from 'lucide-react';
+import { useProducts } from '@/hooks/useProducts';
 
 const BestSellers: React.FC = () => {
+  const { products, loading, error } = useProducts();
+
+  // Show first 4 products as best sellers
+  const bestSellers = products.slice(0, 4);
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-muted">
+        <div className="container-custom">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-muted">
+        <div className="container-custom">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-muted">
       <div className="container-custom">
@@ -54,12 +46,12 @@ const BestSellers: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {bestSellers.map((product) => (
             <div key={product.id} className="bg-white group">
               <div className="relative overflow-hidden">
                 <Link to={`/product/${product.id}`}>
                   <img 
-                    src={product.image} 
+                    src={product.image_url || '/placeholder.svg'} 
                     alt={product.name} 
                     className="w-full h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
@@ -82,7 +74,7 @@ const BestSellers: React.FC = () => {
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-dark font-semibold">${product.price.toFixed(2)}</p>
+                <p className="text-dark font-semibold">${product.price}</p>
               </div>
             </div>
           ))}

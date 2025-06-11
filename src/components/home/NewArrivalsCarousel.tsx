@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingCart, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -10,61 +10,36 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-}
-
-const newArrivals: Product[] = [
-  {
-    id: 'na1',
-    name: 'Floral Wrap Dress',
-    price: 89.99,
-    image: '/placeholder.svg',
-    category: 'dresses'
-  },
-  {
-    id: 'na2',
-    name: 'Silk Blouse',
-    price: 65.00,
-    image: '/placeholder.svg',
-    category: 'tops'
-  },
-  {
-    id: 'na3',
-    name: 'High-Waist Jeans',
-    price: 79.99,
-    image: '/placeholder.svg',
-    category: 'bottoms'
-  },
-  {
-    id: 'na4',
-    name: 'Cashmere Sweater',
-    price: 120.00,
-    image: '/placeholder.svg',
-    category: 'tops'
-  },
-  {
-    id: 'na5',
-    name: 'Midi Skirt',
-    price: 55.99,
-    image: '/placeholder.svg',
-    category: 'bottoms'
-  },
-  {
-    id: 'na6',
-    name: 'Evening Gown',
-    price: 199.99,
-    image: '/placeholder.svg',
-    category: 'dresses'
-  }
-];
+import { useProducts } from '@/hooks/useProducts';
 
 const NewArrivalsCarousel: React.FC = () => {
+  const { products, loading, error } = useProducts();
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-muted">
+        <div className="container-custom">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-muted">
+        <div className="container-custom">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-muted">
       <div className="container-custom">
@@ -82,13 +57,13 @@ const NewArrivalsCarousel: React.FC = () => {
           className="w-full"
         >
           <CarouselContent>
-            {newArrivals.map((product) => (
+            {products.map((product) => (
               <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4">
                 <div className="bg-white group rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                   <div className="relative overflow-hidden">
                     <Link to={`/product/${product.id}`}>
                       <img 
-                        src={product.image} 
+                        src={product.image_url || '/placeholder.svg'} 
                         alt={product.name} 
                         className="w-full h-64 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       />
@@ -119,7 +94,7 @@ const NewArrivalsCarousel: React.FC = () => {
                         {product.name}
                       </h3>
                     </Link>
-                    <p className="text-dark font-semibold">${product.price.toFixed(2)}</p>
+                    <p className="text-dark font-semibold">${product.price}</p>
                   </div>
                 </div>
               </CarouselItem>

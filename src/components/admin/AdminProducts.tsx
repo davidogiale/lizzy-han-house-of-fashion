@@ -5,67 +5,24 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Plus, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Loader2 } from 'lucide-react';
 import { ProductFormDialog } from './ProductFormDialog';
 import { ProductViewDialog } from './ProductViewDialog';
 import { DeleteProductDialog } from './DeleteProductDialog';
 import { useToast } from "@/hooks/use-toast";
+import { useProducts } from '@/hooks/useProducts';
+import type { Database } from '@/integrations/supabase/types';
 
-const products = [
-  {
-    id: "PROD-001",
-    name: "Floral Maxi Dress",
-    category: "Dresses",
-    price: "$89.99",
-    stock: 15,
-    status: "Active",
-    image: "/placeholder.svg",
-  },
-  {
-    id: "PROD-002",
-    name: "Silk Blouse",
-    category: "Tops",
-    price: "$65.50",
-    stock: 8,
-    status: "Active",
-    image: "/placeholder.svg",
-  },
-  {
-    id: "PROD-003",
-    name: "High-Waist Jeans",
-    category: "Bottoms",
-    price: "$79.99",
-    stock: 0,
-    status: "Out of Stock",
-    image: "/placeholder.svg",
-  },
-  {
-    id: "PROD-004",
-    name: "Leather Handbag",
-    category: "Accessories",
-    price: "$125.00",
-    stock: 5,
-    status: "Low Stock",
-    image: "/placeholder.svg",
-  },
-  {
-    id: "PROD-005",
-    name: "Cashmere Sweater",
-    category: "Tops",
-    price: "$156.99",
-    stock: 12,
-    status: "Active",
-    image: "/placeholder.svg",
-  },
-];
+type Product = Database['public']['Tables']['products']['Row'];
 
 export function AdminProducts() {
   const { toast } = useToast();
+  const { products, loading, error, refetch } = useProducts();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const getStatusColor = (status: string) => {
@@ -81,7 +38,7 @@ export function AdminProducts() {
     }
   };
 
-  const handleImageClick = (product: typeof products[0]) => {
+  const handleImageClick = (product: Product) => {
     console.log('Image clicked for product:', product.id);
     setSelectedProduct(product);
     setViewDialogOpen(true);
@@ -98,6 +55,24 @@ export function AdminProducts() {
   const filteredProducts = statusFilter 
     ? products.filter(product => product.status === statusFilter)
     : products;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading products</h3>
+        <p className="text-muted-foreground mb-4">{error}</p>
+        <Button onClick={refetch}>Try Again</Button>
+      </div>
+    );
+  }
 
   return (
     <TooltipProvider>
@@ -149,7 +124,7 @@ export function AdminProducts() {
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <img 
-                              src={product.image} 
+                              src={product.image_url || '/placeholder.svg'} 
                               alt={product.name}
                               className="w-10 h-10 rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity"
                               onClick={() => handleImageClick(product)}
@@ -166,7 +141,7 @@ export function AdminProducts() {
                       </div>
                     </TableCell>
                     <TableCell>{product.category}</TableCell>
-                    <TableCell>{product.price}</TableCell>
+                    <TableCell>${product.price}</TableCell>
                     <TableCell>{product.stock}</TableCell>
                     <TableCell>
                       <Tooltip>
@@ -250,6 +225,7 @@ export function AdminProducts() {
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
           mode="add"
+          onSuccess={refetch}
         />
 
         <ProductFormDialog
@@ -257,6 +233,7 @@ export function AdminProducts() {
           onOpenChange={setEditDialogOpen}
           product={selectedProduct}
           mode="edit"
+          onSuccess={refetch}
         />
 
         <ProductViewDialog
@@ -271,6 +248,7 @@ export function AdminProducts() {
             onOpenChange={setDeleteDialogOpen}
             productName={selectedProduct.name}
             productId={selectedProduct.id}
+            onSuccess={refetch}
           />
         )}
       </div>

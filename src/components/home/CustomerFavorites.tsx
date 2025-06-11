@@ -1,67 +1,40 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Star } from 'lucide-react';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  rating: number;
-  badge?: string;
-}
-
-const favorites: Product[] = [
-  {
-    id: 'f1',
-    name: 'Classic Trench Coat',
-    price: 189.99,
-    image: '/placeholder.svg',
-    rating: 4.8,
-    badge: 'Best Seller'
-  },
-  {
-    id: 'f2',
-    name: 'Little Black Dress',
-    price: 95.00,
-    image: '/placeholder.svg',
-    rating: 4.9,
-    badge: 'Customer Favorite'
-  },
-  {
-    id: 'f3',
-    name: 'Leather Ankle Boots',
-    price: 145.99,
-    image: '/placeholder.svg',
-    rating: 4.7,
-    badge: 'Best Seller'
-  },
-  {
-    id: 'f4',
-    name: 'Cashmere Scarf',
-    price: 68.00,
-    image: '/placeholder.svg',
-    rating: 4.6
-  },
-  {
-    id: 'f5',
-    name: 'Wide-Leg Trousers',
-    price: 79.99,
-    image: '/placeholder.svg',
-    rating: 4.5
-  },
-  {
-    id: 'f6',
-    name: 'Statement Earrings',
-    price: 35.99,
-    image: '/placeholder.svg',
-    rating: 4.8,
-    badge: 'Trending'
-  }
-];
+import { Heart, Star, Loader2 } from 'lucide-react';
+import { useProducts } from '@/hooks/useProducts';
 
 const CustomerFavorites: React.FC = () => {
+  const { products, loading, error } = useProducts();
+
+  // Show products 2-7 as customer favorites (different from best sellers)
+  const favorites = products.slice(1, 7);
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-white">
       <div className="container-custom">
@@ -76,14 +49,12 @@ const CustomerFavorites: React.FC = () => {
           {favorites.map((product) => (
             <div key={product.id} className="bg-white group relative">
               <div className="relative overflow-hidden">
-                {product.badge && (
-                  <div className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold z-10">
-                    {product.badge}
-                  </div>
-                )}
+                <div className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold z-10">
+                  Customer Favorite
+                </div>
                 <Link to={`/product/${product.id}`}>
                   <img 
-                    src={product.image} 
+                    src={product.image_url || '/placeholder.svg'} 
                     alt={product.name} 
                     className="w-full h-64 lg:h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
@@ -102,10 +73,10 @@ const CustomerFavorites: React.FC = () => {
                       <Star 
                         key={i} 
                         size={14} 
-                        className={i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'} 
+                        className={i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'} 
                       />
                     ))}
-                    <span className="ml-2 text-sm text-muted-foreground">({product.rating})</span>
+                    <span className="ml-2 text-sm text-muted-foreground">(4.5)</span>
                   </div>
                 </div>
                 <Link to={`/product/${product.id}`} className="block">
@@ -113,7 +84,7 @@ const CustomerFavorites: React.FC = () => {
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-dark font-semibold">${product.price.toFixed(2)}</p>
+                <p className="text-dark font-semibold">${product.price}</p>
               </div>
             </div>
           ))}

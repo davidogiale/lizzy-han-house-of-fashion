@@ -4,108 +4,24 @@ import Layout from '@/components/layout/Layout';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
-import { Heart, Filter } from 'lucide-react';
+import { Heart, Filter, Loader2 } from 'lucide-react';
+import { useProducts } from '@/hooks/useProducts';
+import type { Database } from '@/integrations/supabase/types';
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  image: string;
-  colors: string[];
-  sizes: string[];
-}
-
-const products: Product[] = [
-  {
-    id: 'p1',
-    name: 'Velvet Touch Button-Up',
-    price: 120.99,
-    category: 'shirts',
-    image: '/placeholder.svg',
-    colors: ['brown', 'black', 'white'],
-    sizes: ['s', 'm', 'l', 'xl']
-  },
-  {
-    id: 'p2',
-    name: 'Classic Denim Jacket',
-    price: 179.50,
-    category: 'jackets',
-    image: '/placeholder.svg',
-    colors: ['blue', 'black'],
-    sizes: ['m', 'l', 'xl']
-  },
-  {
-    id: 'p3',
-    name: 'Urban Slim Fit Pants',
-    price: 89.99,
-    category: 'pants',
-    image: '/placeholder.svg',
-    colors: ['black', 'gray', 'navy'],
-    sizes: ['s', 'm', 'l', 'xl', 'xxl']
-  },
-  {
-    id: 'p4',
-    name: 'Premium Cotton Hoodie',
-    price: 65.00,
-    category: 'hoodies',
-    image: '/placeholder.svg',
-    colors: ['gray', 'black', 'green'],
-    sizes: ['s', 'm', 'l', 'xl']
-  },
-  {
-    id: 'p5',
-    name: 'Modern Fit Oxford Shirt',
-    price: 85.00,
-    category: 'shirts',
-    image: '/placeholder.svg',
-    colors: ['white', 'blue', 'pink'],
-    sizes: ['s', 'm', 'l', 'xl']
-  },
-  {
-    id: 'p6',
-    name: 'Essential T-Shirt',
-    price: 29.99,
-    category: 'shirts',
-    image: '/placeholder.svg',
-    colors: ['white', 'black', 'gray'],
-    sizes: ['xs', 's', 'm', 'l', 'xl', 'xxl']
-  },
-];
+type Product = Database['public']['Tables']['products']['Row'];
 
 const categories = [
-  { id: 'shirts', name: 'Shirts' },
-  { id: 'pants', name: 'Pants' },
-  { id: 'jackets', name: 'Jackets' },
-  { id: 'hoodies', name: 'Hoodies' },
-  { id: 'accessories', name: 'Accessories' },
-];
-
-const sizes = [
-  { id: 'xs', name: 'XS' },
-  { id: 's', name: 'S' },
-  { id: 'm', name: 'M' },
-  { id: 'l', name: 'L' },
-  { id: 'xl', name: 'XL' },
-  { id: 'xxl', name: 'XXL' },
-];
-
-const colors = [
-  { id: 'black', name: 'Black', color: '#000000' },
-  { id: 'white', name: 'White', color: '#FFFFFF' },
-  { id: 'gray', name: 'Gray', color: '#808080' },
-  { id: 'blue', name: 'Blue', color: '#0000FF' },
-  { id: 'green', name: 'Green', color: '#008000' },
-  { id: 'brown', name: 'Brown', color: '#A52A2A' },
-  { id: 'navy', name: 'Navy', color: '#000080' },
-  { id: 'pink', name: 'Pink', color: '#FFC0CB' },
+  { id: 'Dresses', name: 'Dresses' },
+  { id: 'Tops', name: 'Tops' },
+  { id: 'Bottoms', name: 'Bottoms' },
+  { id: 'Accessories', name: 'Accessories' },
 ];
 
 const Shop: React.FC = () => {
+  const { products, loading, error } = useProducts();
   const [priceRange, setPriceRange] = useState<number[]>([0, 200]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   
   const toggleCategory = (category: string) => {
@@ -116,25 +32,17 @@ const Shop: React.FC = () => {
     );
   };
   
-  const toggleSize = (size: string) => {
-    setSelectedSizes(prev => 
-      prev.includes(size) 
-        ? prev.filter(s => s !== size)
-        : [...prev, size]
-    );
-  };
-  
-  const toggleColor = (color: string) => {
-    setSelectedColors(prev => 
-      prev.includes(color) 
-        ? prev.filter(c => c !== color)
-        : [...prev, color]
+  const toggleStatus = (status: string) => {
+    setSelectedStatuses(prev => 
+      prev.includes(status) 
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
     );
   };
   
   const filteredProducts = products.filter(product => {
     // Filter by price range
-    if (product.price < priceRange[0] || product.price > priceRange[1]) {
+    if (Number(product.price) < priceRange[0] || Number(product.price) > priceRange[1]) {
       return false;
     }
     
@@ -143,13 +51,8 @@ const Shop: React.FC = () => {
       return false;
     }
     
-    // Filter by size
-    if (selectedSizes.length > 0 && !selectedSizes.some(size => product.sizes.includes(size))) {
-      return false;
-    }
-    
-    // Filter by color
-    if (selectedColors.length > 0 && !selectedColors.some(color => product.colors.includes(color))) {
+    // Filter by status
+    if (selectedStatuses.length > 0 && !selectedStatuses.includes(product.status)) {
       return false;
     }
     
@@ -159,6 +62,31 @@ const Shop: React.FC = () => {
   const handlePriceChange = (value: number[]) => {
     setPriceRange(value);
   };
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container-custom py-8">
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="container-custom py-8">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading products</h3>
+            <p className="text-muted-foreground">{error}</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -236,48 +164,24 @@ const Shop: React.FC = () => {
             
             <Separator />
             
-            {/* Sizes */}
+            {/* Status Filter */}
             <div>
-              <h3 className="font-semibold mb-4">Sizes</h3>
-              <div className="flex flex-wrap gap-2">
-                {sizes.map(size => (
-                  <button 
-                    key={size.id}
-                    onClick={() => toggleSize(size.id)}
-                    className={`
-                      px-3 py-1 border border-gray-300 text-sm
-                      ${selectedSizes.includes(size.id) 
-                        ? 'bg-primary text-white' 
-                        : 'bg-white text-primary hover:bg-gray-100'}
-                    `}
-                  >
-                    {size.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            <Separator />
-            
-            {/* Colors */}
-            <div>
-              <h3 className="font-semibold mb-4">Colors</h3>
-              <div className="flex flex-wrap gap-3">
-                {colors.map(color => (
-                  <button 
-                    key={color.id}
-                    onClick={() => toggleColor(color.id)}
-                    className={`
-                      w-8 h-8 rounded-full flex items-center justify-center
-                      ${selectedColors.includes(color.id) ? 'ring-2 ring-accent ring-offset-2' : ''}
-                    `}
-                    style={{ backgroundColor: color.color }}
-                    aria-label={`Filter by ${color.name}`}
-                  >
-                    {selectedColors.includes(color.id) && (
-                      <span className={`text-xs ${['white', 'yellow'].includes(color.id) ? 'text-black' : 'text-white'}`}>✓</span>
-                    )}
-                  </button>
+              <h3 className="font-semibold mb-4">Availability</h3>
+              <div className="space-y-2">
+                {['Active', 'Low Stock'].map(status => (
+                  <div className="flex items-center space-x-2" key={status}>
+                    <Checkbox 
+                      id={`status-${status}`} 
+                      checked={selectedStatuses.includes(status)}
+                      onCheckedChange={() => toggleStatus(status)}
+                    />
+                    <label 
+                      htmlFor={`status-${status}`}
+                      className="text-sm font-medium leading-none cursor-pointer"
+                    >
+                      {status}
+                    </label>
+                  </div>
                 ))}
               </div>
             </div>
@@ -316,7 +220,7 @@ const Shop: React.FC = () => {
                   <div className="relative overflow-hidden">
                     <a href={`/product/${product.id}`}>
                       <img 
-                        src={product.image} 
+                        src={product.image_url || '/placeholder.svg'} 
                         alt={product.name} 
                         className="w-full h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       />
@@ -339,7 +243,7 @@ const Shop: React.FC = () => {
                         {product.name}
                       </h3>
                     </a>
-                    <p className="text-dark font-semibold">${product.price.toFixed(2)}</p>
+                    <p className="text-dark font-semibold">${product.price}</p>
                   </div>
                 </div>
               ))}
