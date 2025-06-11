@@ -1,13 +1,26 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import { Search, User, Heart, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { SearchDialog } from "@/components/ui/SearchDialog";
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <header className="sticky top-0 bg-white z-50 shadow-sm">
@@ -44,9 +57,31 @@ const Header: React.FC = () => {
             >
               <Search size={20} />
             </button>
-            <Link to="/account" className="text-primary hover:text-accent transition-colors">
-              <User size={20} />
-            </Link>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-primary hover:text-accent">
+                    <User size={20} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link to="/account">My Account</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/account" className="text-primary hover:text-accent transition-colors">
+                <User size={20} />
+              </Link>
+            )}
+            
             <Link to="/wishlist" className="text-primary hover:text-accent transition-colors">
               <Heart size={20} />
             </Link>
@@ -112,6 +147,18 @@ const Header: React.FC = () => {
                   </span>
                 </Link>
               </div>
+              {user && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}
+                  className="mt-4 w-fit"
+                >
+                  Sign Out
+                </Button>
+              )}
             </nav>
           </div>
         )}
