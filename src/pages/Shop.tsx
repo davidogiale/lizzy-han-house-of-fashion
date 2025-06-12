@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Heart, Filter, Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
 import type { Database } from '@/integrations/supabase/types';
@@ -23,6 +23,7 @@ const Shop: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<string>('newest');
   
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev => 
@@ -205,12 +206,17 @@ const Shop: React.FC = () => {
               <p className="text-dark mb-2 sm:mb-0">
                 Showing {filteredProducts.length} products
               </p>
-              <select className="border border-gray-300 rounded p-2 bg-white">
-                <option>Newest</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Most Popular</option>
-              </select>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="popular">Most Popular</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             {/* Product Grid */}
