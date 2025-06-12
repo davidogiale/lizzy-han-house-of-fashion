@@ -2,16 +2,9 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import type { Database } from '@/integrations/supabase/types';
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: string;
-  stock: number;
-  status: string;
-  image: string;
-}
+type Product = Database['public']['Tables']['products']['Row'];
 
 interface ProductViewDialogProps {
   open: boolean;
@@ -47,7 +40,7 @@ export function ProductViewDialog({ open, onOpenChange, product }: ProductViewDi
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <img 
-              src={product.image} 
+              src={product.image_url || '/placeholder.svg'} 
               alt={product.name}
               className="w-20 h-20 rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => console.log('Image clicked for editing')}
@@ -68,7 +61,7 @@ export function ProductViewDialog({ open, onOpenChange, product }: ProductViewDi
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">Price</label>
-              <p className="text-sm font-semibold">{product.price}</p>
+              <p className="text-sm font-semibold">${product.price}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">Stock</label>
@@ -79,6 +72,13 @@ export function ProductViewDialog({ open, onOpenChange, product }: ProductViewDi
               <p className="text-sm">{product.status}</p>
             </div>
           </div>
+          
+          {product.description && (
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Description</label>
+              <p className="text-sm mt-1">{product.description}</p>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
