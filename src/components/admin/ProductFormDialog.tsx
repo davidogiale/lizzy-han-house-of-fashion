@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import type { Database } from '@/integrations/supabase/types';
 
 type Product = Database['public']['Tables']['products']['Row'];
@@ -22,6 +23,7 @@ interface ProductFormDialogProps {
 
 export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess }: ProductFormDialogProps) {
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: product?.name || '',
@@ -33,8 +35,42 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
     image_url: product?.image_url || '',
   });
 
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        name: product.name || '',
+        category: product.category || '',
+        price: product.price?.toString() || '',
+        stock: product.stock || 0,
+        status: product.status || 'Active',
+        description: product.description || '',
+        image_url: product.image_url || '',
+      });
+    } else {
+      setFormData({
+        name: '',
+        category: '',
+        price: '',
+        stock: 0,
+        status: 'Active',
+        description: '',
+        image_url: '',
+      });
+    }
+  }, [product, open]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "You must be logged in to manage products.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -48,25 +84,38 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
         image_url: formData.image_url,
       };
 
+      console.log('Submitting product data:', productData);
+      console.log('User authenticated:', !!user);
+
       if (mode === 'add') {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
-          .insert([productData]);
+          .insert([productData])
+          .select();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Insert error:', error);
+          throw error;
+        }
 
+        console.log('Product added successfully:', data);
         toast({
           title: "Product Added",
           description: `${formData.name} has been added successfully.`,
         });
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
           .update(productData)
-          .eq('id', product?.id);
+          .eq('id', product?.id)
+          .select();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Update error:', error);
+          throw error;
+        }
 
+        console.log('Product updated successfully:', data);
         toast({
           title: "Product Updated",
           description: `${formData.name} has been updated successfully.`,
@@ -90,6 +139,10 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
   const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  if (authLoading) {
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -183,7 +236,7 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading || !user}>
               {loading ? 'Saving...' : (mode === 'add' ? 'Add Product' : 'Save Changes')}
             </Button>
           </DialogFooter>
