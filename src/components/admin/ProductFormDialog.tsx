@@ -7,46 +7,87 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 
-interface Product {
-  id?: string;
-  name: string;
-  category: string;
-  price: string;
-  stock: number;
-  status: string;
-  description?: string;
-}
+type Product = Database['public']['Tables']['products']['Row'];
 
 interface ProductFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   product?: Product | null;
   mode: 'add' | 'edit';
+  onSuccess?: () => void;
 }
 
-export function ProductFormDialog({ open, onOpenChange, product, mode }: ProductFormDialogProps) {
+export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess }: ProductFormDialogProps) {
   const { toast } = useToast();
-  const [formData, setFormData] = useState<Product>({
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
     name: product?.name || '',
     category: product?.category || '',
-    price: product?.price || '',
+    price: product?.price?.toString() || '',
     stock: product?.stock || 0,
     status: product?.status || 'Active',
     description: product?.description || '',
+    image_url: product?.image_url || '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Product form submitted:', formData);
-    toast({
-      title: mode === 'add' ? "Product Added" : "Product Updated",
-      description: `${formData.name} has been ${mode === 'add' ? 'added' : 'updated'} successfully.`,
-    });
-    onOpenChange(false);
+    setLoading(true);
+
+    try {
+      const productData = {
+        name: formData.name,
+        category: formData.category,
+        price: parseFloat(formData.price),
+        stock: formData.stock,
+        status: formData.status,
+        description: formData.description,
+        image_url: formData.image_url,
+      };
+
+      if (mode === 'add') {
+        const { error } = await supabase
+          .from('products')
+          .insert([productData]);
+
+        if (error) throw error;
+
+        toast({
+          title: "Product Added",
+          description: `${formData.name} has been added successfully.`,
+        });
+      } else {
+        const { error } = await supabase
+          .from('products')
+          .update(productData)
+          .eq('id', product?.id);
+
+        if (error) throw error;
+
+        toast({
+          title: "Product Updated",
+          description: `${formData.name} has been updated successfully.`,
+        });
+      }
+
+      onOpenChange(false);
+      onSuccess?.();
+    } catch (error) {
+      console.error('Error saving product:', error);
+      toast({
+        title: "Error",
+        description: `Failed to ${mode} product. Please try again.`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleInputChange = (field: keyof Product, value: string | number) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -90,7 +131,9 @@ export function ProductFormDialog({ open, onOpenChange, product, mode }: Product
                 id="price"
                 value={formData.price}
                 onChange={(e) => handleInputChange('price', e.target.value)}
-                placeholder="$0.00"
+                placeholder="0.00"
+                type="number"
+                step="0.01"
                 required
               />
             </div>
@@ -119,6 +162,15 @@ export function ProductFormDialog({ open, onOpenChange, product, mode }: Product
             </Select>
           </div>
           <div className="space-y-2">
+            <Label htmlFor="image_url">Image URL</Label>
+            <Input
+              id="image_url"
+              value={formData.image_url}
+              onChange={(e) => handleInputChange('image_url', e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
@@ -128,11 +180,11 @@ export function ProductFormDialog({ open, onOpenChange, product, mode }: Product
             />
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
               Cancel
             </Button>
-            <Button type="submit">
-              {mode === 'add' ? 'Add Product' : 'Save Changes'}
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Saving...' : (mode === 'add' ? 'Add Product' : 'Save Changes')}
             </Button>
           </DialogFooter>
         </form>
