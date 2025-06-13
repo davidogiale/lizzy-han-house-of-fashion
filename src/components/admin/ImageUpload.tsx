@@ -20,8 +20,11 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
   const uploadToCloudinary = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'ml_default'); // You may need to create an unsigned upload preset in Cloudinary
+    formData.append('upload_preset', 'ml_default');
     formData.append('cloud_name', 'dhbegegnv');
+
+    console.log('Uploading to Cloudinary with preset: ml_default');
+    console.log('File details:', { name: file.name, size: file.size, type: file.type });
 
     try {
       const response = await fetch(
@@ -32,11 +35,25 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
         }
       );
 
+      console.log('Cloudinary response status:', response.status);
+      
+      const responseText = await response.text();
+      console.log('Cloudinary raw response:', responseText);
+
       if (!response.ok) {
-        throw new Error('Upload failed');
+        let errorMessage = `Upload failed with status ${response.status}`;
+        try {
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.error?.message || errorMessage;
+          console.error('Cloudinary error details:', errorData);
+        } catch (e) {
+          console.error('Could not parse error response:', responseText);
+        }
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
+      const data = JSON.parse(responseText);
+      console.log('Cloudinary success response:', data);
       return data.secure_url;
     } catch (error) {
       console.error('Cloudinary upload error:', error);
@@ -45,6 +62,8 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
   };
 
   const handleFileUpload = async (file: File) => {
+    console.log('Starting file upload for:', file.name);
+
     if (!file.type.startsWith('image/')) {
       toast({
         title: "Invalid file type",
@@ -66,6 +85,7 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
     setUploading(true);
     try {
       const imageUrl = await uploadToCloudinary(file);
+      console.log('Upload successful, URL:', imageUrl);
       onImageUploaded(imageUrl);
       toast({
         title: "Image uploaded",
@@ -75,7 +95,7 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
       console.error('Upload error:', error);
       toast({
         title: "Upload failed",
-        description: "Failed to upload image. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to upload image. Please try again.",
         variant: "destructive",
       });
     } finally {
