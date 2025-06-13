@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { ImageUpload } from './ImageUpload';
 import type { Database } from '@/integrations/supabase/types';
 
 type Product = Database['public']['Tables']['products']['Row'];
@@ -140,13 +141,21 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleImageUploaded = (url: string) => {
+    setFormData(prev => ({ ...prev, image_url: url }));
+  };
+
+  const handleImageRemoved = () => {
+    setFormData(prev => ({ ...prev, image_url: '' }));
+  };
+
   if (authLoading) {
     return null;
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{mode === 'add' ? 'Add Product' : 'Edit Product'}</DialogTitle>
           <DialogDescription>
@@ -163,6 +172,13 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
               required
             />
           </div>
+          
+          <ImageUpload
+            onImageUploaded={handleImageUploaded}
+            currentImageUrl={formData.image_url}
+            onImageRemoved={handleImageRemoved}
+          />
+          
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
@@ -213,15 +229,6 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
                 <SelectItem value="Low Stock">Low Stock</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="image_url">Image URL</Label>
-            <Input
-              id="image_url"
-              value={formData.image_url}
-              onChange={(e) => handleInputChange('image_url', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
