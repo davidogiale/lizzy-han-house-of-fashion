@@ -29,12 +29,13 @@ const Hero: React.FC = () => {
           <div className="hidden lg:grid grid-cols-2 gap-4 h-96">
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg h-32 flex items-center justify-center">
-                <img 
-                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/21159802_ce59f5fb-72ef-45df-b7ae-c83f5c52b4d8.jpg" 
-                  alt="Women's Fashion 1" 
-                  className="w-full h-full object-cover rounded-lg"
+                <img
+                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/21159802_ce59f5fb-72ef-45df-b7ae-c83f5c52b4d8.jpg"
+                  alt="Women's Fashion 1"
+                  className="w-full h-full object-cover object-top rounded-lg"
                 />
               </div>
+
               <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg h-56 flex items-center justify-center">
                 <img 
                   src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/23601626_d3c16fad-e30f-4e83-9e4e-fd1eb4800f31.jpg" 
