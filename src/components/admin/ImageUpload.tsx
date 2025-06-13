@@ -20,7 +20,7 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
   const uploadToCloudinary = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'ml_default');
+    formData.append('upload_preset', 'Ovie Clothing Store');
     formData.append('cloud_name', 'dhbegegnv');
 
     console.log('Uploading to Cloudinary with preset: ml_default');
