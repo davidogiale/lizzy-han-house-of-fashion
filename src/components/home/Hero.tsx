@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
                 <img 
                   src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/21159802_ce59f5fb-72ef-45df-b7ae-c83f5c52b4d8.jpg" 
                   alt="Women's Fashion 1" 
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover object-[90%] rounded-lg"
                 />
               </div>
               <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg h-56 flex items-center justify-center">
@@ -55,7 +55,7 @@ const Hero: React.FC = () => {
                 <img 
                   src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/23550738_30056386-1ba1-42f1-9f08-ef11992c0b70.jpg" 
                   alt="Women's Fashion 4" 
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover object-[90%] rounded-lg"
                 />
               </div>
             </div>

@@ -9,7 +9,7 @@ const ShopTheLook: React.FC = () => {
       <div className="relative h-96 bg-gradient-to-r from-slate-800 to-slate-600 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(/placeholder.svg)` }}
+          style={{ backgroundImage: `url(https://images.unsplash.com/photo-1551084804-4b60b3c10f9e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)` }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="relative h-full flex items-center justify-center text-center">

@@ -13,25 +13,25 @@ const collections: Collection[] = [
   {
     id: 'dresses',
     name: 'Dresses',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1703704018905-c00a86754cc9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     link: '/shop/dresses'
   },
   {
     id: 'tops',
     name: 'Tops',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1629737168222-baad8ecacebe?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     link: '/shop/tops'
   },
   {
     id: 'bottoms',
     name: 'Bottoms',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1549575810-b9b7abc51d9e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     link: '/shop/bottoms'
   },
   {
     id: 'accessories',
     name: 'Accessories',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1687253946687-a3713aa25b2f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     link: '/shop/accessories'
   }
 ];
