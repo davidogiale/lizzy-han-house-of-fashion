@@ -49,7 +49,7 @@ const CustomerFavorites: React.FC = () => {
           {favorites.map((product) => (
             <div key={product.id} className="bg-white group relative">
               <div className="relative overflow-hidden">
-                <div className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold z-10">
+                <div className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold z-10 hidden lg:block">
                   Customer Favorite
                 </div>
                 <Link to={`/product/${product.id}`}>
