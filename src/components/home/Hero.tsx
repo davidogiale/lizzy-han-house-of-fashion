@@ -30,14 +30,14 @@ const Hero: React.FC = () => {
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg h-32 flex items-center justify-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/21159802_ce59f5fb-72ef-45df-b7ae-c83f5c52b4d8.jpg" 
                   alt="Women's Fashion 1" 
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
               <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg h-56 flex items-center justify-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/23601626_d3c16fad-e30f-4e83-9e4e-fd1eb4800f31.jpg" 
                   alt="Women's Fashion 2" 
                   className="w-full h-full object-cover rounded-lg"
                 />
@@ -46,14 +46,14 @@ const Hero: React.FC = () => {
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg h-56 flex items-center justify-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/44E761E6AF3B0E59A26BAF60243D6286/21846599_3ecb1cd6-a445-4338-9cbe-c05aa5d8713f.jpg" 
                   alt="Women's Fashion 3" 
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
               <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg h-32 flex items-center justify-center">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/23550738_30056386-1ba1-42f1-9f08-ef11992c0b70.jpg" 
                   alt="Women's Fashion 4" 
                   className="w-full h-full object-cover rounded-lg"
                 />
