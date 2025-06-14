@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogContent,
@@ -16,13 +17,15 @@ interface SearchDialogProps {
 
 export const SearchDialog: React.FC<SearchDialogProps> = ({ open, onOpenChange }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery);
-      // Here you would typically navigate to search results or filter products
+    const query = searchQuery.trim();
+    if (query) {
       onOpenChange(false);
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+      setSearchQuery('');
     }
   };
 
