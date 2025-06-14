@@ -8,17 +8,20 @@ import { useToast } from '@/hooks/use-toast';
 import BestSellers from '@/components/home/BestSellers';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Product = Database['public']['Tables']['products']['Row'];
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const { user } = useAuth();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   
   useEffect(() => {
     const fetchProduct = async () => {
@@ -59,13 +62,43 @@ const ProductDetail: React.FC = () => {
   const increaseQuantity = () => setQuantity(q => q + 1);
   const decreaseQuantity = () => setQuantity(q => Math.max(1, q - 1));
   
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
+
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to add items to your cart.",
+        variant: "destructive",
+      });
+      return;
+    }
     
-    toast({
-      title: "Added to cart!",
-      description: `${product.name} x ${quantity} has been added to your cart.`,
-    });
+    setIsAddingToCart(true);
+    try {
+      const { error: rpcError } = await supabase.rpc('add_to_cart', {
+        p_product_id: product.id,
+        p_quantity: quantity,
+      });
+
+      if (rpcError) {
+        throw rpcError;
+      }
+
+      toast({
+        title: "Added to cart!",
+        description: `${product.name} x ${quantity} has been added to your cart.`,
+      });
+    } catch (error: any) {
+      console.error('Error adding to cart:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Could not add item to cart. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAddingToCart(false);
+    }
   };
   
   const handleAddToWishlist = () => {
@@ -166,9 +199,17 @@ const ProductDetail: React.FC = () => {
             
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button onClick={handleAddToCart} className="btn-primary flex-1 flex items-center justify-center gap-2">
-                <ShoppingCart size={16} />
-                Add to Cart
+              <Button 
+                onClick={handleAddToCart} 
+                className="btn-primary flex-1 flex items-center justify-center gap-2"
+                disabled={isAddingToCart}
+              >
+                {isAddingToCart ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShoppingCart size={16} />
+                )}
+                {isAddingToCart ? 'Adding...' : 'Add to Cart'}
               </Button>
               <Button onClick={handleAddToWishlist} variant="outline" className="btn-outline flex items-center justify-center gap-2">
                 <Heart size={16} />
