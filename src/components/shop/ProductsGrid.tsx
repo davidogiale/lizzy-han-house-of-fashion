@@ -23,7 +23,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
   sortBy,
   setSortBy
 }) => (
-  <div className="lg:w-3/4">
+  <div className="w-full">
     {/* Sort and Result Count */}
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
       <p className="text-dark mb-2 sm:mb-0">
