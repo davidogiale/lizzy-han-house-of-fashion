@@ -146,13 +146,13 @@ const Cart: React.FC = () => {
                           
                           <div className="flex items-center justify-between mt-4">
                             <div className="flex items-center gap-2">
-                              <Button variant="outline" size="sm" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                              <Button variant="outline" size="sm" onClick={() => updateQuantity({ cartItemId: item.id, newQuantity: item.quantity - 1 })}>
                                 <Minus size={16} />
                               </Button>
                               <span className="px-3 py-1 bg-muted rounded">
                                 {item.quantity}
                               </span>
-                              <Button variant="outline" size="sm" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                              <Button variant="outline" size="sm" onClick={() => updateQuantity({ cartItemId: item.id, newQuantity: item.quantity + 1 })}>
                                 <Plus size={16} />
                               </Button>
                             </div>

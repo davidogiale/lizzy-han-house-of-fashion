@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,35 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useProducts } from '@/hooks/useProducts';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/hooks/useCart';
+import { toast } from '@/hooks/use-toast';
 
 const NewArrivalsCarousel: React.FC = () => {
   const { products, loading, error } = useProducts();
+  const { user } = useAuth();
+  const { addToCart } = useCart();
+  const [isAdding, setIsAdding] = useState<string | null>(null);
+
+  const handleAddToCart = async (productId: string) => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to add items to your cart.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsAdding(productId);
+    try {
+      await addToCart({ productId, quantity: 1 });
+    } catch (e) {
+      console.error("Failed to add to cart:", e);
+    } finally {
+      setIsAdding(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -45,7 +71,7 @@ const NewArrivalsCarousel: React.FC = () => {
       <div className="container-custom">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-playfair font-bold">New Arrivals</h2>
-          <Link to="/shop/new-arrivals" className="text-primary hover:text-accent underline transition-colors">
+          <Link to="/shop" className="text-primary hover:text-accent underline transition-colors">
             View All
           </Link>
         </div>
@@ -76,9 +102,18 @@ const NewArrivalsCarousel: React.FC = () => {
                     </button>
                     <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 py-3 px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
                       <div className="flex gap-2">
-                        <Button size="sm" className="flex-1">
-                          <ShoppingCart size={14} className="mr-1" />
-                          Add to Cart
+                        <Button 
+                          size="sm" 
+                          className="flex-1"
+                          onClick={() => handleAddToCart(product.id)}
+                          disabled={isAdding === product.id}
+                        >
+                          {isAdding === product.id ? (
+                            <Loader2 className="animate-spin" />
+                          ) : (
+                            <ShoppingCart size={14} />
+                          )}
+                          {isAdding === product.id ? 'Adding...' : 'Add to Cart'}
                         </Button>
                         <Link to={`/product/${product.id}`} className="flex-1">
                           <Button variant="outline" size="sm" className="w-full">
