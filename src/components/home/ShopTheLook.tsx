@@ -20,9 +20,9 @@ const ShopTheLook: React.FC = () => {
             <p className="text-white text-lg mb-8 opacity-90">
               Discover curated looks that express your unique personality
             </p>
-            <Link to="/shop/looks">
+            <Link to="/shop">
               <Button className="btn-accent px-8 py-3 text-lg">
-                Shop the Look
+                Shop
               </Button>
             </Link>
           </div>
