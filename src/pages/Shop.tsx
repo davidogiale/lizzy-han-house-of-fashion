@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Loader2 } from 'lucide-react';
@@ -89,19 +88,6 @@ const Shop: React.FC = () => {
     <Layout>
       <div className="container-custom py-8">
         <h1 className="text-4xl font-playfair font-bold mb-8">Shop Collection</h1>
-        {/* Mobile Filter Button */}
-        <div className="lg:hidden mb-4">
-          <button
-            onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-            className="flex items-center gap-2 btn-outline py-2 px-4"
-          >
-            {/* Filter icon and text */}
-            <span>
-              <svg height="16" width="16" fill="none" viewBox="0 0 16 16"><path d="M3 5h10M5 8h6M7 11h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </span>
-            <span>Filters</span>
-          </button>
-        </div>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* <ShopFiltersSidebar
             mobileFiltersOpen={mobileFiltersOpen}
