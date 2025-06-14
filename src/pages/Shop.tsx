@@ -103,7 +103,7 @@ const Shop: React.FC = () => {
           </button>
         </div>
         <div className="flex flex-col lg:flex-row gap-8">
-          <ShopFiltersSidebar
+          {/* <ShopFiltersSidebar
             mobileFiltersOpen={mobileFiltersOpen}
             setMobileFiltersOpen={setMobileFiltersOpen}
             priceRange={priceRange}
@@ -113,7 +113,7 @@ const Shop: React.FC = () => {
             toggleCategory={toggleCategory}
             selectedStatuses={selectedStatuses}
             toggleStatus={toggleStatus}
-          />
+          /> */}
           <ProductsGrid
             filteredProducts={filteredProducts}
             sortBy={sortBy}
