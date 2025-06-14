@@ -12,11 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCart } from '@/hooks/useCart';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { cartCount } = useCart();
 
   const handleSignOut = async () => {
     await signOut();
@@ -87,9 +89,11 @@ const Header: React.FC = () => {
             </Link>
             <Link to="/cart" className="text-primary hover:text-accent transition-colors relative">
               <ShoppingCart size={20} />
-              <span className="absolute -top-1 -right-2 bg-accent text-primary rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                0
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-2 bg-accent text-primary rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                  {cartCount}
+                </span>
+              )}
             </Link>
           </div>
         </div>
@@ -142,9 +146,11 @@ const Header: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <ShoppingCart size={20} />
-                  <span className="absolute -top-1 -right-2 bg-accent text-primary rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                    0
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-2 bg-accent text-primary rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
               </div>
               {user && (

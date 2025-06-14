@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, X, ShoppingBag, Loader2 } from 'lucide-react';
@@ -7,100 +7,18 @@ import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
-import type { Database } from '@/integrations/supabase/types';
-
-type Product = Database['public']['Tables']['products']['Row'];
-type CartItemRow = Database['public']['Tables']['cart_items']['Row'];
-interface CartItem extends Omit<CartItemRow, 'product_id'> {
-  products: Product | null;
-  product_id: string;
-}
+import { useCart } from '@/hooks/useCart';
 
 const Cart: React.FC = () => {
   const { user } = useAuth();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [loadingCart, setLoadingCart] = useState(true);
-
-  const fetchCartItems = async () => {
-    if (!user) {
-      setLoadingCart(false);
-      return;
-    }
-    setLoadingCart(true);
-    try {
-      const { data, error } = await supabase
-        .from('cart_items')
-        .select('*, products(*)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      if (data) setCartItems(data as CartItem[]);
-
-    } catch (error: any) {
-      console.error('Error fetching cart items:', error);
-      toast({
-        title: "Error",
-        description: "Could not fetch your cart. Please try refreshing.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoadingCart(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCartItems();
-  }, [user]);
-
-  const updateQuantity = async (cartItemId: string, newQuantity: number) => {
-    if (newQuantity < 1) {
-      removeItem(cartItemId);
-      return;
-    }
-
-    const originalCartItems = [...cartItems];
-    setCartItems(currentItems => 
-      currentItems.map(item => 
-        item.id === cartItemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-
-    try {
-      const { error } = await supabase
-        .from('cart_items')
-        .update({ quantity: newQuantity, updated_at: new Date().toISOString() })
-        .eq('id', cartItemId);
-      if (error) throw error;
-    } catch (error: any) {
-      setCartItems(originalCartItems);
-      console.error('Error updating quantity:', error);
-      toast({
-        title: "Error",
-        description: "Could not update item quantity.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const removeItem = async (cartItemId: string) => {
-    const originalCartItems = [...cartItems];
-    setCartItems(currentItems => currentItems.filter(item => item.id !== cartItemId));
-    
-    try {
-      const { error } = await supabase
-        .from('cart_items')
-        .delete()
-        .eq('id', cartItemId);
-      if (error) throw error;
-      toast({ title: "Item removed" });
-    } catch (error: any) {
-      setCartItems(originalCartItems);
-      console.error('Error removing item:', error);
-      toast({ title: "Error removing item", variant: "destructive" });
-    }
-  };
+  const { 
+    cartItems, 
+    isLoadingCart, 
+    cartError, 
+    updateQuantity, 
+    removeItem 
+  } = useCart();
 
   const subtotal = cartItems.reduce((sum, item) => sum + ((item.products?.price ?? 0) * item.quantity), 0);
   const shipping = subtotal > 0 ? 15.00 : 0;
@@ -149,11 +67,22 @@ const Cart: React.FC = () => {
     }
   };
 
-  if (loadingCart) {
+  if (isLoadingCart) {
     return (
       <Layout>
         <div className="container-custom py-16 flex justify-center items-center h-[60vh]">
           <Loader2 className="h-16 w-16 animate-spin text-primary" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (cartError) {
+    return (
+      <Layout>
+        <div className="container-custom py-16 text-center">
+          <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading cart</h3>
+          <p className="text-muted-foreground">{cartError.message}</p>
         </div>
       </Layout>
     );
@@ -263,7 +192,7 @@ const Cart: React.FC = () => {
               <Button 
                 className="w-full btn-primary mb-3"
                 onClick={handleCheckout}
-                disabled={isCheckingOut}
+                disabled={isCheckingOut || cartItems.length === 0}
               >
                 {isCheckingOut && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
