@@ -34,6 +34,8 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
     status: product?.status || 'Active',
     description: product?.description || '',
     image_url: product?.image_url || '',
+    color: product?.color || '',
+    size: product?.size || '',
   });
 
   useEffect(() => {
@@ -46,6 +48,8 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
         status: product.status || 'Active',
         description: product.description || '',
         image_url: product.image_url || '',
+        color: product.color || '',
+        size: product.size || '',
       });
     } else {
       setFormData({
@@ -56,6 +60,8 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
         status: 'Active',
         description: '',
         image_url: '',
+        color: '',
+        size: '',
       });
     }
   }, [product, open]);
@@ -83,6 +89,8 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
         status: formData.status,
         description: formData.description,
         image_url: formData.image_url,
+        color: formData.color,
+        size: formData.size,
       };
 
       console.log('Submitting product data:', productData);
@@ -193,6 +201,36 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
               </SelectContent>
             </Select>
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="color">Color</Label>
+              <Input
+                id="color"
+                value={formData.color}
+                onChange={(e) => handleInputChange('color', e.target.value)}
+                placeholder="e.g. Red, Blue, Black"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="size">Size</Label>
+              <Select value={formData.size} onValueChange={(value) => handleInputChange('size', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select size" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="XS">XS</SelectItem>
+                  <SelectItem value="S">S</SelectItem>
+                  <SelectItem value="M">M</SelectItem>
+                  <SelectItem value="L">L</SelectItem>
+                  <SelectItem value="XL">XL</SelectItem>
+                  <SelectItem value="XXL">XXL</SelectItem>
+                  <SelectItem value="One Size">One Size</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Price</Label>

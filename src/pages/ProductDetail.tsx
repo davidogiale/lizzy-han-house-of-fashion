@@ -170,6 +170,22 @@ const ProductDetail: React.FC = () => {
             
             <p className="text-2xl font-bold mb-6">${Number(product.price).toFixed(2)}</p>
             
+            {/* Color and Size Information */}
+            <div className="flex flex-wrap gap-4 mb-6">
+              {product.color && (
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Color: </span>
+                  <span className="text-sm font-semibold">{product.color}</span>
+                </div>
+              )}
+              {product.size && (
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Size: </span>
+                  <span className="text-sm font-semibold">{product.size}</span>
+                </div>
+              )}
+            </div>
+            
             <div className="mb-6">
               <h3 className="font-semibold mb-2">Description</h3>
               <p className="text-dark">{product.description || 'No description available.'}</p>

@@ -138,7 +138,18 @@ const Cart: React.FC = () => {
                         
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-semibold text-lg">{item.products.name}</h3>
+                            <div>
+                              <h3 className="font-semibold text-lg">{item.products.name}</h3>
+                              {/* Display color and size information */}
+                              <div className="flex flex-wrap gap-2 mt-1 text-sm text-muted-foreground">
+                                {item.products.color && (
+                                  <span>Color: {item.products.color}</span>
+                                )}
+                                {item.products.size && (
+                                  <span>Size: {item.products.size}</span>
+                                )}
+                              </div>
+                            </div>
                             <button onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-red-500">
                               <X size={20} />
                             </button>

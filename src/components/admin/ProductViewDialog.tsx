@@ -64,6 +64,14 @@ export function ProductViewDialog({ open, onOpenChange, product }: ProductViewDi
               <p className="text-sm font-semibold">${product.price}</p>
             </div>
             <div>
+              <label className="text-sm font-medium text-muted-foreground">Color</label>
+              <p className="text-sm">{product.color || 'Not specified'}</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-muted-foreground">Size</label>
+              <p className="text-sm">{product.size || 'Not specified'}</p>
+            </div>
+            <div>
               <label className="text-sm font-medium text-muted-foreground">Stock</label>
               <p className="text-sm">{product.stock} units</p>
             </div>
