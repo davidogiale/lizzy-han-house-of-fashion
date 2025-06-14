@@ -1,9 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, X, ShoppingBag } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from '@/hooks/use-toast';
 
 interface CartItem {
   id: string;
@@ -37,9 +40,56 @@ const cartItems: CartItem[] = [
 ];
 
 const Cart: React.FC = () => {
+  const { user } = useAuth();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 15.00;
   const total = subtotal + shipping;
+
+  const handleCheckout = async () => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to proceed with your order.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsCheckingOut(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('paystack-initialize', {
+        body: { 
+          amount: total, 
+          email: user.email,
+          currency: 'USD',
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      if (data && data.data.authorization_url) {
+        window.location.href = data.data.authorization_url;
+      } else {
+        console.error("Paystack response did not contain authorization_url", data);
+        throw new Error('Could not retrieve payment authorization URL.');
+      }
+
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      toast({
+        title: "Checkout Error",
+        description: error.message || "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
+
 
   return (
     <Layout>
@@ -127,8 +177,13 @@ const Cart: React.FC = () => {
                 </div>
               </div>
               
-              <Button className="w-full btn-primary mb-3">
-                Proceed to Checkout
+              <Button 
+                className="w-full btn-primary mb-3"
+                onClick={handleCheckout}
+                disabled={isCheckingOut}
+              >
+                {isCheckingOut && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
               </Button>
               
               <Link to="/shop">
