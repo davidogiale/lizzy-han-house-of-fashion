@@ -16,8 +16,8 @@ const Index = () => {
       <FeaturedCollections />
       <NewArrivalsCarousel />
       <ShopTheLook />
-      <CustomerFavorites />
-      {/*<InstagramFeed />*/}
+      {/*<CustomerFavorites />
+      <InstagramFeed />*/}
       <TestimonialsSection />
     </Layout>
   );
