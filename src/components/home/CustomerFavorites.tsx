@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Star, Loader2 } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
 
 const CustomerFavorites: React.FC = () => {
@@ -67,18 +67,6 @@ const CustomerFavorites: React.FC = () => {
                 </button>
               </div>
               <div className="p-4">
-                <div className="flex items-center mb-2">
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        size={14} 
-                        className={i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'} 
-                      />
-                    ))}
-                    <span className="ml-2 text-sm text-muted-foreground">(4.5)</span>
-                  </div>
-                </div>
                 <Link to={`/product/${product.id}`} className="block">
                   <h3 className="font-inter font-semibold text-lg mb-1 hover:text-accent transition-colors">
                     {product.name}
