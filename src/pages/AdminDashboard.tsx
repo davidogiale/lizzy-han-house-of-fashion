@@ -11,8 +11,9 @@ import { AdminSettings } from "@/components/admin/AdminSettings";
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
+import { Menu } from 'lucide-react';
 
 const ADMIN_SECTIONS = [
   { value: 'overview', label: 'Overview' },
@@ -24,6 +25,7 @@ const ADMIN_SECTIONS = [
 
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
   const isMobile = useIsMobile();
 
@@ -79,34 +81,58 @@ const AdminDashboard = () => {
 
   // ----- MOBILE LAYOUT -----
   if (isMobile) {
+    const currentSection = ADMIN_SECTIONS.find(sec => sec.value === currentPage);
+
     return (
       <div className="min-h-screen w-full bg-background">
-        <Tabs
-          value={currentPage}
-          onValueChange={setCurrentPage}
-          className="w-full"
-        >
-          <div className="sticky top-0 z-40 bg-background shadow-sm">
-            <TabsList className="w-full flex overflow-x-auto rounded-none px-0 pt-2 pb-1 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
-              {ADMIN_SECTIONS.map(section => (
-                <TabsTrigger
+        {/* Mobile Header */}
+        <header className="sticky top-0 z-40 bg-background shadow-sm flex items-center justify-between px-4 py-2">
+          <button
+            className="flex items-center justify-center p-2 -ml-2"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open navigation menu"
+            type="button"
+          >
+            <Menu size={28} />
+          </button>
+          <span className="font-bold text-lg truncate">
+            {currentSection?.label ?? ""}
+          </span>
+          <div className="w-8" /> {/* placeholder for menu alignment */}
+        </header>
+        {/* Drawer Menu */}
+        <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+          <DrawerContent className="p-0">
+            <DrawerHeader>
+              <DrawerTitle>Admin Sections</DrawerTitle>
+            </DrawerHeader>
+            <nav className="flex flex-col gap-1 p-4">
+              {ADMIN_SECTIONS.map((section) => (
+                <button
                   key={section.value}
-                  value={section.value}
-                  className="flex-1 min-w-[110px] px-3 py-2 text-base data-[state=active]:font-bold"
+                  className={`text-left rounded px-3 py-3 font-medium text-base transition-colors ${
+                    section.value === currentPage
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-muted"
+                  }`}
+                  onClick={() => {
+                    setCurrentPage(section.value);
+                    setDrawerOpen(false);
+                  }}
                 >
                   {section.label}
-                </TabsTrigger>
+                </button>
               ))}
-            </TabsList>
-          </div>
-          <div className="w-full overflow-x-auto">
-            <TabsContent value="overview" className="pt-2">{currentPage === 'overview' && <AdminOverview />}</TabsContent>
-            <TabsContent value="orders" className="pt-2">{currentPage === 'orders' && <AdminOrders />}</TabsContent>
-            <TabsContent value="products" className="pt-2">{currentPage === 'products' && <AdminProducts />}</TabsContent>
-            <TabsContent value="customers" className="pt-2">{currentPage === 'customers' && <AdminCustomers />}</TabsContent>
-            <TabsContent value="settings" className="pt-2">{currentPage === 'settings' && <AdminSettings />}</TabsContent>
-          </div>
-        </Tabs>
+            </nav>
+            <div className="flex justify-end p-4">
+              <DrawerClose asChild>
+                <Button variant="outline">Close</Button>
+              </DrawerClose>
+            </div>
+          </DrawerContent>
+        </Drawer>
+        {/* Content */}
+        <main className="p-3 pb-8">{renderPage()}</main>
       </div>
     );
   }
