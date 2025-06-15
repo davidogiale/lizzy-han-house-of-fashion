@@ -82,49 +82,51 @@ export function AdminOverview() {
           ))}
         </div>
       </div>
-
       {/* Recent Orders */}
-      <div className="overflow-x-auto w-full max-w-full">
-        <Card className="min-w-[800px] md:min-w-0">
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>
-              You have {recentOrders.length} orders this week.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentOrders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">{order.id}</TableCell>
-                    <TableCell>{order.customer}</TableCell>
-                    <TableCell>{order.email}</TableCell>
-                    <TableCell>{order.amount}</TableCell>
-                    <TableCell>
-                      <Badge variant={
-                        order.status === 'Completed' ? 'default' :
-                        order.status === 'Processing' ? 'secondary' :
-                        order.status === 'Shipped' ? 'outline' : 'destructive'
-                      }>
-                        {order.status}
-                      </Badge>
-                    </TableCell>
+      <div className="overflow-x-auto w-full">
+        <div className="min-w-[800px]">
+          {/* Table/Card */}
+          <Card className="">
+            <CardHeader>
+              <CardTitle>Recent Orders</CardTitle>
+              <CardDescription>
+                You have {recentOrders.length} orders this week.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Order ID</TableHead>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Status</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {recentOrders.map((order) => (
+                    <TableRow key={order.id}>
+                      <TableCell className="font-medium">{order.id}</TableCell>
+                      <TableCell>{order.customer}</TableCell>
+                      <TableCell>{order.email}</TableCell>
+                      <TableCell>{order.amount}</TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          order.status === 'Completed' ? 'default' :
+                          order.status === 'Processing' ? 'secondary' :
+                          order.status === 'Shipped' ? 'outline' : 'destructive'
+                        }>
+                          {order.status}
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

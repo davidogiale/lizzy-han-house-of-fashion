@@ -126,61 +126,63 @@ export function AdminCustomers() {
         </Card>
       </div>
 
-      <div className="overflow-x-auto w-full max-w-full">
-        <Card className="min-w-[800px] md:min-w-0">
-          <CardHeader>
-            <CardTitle>Customer List</CardTitle>
-            <CardDescription>
-              Manage your customer database
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Join Date</TableHead>
-                  <TableHead>Orders</TableHead>
-                  <TableHead>Total Spent</TableHead>
-                  <TableHead>Last Order</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {customers.map((customer) => (
-                  <TableRow key={customer.id}>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">{customer.name}</div>
-                        <div className="text-sm text-muted-foreground">{customer.email}</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>{customer.joinDate}</TableCell>
-                    <TableCell>{customer.orders}</TableCell>
-                    <TableCell>{customer.totalSpent}</TableCell>
-                    <TableCell>{customer.lastOrder}</TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusColor(customer.status)}>
-                        {customer.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
+      <div className="overflow-x-auto w-full">
+        <div className="min-w-[800px]">
+          <Card className="">
+            <CardHeader>
+              <CardTitle>Customer List</CardTitle>
+              <CardDescription>
+                Manage your customer database
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Join Date</TableHead>
+                    <TableHead>Orders</TableHead>
+                    <TableHead>Total Spent</TableHead>
+                    <TableHead>Last Order</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {customers.map((customer) => (
+                    <TableRow key={customer.id}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{customer.name}</div>
+                          <div className="text-sm text-muted-foreground">{customer.email}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{customer.joinDate}</TableCell>
+                      <TableCell>{customer.orders}</TableCell>
+                      <TableCell>{customer.totalSpent}</TableCell>
+                      <TableCell>{customer.lastOrder}</TableCell>
+                      <TableCell>
+                        <Badge variant={getStatusColor(customer.status)}>
+                          {customer.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

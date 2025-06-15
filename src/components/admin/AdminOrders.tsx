@@ -87,100 +87,102 @@ export function AdminOrders() {
           Export Orders
         </Button>
       </div>
-      <div className="overflow-x-auto w-full max-w-full">
-        <Card className="min-w-[900px] md:min-w-0">
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>
-              {isLoading
-                ? "Loading..."
-                : isError
-                ? "Error loading orders"
-                : (orders?.length ?? 0) + " total orders"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>User ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Shipping Name</TableHead>
-                  <TableHead>Shipping Address</TableHead>
-                  <TableHead>Postal Code</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading || isError ? (
+      <div className="overflow-x-auto w-full">
+        <div className="min-w-[900px]">
+          <Card className="">
+            <CardHeader>
+              <CardTitle>Recent Orders</CardTitle>
+              <CardDescription>
+                {isLoading
+                  ? "Loading..."
+                  : isError
+                  ? "Error loading orders"
+                  : (orders?.length ?? 0) + " total orders"}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
                   <TableRow>
-                    <TableCell colSpan={9} className="text-center">
-                      {isLoading
-                        ? "Loading orders..."
-                        : "Could not load orders. Please try again."}
-                    </TableCell>
+                    <TableHead>Order ID</TableHead>
+                    <TableHead>User ID</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Shipping Name</TableHead>
+                    <TableHead>Shipping Address</TableHead>
+                    <TableHead>Postal Code</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ) : orders && orders.length > 0 ? (
-                  orders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="font-medium">{order.id}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {order.user_id}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(order.created_at).toLocaleDateString()}{" "}
-                        {new Date(order.created_at).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {order.total.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                      </TableCell>
-                      <TableCell>{order.shipping_address_full_name}</TableCell>
-                      <TableCell>
-                        <div>
-                          {order.shipping_address_line}
-                          <br />
-                          {order.shipping_address_city},{" "}
-                          {order.shipping_address_state}
-                          <br />
-                          {order.shipping_address_phone}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {order.shipping_address_postal_code}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusColor(order.status)}>
-                          {order.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                          <span className="sr-only">View order</span>
-                        </Button>
+                </TableHeader>
+                <TableBody>
+                  {isLoading || isError ? (
+                    <TableRow>
+                      <TableCell colSpan={9} className="text-center">
+                        {isLoading
+                          ? "Loading orders..."
+                          : "Could not load orders. Please try again."}
                       </TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={9} className="text-center">
-                      No orders found.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                  ) : orders && orders.length > 0 ? (
+                    orders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell className="font-medium">{order.id}</TableCell>
+                        <TableCell className="whitespace-nowrap">
+                          {order.user_id}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(order.created_at).toLocaleDateString()}{" "}
+                          {new Date(order.created_at).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {order.total.toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
+                        </TableCell>
+                        <TableCell>{order.shipping_address_full_name}</TableCell>
+                        <TableCell>
+                          <div>
+                            {order.shipping_address_line}
+                            <br />
+                            {order.shipping_address_city},{" "}
+                            {order.shipping_address_state}
+                            <br />
+                            {order.shipping_address_phone}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {order.shipping_address_postal_code}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={getStatusColor(order.status)}>
+                            {order.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
+                            <span className="sr-only">View order</span>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={9} className="text-center">
+                        No orders found.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
