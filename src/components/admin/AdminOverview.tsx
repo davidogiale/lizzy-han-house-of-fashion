@@ -75,38 +75,6 @@ export function AdminOverview() {
     },
   ];
 
-  // Table sample data (static for now, will be implemented later)
-  const recentOrders = [
-    {
-      id: "ORD-001",
-      customer: "John Doe",
-      email: "john@example.com",
-      amount: "$99.99",
-      status: "Completed",
-    },
-    {
-      id: "ORD-002",
-      customer: "Jane Smith",
-      email: "jane@example.com",
-      amount: "$149.99",
-      status: "Processing",
-    },
-    {
-      id: "ORD-003",
-      customer: "Bob Johnson",
-      email: "bob@example.com",
-      amount: "$79.99",
-      status: "Shipped",
-    },
-    {
-      id: "ORD-004",
-      customer: "Alice Brown",
-      email: "alice@example.com",
-      amount: "$199.99",
-      status: "Pending",
-    },
-  ];
-
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
@@ -124,52 +92,6 @@ export function AdminOverview() {
               </CardContent>
             </Card>
           ))}
-        </div>
-      </div>
-      {/* Recent Orders */}
-      <div className="overflow-x-auto w-full">
-        <div className="min-w-[800px]">
-          {/* Table/Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Orders</CardTitle>
-              <CardDescription>
-                You have {recentOrders.length} orders this week.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <table className="min-w-full table-auto border-collapse">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-2 text-left">Order ID</th>
-                    <th className="px-4 py-2 text-left">Customer</th>
-                    <th className="px-4 py-2 text-left">Email</th>
-                    <th className="px-4 py-2 text-left">Amount</th>
-                    <th className="px-4 py-2 text-left">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentOrders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="font-medium px-4 py-2">{order.id}</td>
-                      <td className="px-4 py-2">{order.customer}</td>
-                      <td className="px-4 py-2">{order.email}</td>
-                      <td className="px-4 py-2">{order.amount}</td>
-                      <td className="px-4 py-2">
-                        <Badge variant={
-                          order.status === 'Completed' ? 'default' :
-                            order.status === 'Processing' ? 'secondary' :
-                              order.status === 'Shipped' ? 'outline' : 'destructive'
-                        }>
-                          {order.status}
-                        </Badge>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
