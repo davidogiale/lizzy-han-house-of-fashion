@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
@@ -61,7 +60,7 @@ export function ProductViewDialog({ open, onOpenChange, product }: ProductViewDi
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">Price</label>
-              <p className="text-sm font-semibold">${product.price}</p>
+              <p className="text-sm font-semibold">₦{product.price}</p>
             </div>
             <div>
               <label className="text-sm font-medium text-muted-foreground">Color</label>

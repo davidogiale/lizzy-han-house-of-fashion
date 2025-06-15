@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -168,7 +167,9 @@ const ProductDetail: React.FC = () => {
           <div className="lg:w-1/2">
             <h1 className="text-3xl font-playfair font-bold mb-4">{product.name}</h1>
             
-            <p className="text-2xl font-bold mb-6">${Number(product.price).toFixed(2)}</p>
+            <p className="text-2xl font-bold mb-6">
+              ₦{Number(product.price).toLocaleString("en-NG")}
+            </p>
             
             {/* Color and Size Information */}
             <div className="flex flex-wrap gap-4 mb-6">

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Loader2 } from 'lucide-react';
@@ -74,7 +73,7 @@ const BestSellers: React.FC = () => {
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-dark font-semibold">${product.price}</p>
+                <p className="text-dark font-semibold">₦{product.price}</p>
               </div>
             </div>
           ))}

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
@@ -169,7 +168,7 @@ const Cart: React.FC = () => {
                             </div>
                             
                             <p className="font-semibold text-lg">
-                              ${(item.products.price * item.quantity).toFixed(2)}
+                              ₦{(item.products.price * item.quantity).toLocaleString("en-NG")}
                             </p>
                           </div>
                         </div>
@@ -187,16 +186,16 @@ const Cart: React.FC = () => {
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>₦{subtotal.toLocaleString("en-NG")}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping:</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>₦{shipping.toLocaleString("en-NG")}</span>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>₦{total.toLocaleString("en-NG")}</span>
                 </div>
               </div>
               
