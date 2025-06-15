@@ -52,6 +52,15 @@ const Cart: React.FC = () => {
       return;
     }
 
+    if (!shippingAddress) {
+      toast({
+        title: "Shipping Address Required",
+        description: "Please fill out and save your shipping address before proceeding to checkout.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsCheckingOut(true);
     try {
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
@@ -264,7 +273,11 @@ const Cart: React.FC = () => {
               <Button 
                 className="w-full btn-primary mb-3"
                 onClick={handleCheckout}
-                disabled={isCheckingOut || cartItems.length === 0}
+                disabled={
+                  isCheckingOut ||
+                  cartItems.length === 0 ||
+                  !shippingAddress /* Disable unless shippingAddress is filled */
+                }
               >
                 {isCheckingOut && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
