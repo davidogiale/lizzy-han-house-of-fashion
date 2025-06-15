@@ -10,7 +10,7 @@ import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import Account from "./pages/Account";
-import Wishlist from "./pages/Wishlist";
+// Removed import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/Cart";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -34,7 +34,7 @@ const App = () => (
             <Route path="/shop/category/:categorySlug" element={<CategoryProductsPage />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/wishlist" element={<Wishlist />} />
+            {/* <Route path="/wishlist" element={<Wishlist />} /> */}
             <Route path="/cart" element={<Cart />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<Search />} />
@@ -49,4 +49,3 @@ const App = () => (
 );
 
 export default App;
-

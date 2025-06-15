@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, User, Heart, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
@@ -84,9 +83,9 @@ const Header: React.FC = () => {
               </Link>
             )}
             
-            <Link to="/wishlist" className="text-primary hover:text-accent transition-colors">
+            {/* <Link to="/wishlist" className="text-primary hover:text-accent transition-colors">
               <Heart size={20} />
-            </Link>
+            </Link> */}
             <Link to="/cart" className="text-primary hover:text-accent transition-colors relative">
               <ShoppingCart size={20} />
               {cartCount > 0 && (
@@ -133,13 +132,13 @@ const Header: React.FC = () => {
                 >
                   <User size={20} />
                 </Link>
-                <Link 
+                {/* <Link 
                   to="/wishlist" 
                   className="text-primary hover:text-accent transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <Heart size={20} />
-                </Link>
+                </Link> */}
                 <Link 
                   to="/cart" 
                   className="text-primary hover:text-accent transition-colors relative"
