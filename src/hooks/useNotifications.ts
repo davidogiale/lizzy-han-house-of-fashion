@@ -1,6 +1,5 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 export interface Notification {
   id: string;
@@ -10,30 +9,38 @@ export interface Notification {
   unread: boolean;
 }
 
+const mockNotifications: Notification[] = [
+  {
+    id: "1",
+    title: "Welcome!",
+    message: "Thanks for joining the admin team.",
+    time: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    unread: true,
+  },
+  {
+    id: "2",
+    title: "Order placed",
+    message: "A customer placed a new order.",
+    time: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+    unread: false,
+  },
+  {
+    id: "3",
+    title: "Stock alert",
+    message: "Low stock for a popular product.",
+    time: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
+    unread: true,
+  },
+];
+
 export function useNotifications(userId: string | null) {
-  // This assumes you have a "notifications" table; if not, replace with mock data!
+  // Since there is no notifications table, we return mock data
   return useQuery({
     queryKey: ["notifications", userId],
     queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.error("Failed to fetch notifications", error);
-        return [];
-      }
-      return (
-        data?.map((n: any) => ({
-          id: n.id,
-          title: n.title,
-          message: n.message,
-          time: n.created_at || "",
-          unread: !n.read_at,
-        })) || []
-      );
+      // Return mock data for now
+      return mockNotifications;
     },
     enabled: !!userId,
     staleTime: 60 * 1000,
