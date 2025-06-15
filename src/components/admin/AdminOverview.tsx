@@ -29,11 +29,19 @@ export function AdminOverview() {
   }
 
   if (!stats || stats.error || error) {
+    // Ensure we extract message string if stats.error is an object
+    const statsErrorMessage =
+      typeof stats?.error === 'object' && stats?.error !== null && 'message' in stats.error
+        ? (stats.error as any).message
+        : stats?.error;
+
     return (
       <div className="flex py-12 justify-center items-center text-destructive">
         <span>
           Could not load admin stats. Please try again.<br />
-          <span className="text-muted-foreground text-sm">{stats?.error || error?.message}</span>
+          <span className="text-muted-foreground text-sm">
+            {statsErrorMessage || error?.message}
+          </span>
         </span>
       </div>
     );
