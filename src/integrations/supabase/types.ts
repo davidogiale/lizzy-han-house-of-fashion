@@ -44,6 +44,54 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          created_at: string
+          id: string
+          shipping_address_city: string
+          shipping_address_full_name: string
+          shipping_address_line: string
+          shipping_address_phone: string
+          shipping_address_postal_code: string
+          shipping_address_state: string
+          shipping_method: string
+          status: string
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          shipping_address_city: string
+          shipping_address_full_name: string
+          shipping_address_line: string
+          shipping_address_phone: string
+          shipping_address_postal_code: string
+          shipping_address_state: string
+          shipping_method: string
+          status?: string
+          total: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          shipping_address_city?: string
+          shipping_address_full_name?: string
+          shipping_address_line?: string
+          shipping_address_phone?: string
+          shipping_address_postal_code?: string
+          shipping_address_state?: string
+          shipping_method?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
