@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -78,8 +77,8 @@ export function AdminOverview() {
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
-      <div className="overflow-x-auto w-full max-w-full">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 min-w-[640px] md:min-w-0">
+      <div className="w-full">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((stat) => (
             <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
