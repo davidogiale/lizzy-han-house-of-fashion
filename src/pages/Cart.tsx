@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
         body: { 
           amount: total, 
           email: user.email,
-          currency: 'USD',
+          currency: 'NGN', // 🟢 Changed from 'USD' to 'NGN'
         },
       });
 
