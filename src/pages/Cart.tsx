@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
@@ -66,19 +67,39 @@ const Cart: React.FC = () => {
 
     setIsCheckingOut(true);
     try {
+      // Initialize Paystack
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: { 
           amount: total, 
           email: user.email,
-          currency: 'NGN', // Ensure we're using Naira
+          currency: 'NGN',
         },
       });
 
       if (error) {
         throw new Error(error.message);
       }
-      
+
+      // Save the order record before redirect
       if (data && data.data.authorization_url) {
+        // Insert new order
+        const { error: orderError } = await supabase.from('orders').insert({
+          user_id: user.id,
+          total,
+          shipping_address_full_name: shippingAddress.fullName,
+          shipping_address_phone: shippingAddress.phone,
+          shipping_address_line: shippingAddress.address,
+          shipping_address_city: shippingAddress.city,
+          shipping_address_state: shippingAddress.state,
+          shipping_address_postal_code: shippingAddress.postalCode,
+          shipping_method: selectedShipping,
+          // status: Default is 'pending' per db schema.
+        });
+
+        if (orderError) {
+          throw new Error("Order creation failed: " + orderError.message);
+        }
+
         window.location.href = data.data.authorization_url;
       } else {
         console.error("Paystack response did not contain authorization_url", data);
