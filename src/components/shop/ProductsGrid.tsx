@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Heart } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -98,11 +97,14 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   {product.name}
                 </h3>
               </a>
-              <p className="text-dark font-semibold">${product.price}</p>
+              <p className="text-dark font-semibold">
+                ₦{Number(product.price).toLocaleString("en-NG")}
+              </p>
             </div>
           </div>
         ))}
       </div>
+      {/* Empty State */}
       {filteredProducts.length === 0 && (
         <div className="text-center py-12">
           <h3 className="text-lg font-semibold mb-2">No products found</h3>
