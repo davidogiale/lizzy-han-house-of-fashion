@@ -1,74 +1,110 @@
+
 import React from 'react';
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Package, Users, TrendingUp } from 'lucide-react';
+import { fetchAdminStats } from "./adminStats";
 
-const stats = [
-  {
-    title: "Total Revenue",
-    value: "$45,231.89",
-    change: "+20.1% from last month",
-    icon: DollarSign,
-  },
-  {
-    title: "Orders",
-    value: "2,350",
-    change: "+15% from last month",
-    icon: Package,
-  },
-  {
-    title: "Customers",
-    value: "1,423",
-    change: "+8.2% from last month",
-    icon: Users,
-  },
-  {
-    title: "Growth",
-    value: "+12.5%",
-    change: "+2.1% from last month",
-    icon: TrendingUp,
-  },
-];
-
-const recentOrders = [
-  {
-    id: "ORD-001",
-    customer: "John Doe",
-    email: "john@example.com",
-    amount: "$99.99",
-    status: "Completed",
-  },
-  {
-    id: "ORD-002",
-    customer: "Jane Smith",
-    email: "jane@example.com",
-    amount: "$149.99",
-    status: "Processing",
-  },
-  {
-    id: "ORD-003",
-    customer: "Bob Johnson",
-    email: "bob@example.com",
-    amount: "$79.99",
-    status: "Shipped",
-  },
-  {
-    id: "ORD-004",
-    customer: "Alice Brown",
-    email: "alice@example.com",
-    amount: "$199.99",
-    status: "Pending",
-  },
-];
+const iconMap = {
+  revenue: DollarSign,
+  orders: Package,
+  customers: Users,
+  growth: TrendingUp,
+};
 
 export function AdminOverview() {
+  const { data: stats, isLoading, error } = useQuery({
+    queryKey: ['admin-stats'],
+    queryFn: fetchAdminStats,
+  });
+
+  // Show loading or error states
+  if (isLoading) {
+    return (
+      <div className="flex py-12 justify-center items-center">
+        <span className="animate-pulse text-lg font-bold">Loading admin stats...</span>
+      </div>
+    );
+  }
+
+  if (!stats || stats.error || error) {
+    return (
+      <div className="flex py-12 justify-center items-center text-destructive">
+        <span>
+          Could not load admin stats. Please try again.<br />
+          <span className="text-muted-foreground text-sm">{stats?.error || error?.message}</span>
+        </span>
+      </div>
+    );
+  }
+
+  // Stats to display
+  const cards = [
+    {
+      title: "Total Revenue",
+      value: stats.allRevenue.toLocaleString('en-US', { style: "currency", currency: "USD" }),
+      change: `+${stats.revenueGrowth.toFixed(1)}% from last month`,
+      icon: iconMap.revenue,
+    },
+    {
+      title: "Orders",
+      value: stats.totalOrders.toLocaleString(),
+      change: `+${stats.orderGrowth.toFixed(1)}% from last month`,
+      icon: iconMap.orders,
+    },
+    {
+      title: "Customers",
+      value: stats.customerCount.toLocaleString(),
+      change: `+${stats.customerGrowth.toFixed(1)}% from last month`,
+      icon: iconMap.customers,
+    },
+    {
+      title: "Growth",
+      value: `+${stats.revenueGrowth.toFixed(1)}%`,
+      change: `Revenue growth from last month`,
+      icon: iconMap.growth,
+    },
+  ];
+
+  // Table sample data (static for now, will be implemented later)
+  const recentOrders = [
+    {
+      id: "ORD-001",
+      customer: "John Doe",
+      email: "john@example.com",
+      amount: "$99.99",
+      status: "Completed",
+    },
+    {
+      id: "ORD-002",
+      customer: "Jane Smith",
+      email: "jane@example.com",
+      amount: "$149.99",
+      status: "Processing",
+    },
+    {
+      id: "ORD-003",
+      customer: "Bob Johnson",
+      email: "bob@example.com",
+      amount: "$79.99",
+      status: "Shipped",
+    },
+    {
+      id: "ORD-004",
+      customer: "Alice Brown",
+      email: "alice@example.com",
+      amount: "$199.99",
+      status: "Pending",
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="overflow-x-auto w-full max-w-full">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 min-w-[640px] md:min-w-0">
-          {stats.map((stat) => (
+          {cards.map((stat) => (
             <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
@@ -86,7 +122,7 @@ export function AdminOverview() {
       <div className="overflow-x-auto w-full">
         <div className="min-w-[800px]">
           {/* Table/Card */}
-          <Card className="">
+          <Card>
             <CardHeader>
               <CardTitle>Recent Orders</CardTitle>
               <CardDescription>
@@ -94,36 +130,36 @@ export function AdminOverview() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <table className="min-w-full table-auto border-collapse">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2 text-left">Order ID</th>
+                    <th className="px-4 py-2 text-left">Customer</th>
+                    <th className="px-4 py-2 text-left">Email</th>
+                    <th className="px-4 py-2 text-left">Amount</th>
+                    <th className="px-4 py-2 text-left">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {recentOrders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="font-medium">{order.id}</TableCell>
-                      <TableCell>{order.customer}</TableCell>
-                      <TableCell>{order.email}</TableCell>
-                      <TableCell>{order.amount}</TableCell>
-                      <TableCell>
+                    <tr key={order.id}>
+                      <td className="font-medium px-4 py-2">{order.id}</td>
+                      <td className="px-4 py-2">{order.customer}</td>
+                      <td className="px-4 py-2">{order.email}</td>
+                      <td className="px-4 py-2">{order.amount}</td>
+                      <td className="px-4 py-2">
                         <Badge variant={
                           order.status === 'Completed' ? 'default' :
-                          order.status === 'Processing' ? 'secondary' :
-                          order.status === 'Shipped' ? 'outline' : 'destructive'
+                            order.status === 'Processing' ? 'secondary' :
+                              order.status === 'Shipped' ? 'outline' : 'destructive'
                         }>
                           {order.status}
                         </Badge>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
             </CardContent>
           </Card>
         </div>
