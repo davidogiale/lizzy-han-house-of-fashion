@@ -11,10 +11,21 @@ import { AdminSettings } from "@/components/admin/AdminSettings";
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useIsMobile } from '@/hooks/use-mobile';
+
+const ADMIN_SECTIONS = [
+  { value: 'overview', label: 'Overview' },
+  { value: 'orders', label: 'Orders' },
+  { value: 'products', label: 'Products' },
+  { value: 'customers', label: 'Customers' },
+  { value: 'settings', label: 'Settings' },
+];
 
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
   const { user, loading, signOut } = useAuth();
+  const isMobile = useIsMobile();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -66,6 +77,41 @@ const AdminDashboard = () => {
     );
   }
 
+  // ----- MOBILE LAYOUT -----
+  if (isMobile) {
+    return (
+      <div className="min-h-screen w-full bg-background">
+        <Tabs
+          value={currentPage}
+          onValueChange={setCurrentPage}
+          className="w-full"
+        >
+          <div className="sticky top-0 z-40 bg-background shadow-sm">
+            <TabsList className="w-full flex overflow-x-auto rounded-none px-0 pt-2 pb-1 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
+              {ADMIN_SECTIONS.map(section => (
+                <TabsTrigger
+                  key={section.value}
+                  value={section.value}
+                  className="flex-1 min-w-[110px] px-3 py-2 text-base data-[state=active]:font-bold"
+                >
+                  {section.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+          <div className="w-full overflow-x-auto">
+            <TabsContent value="overview" className="pt-2">{currentPage === 'overview' && <AdminOverview />}</TabsContent>
+            <TabsContent value="orders" className="pt-2">{currentPage === 'orders' && <AdminOrders />}</TabsContent>
+            <TabsContent value="products" className="pt-2">{currentPage === 'products' && <AdminProducts />}</TabsContent>
+            <TabsContent value="customers" className="pt-2">{currentPage === 'customers' && <AdminCustomers />}</TabsContent>
+            <TabsContent value="settings" className="pt-2">{currentPage === 'settings' && <AdminSettings />}</TabsContent>
+          </div>
+        </Tabs>
+      </div>
+    );
+  }
+
+  // ----- DESKTOP LAYOUT -----
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -82,3 +128,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
