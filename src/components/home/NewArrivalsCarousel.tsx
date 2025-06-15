@@ -129,7 +129,7 @@ const NewArrivalsCarousel: React.FC = () => {
                         {product.name}
                       </h3>
                     </Link>
-                    <p className="text-dark font-semibold">${product.price}</p>
+                    <p className="text-dark font-semibold">₦{product.price}</p>
                   </div>
                 </div>
               </CarouselItem>
