@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -87,140 +86,140 @@ export function AdminProducts() {
             Add Product
           </Button>
         </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Product Inventory</CardTitle>
-            <CardDescription>
-              {filteredProducts.length} {statusFilter ? `${statusFilter.toLowerCase()} ` : ''}products
-              {statusFilter && (
-                <Button 
-                  variant="link" 
-                  className="h-auto p-0 ml-2 text-xs"
-                  onClick={() => setStatusFilter(null)}
-                >
-                  Clear filter
-                </Button>
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredProducts.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <img 
-                              src={product.image_url || '/placeholder.svg'} 
-                              alt={product.name}
-                              className="w-10 h-10 rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity"
-                              onClick={() => handleImageClick(product)}
-                            />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Click to view product details</p>
-                          </TooltipContent>
-                        </Tooltip>
-                        <div>
-                          <div className="font-medium">{product.name}</div>
-                          <div className="text-sm text-muted-foreground">{product.id}</div>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>{product.category}</TableCell>
-                    <TableCell>${product.price}</TableCell>
-                    <TableCell>{product.stock}</TableCell>
-                    <TableCell>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Badge 
-                            variant={getStatusColor(product.status)}
-                            className="cursor-pointer hover:opacity-80"
-                            onClick={() => handleStatusBadgeClick(product.status)}
-                          >
-                            {product.status}
-                          </Badge>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Click to filter by {product.status}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => {
-                                setSelectedProduct(product);
-                                setViewDialogOpen(true);
-                              }}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>View product details</p>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => {
-                                setSelectedProduct(product);
-                                setEditDialogOpen(true);
-                              }}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Edit product</p>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => {
-                                setSelectedProduct(product);
-                                setDeleteDialogOpen(true);
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Delete product</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    </TableCell>
+        <div className="overflow-x-auto w-full max-w-full">
+          <Card className="min-w-[900px] md:min-w-0">
+            <CardHeader>
+              <CardTitle>Product Inventory</CardTitle>
+              <CardDescription>
+                {filteredProducts.length} {statusFilter ? `${statusFilter.toLowerCase()} ` : ''}products
+                {statusFilter && (
+                  <Button 
+                    variant="link" 
+                    className="h-auto p-0 ml-2 text-xs"
+                    onClick={() => setStatusFilter(null)}
+                  >
+                    Clear filter
+                  </Button>
+                )}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Stock</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
+                </TableHeader>
+                <TableBody>
+                  {filteredProducts.map((product) => (
+                    <TableRow key={product.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <img 
+                                src={product.image_url || '/placeholder.svg'} 
+                                alt={product.name}
+                                className="w-10 h-10 rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                                onClick={() => handleImageClick(product)}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Click to view product details</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          <div>
+                            <div className="font-medium">{product.name}</div>
+                            <div className="text-sm text-muted-foreground">{product.id}</div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{product.category}</TableCell>
+                      <TableCell>${product.price}</TableCell>
+                      <TableCell>{product.stock}</TableCell>
+                      <TableCell>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Badge 
+                              variant={getStatusColor(product.status)}
+                              className="cursor-pointer hover:opacity-80"
+                              onClick={() => handleStatusBadgeClick(product.status)}
+                            >
+                              {product.status}
+                            </Badge>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Click to filter by {product.status}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setViewDialogOpen(true);
+                                }}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>View product details</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setEditDialogOpen(true);
+                                }}
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Edit product</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedProduct(product);
+                                  setDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Delete product</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
         <ProductFormDialog
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
