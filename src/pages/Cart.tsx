@@ -141,31 +141,10 @@ const Cart: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items */}
+            {/* Cart Items & Shipping (order swapped) */}
             <div className="lg:col-span-2">
-              {/* Shipping Address Section */}
-              <section className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
-                <ShippingAddressForm
-                  onSubmit={(address) => {
-                    setShippingAddress(address);
-                    toast({
-                      title: "Shipping address saved",
-                      description: "Your shipping address has been saved. Please confirm before checkout.",
-                    });
-                  }}
-                  defaultValues={shippingAddress ?? undefined}
-                  disabled={isCheckingOut}
-                />
-                {shippingAddress && (
-                  <div className="bg-muted border rounded p-4 mt-2">
-                    <div className="font-medium mb-1">Current Address:</div>
-                    <div className="text-sm text-muted-foreground mb-1">{shippingAddress.fullName}, {shippingAddress.phone}</div>
-                    <div className="text-sm">{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.state}, {shippingAddress.postalCode}</div>
-                  </div>
-                )}
-              </section>
-              <div className="space-y-4">
+              {/* Cart Items Section - NOW ABOVE */}
+              <div className="space-y-4 mb-8">
                 {cartItems.map((item) => (
                   item.products && (
                     <div key={item.id} className="bg-white border rounded-lg p-4">
@@ -180,7 +159,6 @@ const Cart: React.FC = () => {
                           <div className="flex justify-between items-start mb-2">
                             <div>
                               <h3 className="font-semibold text-lg">{item.products.name}</h3>
-                              {/* Display color and size information */}
                               <div className="flex flex-wrap gap-2 mt-1 text-sm text-muted-foreground">
                                 {item.products.color && (
                                   <span>Color: {item.products.color}</span>
@@ -218,9 +196,30 @@ const Cart: React.FC = () => {
                   )
                 ))}
               </div>
+              {/* Shipping Address Section - NOW BELOW */}
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
+                <ShippingAddressForm
+                  onSubmit={(address) => {
+                    setShippingAddress(address);
+                    toast({
+                      title: "Shipping address saved",
+                      description: "Your shipping address has been saved. Please confirm before checkout.",
+                    });
+                  }}
+                  defaultValues={shippingAddress ?? undefined}
+                  disabled={isCheckingOut}
+                />
+                {shippingAddress && (
+                  <div className="bg-muted border rounded p-4 mt-2">
+                    <div className="font-medium mb-1">Current Address:</div>
+                    <div className="text-sm text-muted-foreground mb-1">{shippingAddress.fullName}, {shippingAddress.phone}</div>
+                    <div className="text-sm">{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.state}, {shippingAddress.postalCode}</div>
+                  </div>
+                )}
+              </section>
             </div>
-            
-            {/* Order Summary */}
+            {/* Order Summary, right column */}
             <div className="bg-muted p-6 rounded-lg h-fit">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               
