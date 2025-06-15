@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { useCart } from '@/hooks/useCart';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import ShippingAddressForm, { ShippingAddress } from "@/components/checkout/ShippingAddressForm";
 
 const SHIPPING_OPTIONS = [
   {
@@ -29,6 +29,7 @@ const Cart: React.FC = () => {
   const { user } = useAuth();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState(SHIPPING_OPTIONS[0].id);
+  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
   const { 
     cartItems, 
     isLoadingCart, 
@@ -142,6 +143,28 @@ const Cart: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2">
+              {/* Shipping Address Section */}
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
+                <ShippingAddressForm
+                  onSubmit={(address) => {
+                    setShippingAddress(address);
+                    toast({
+                      title: "Shipping address saved",
+                      description: "Your shipping address has been saved. Please confirm before checkout.",
+                    });
+                  }}
+                  defaultValues={shippingAddress ?? undefined}
+                  disabled={isCheckingOut}
+                />
+                {shippingAddress && (
+                  <div className="bg-muted border rounded p-4 mt-2">
+                    <div className="font-medium mb-1">Current Address:</div>
+                    <div className="text-sm text-muted-foreground mb-1">{shippingAddress.fullName}, {shippingAddress.phone}</div>
+                    <div className="text-sm">{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.state}, {shippingAddress.postalCode}</div>
+                  </div>
+                )}
+              </section>
               <div className="space-y-4">
                 {cartItems.map((item) => (
                   item.products && (
@@ -262,4 +285,3 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
-
