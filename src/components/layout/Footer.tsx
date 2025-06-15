@@ -17,13 +17,34 @@ const Footer: React.FC = () => {
               Elevating women's style with our premium collection of modern, sustainable fashion that celebrates individuality and confidence.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-accent transition-colors">
+              <a
+                href="https://facebook.com/example"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Visit us on Facebook"
+                className="text-white hover:text-accent transition-colors"
+              >
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-white hover:text-accent transition-colors">
+              <a
+                href="https://instagram.com/example"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                title="Visit us on Instagram"
+                className="text-white hover:text-accent transition-colors"
+              >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-white hover:text-accent transition-colors">
+              <a
+                href="https://twitter.com/example"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                title="Visit us on Twitter"
+                className="text-white hover:text-accent transition-colors"
+              >
                 <Twitter size={20} />
               </a>
             </div>
@@ -119,23 +140,43 @@ const Footer: React.FC = () => {
         {/* Payment & Copyright */}
         <div className="mt-12 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-sm text-gray-400">
+            <p
+              className="text-sm text-gray-400 select-all"
+              tabIndex={0}
+              title="Copyright - select to copy"
+            >
               &copy; {currentYear} Vogue Women's Fashion. All rights reserved.
             </p>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-400">We accept:</span>
             <div className="flex space-x-2">
-              <div className="bg-white h-6 w-10 rounded flex items-center justify-center">
+              <div
+                className="bg-white h-6 w-10 rounded flex items-center justify-center"
+                aria-label="VISA"
+                title="VISA"
+              >
                 <span className="text-xs text-primary font-bold">VISA</span>
               </div>
-              <div className="bg-white h-6 w-10 rounded flex items-center justify-center">
+              <div
+                className="bg-white h-6 w-10 rounded flex items-center justify-center"
+                aria-label="MasterCard"
+                title="MasterCard"
+              >
                 <span className="text-xs text-primary font-bold">MC</span>
               </div>
-              <div className="bg-white h-6 w-10 rounded flex items-center justify-center">
+              <div
+                className="bg-white h-6 w-10 rounded flex items-center justify-center"
+                aria-label="American Express"
+                title="American Express"
+              >
                 <span className="text-xs text-primary font-bold">AMEX</span>
               </div>
-              <div className="bg-white h-6 w-10 rounded flex items-center justify-center">
+              <div
+                className="bg-white h-6 w-10 rounded flex items-center justify-center"
+                aria-label="PayPal"
+                title="PayPal"
+              >
                 <span className="text-xs text-primary font-bold">PP</span>
               </div>
             </div>
@@ -147,3 +188,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
