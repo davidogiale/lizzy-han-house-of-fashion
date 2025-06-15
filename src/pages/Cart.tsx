@@ -1,16 +1,34 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, X, ShoppingBag, Loader2 } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, Loader2, Truck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { useCart } from '@/hooks/useCart';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+const SHIPPING_OPTIONS = [
+  {
+    id: 'standard',
+    name: 'Standard Shipping',
+    description: 'Delivers in 3-5 business days',
+    price: 1500,
+  },
+  {
+    id: 'express',
+    name: 'Express Shipping',
+    description: 'Delivers in 1-2 business days',
+    price: 3500,
+  },
+];
 
 const Cart: React.FC = () => {
   const { user } = useAuth();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [selectedShipping, setSelectedShipping] = useState(SHIPPING_OPTIONS[0].id);
   const { 
     cartItems, 
     isLoadingCart, 
@@ -20,8 +38,8 @@ const Cart: React.FC = () => {
   } = useCart();
 
   const subtotal = cartItems.reduce((sum, item) => sum + ((item.products?.price ?? 0) * item.quantity), 0);
-  const shipping = subtotal > 0 ? 15.00 : 0;
-  const total = subtotal + shipping;
+  const shippingFee = SHIPPING_OPTIONS.find(opt => opt.id === selectedShipping)?.price ?? 0;
+  const total = subtotal + shippingFee;
 
   const handleCheckout = async () => {
     if (!user) {
@@ -39,7 +57,7 @@ const Cart: React.FC = () => {
         body: { 
           amount: total, 
           email: user.email,
-          currency: 'NGN', // 🟢 Changed from 'USD' to 'NGN'
+          currency: 'NGN', // Ensure we're using Naira
         },
       });
 
@@ -188,9 +206,31 @@ const Cart: React.FC = () => {
                   <span>Subtotal:</span>
                   <span>₦{subtotal.toLocaleString("en-NG")}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Shipping:</span>
-                  <span>₦{shipping.toLocaleString("en-NG")}</span>
+                {/* SHIPPING SECTION */}
+                <div className="mb-2">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Truck className="h-5 w-5 text-accent" />
+                    <span className="font-medium">Shipping:</span>
+                  </div>
+                  <RadioGroup
+                    value={selectedShipping}
+                    onValueChange={setSelectedShipping}
+                    className="gap-2"
+                  >
+                    {SHIPPING_OPTIONS.map(option => (
+                      <label
+                        key={option.id}
+                        className={`flex items-start gap-4 cursor-pointer border rounded-lg p-3 mb-2 ${selectedShipping === option.id ? "border-primary bg-white" : "border-muted-foreground bg-transparent"} transition-colors`}
+                      >
+                        <RadioGroupItem value={option.id} className="mt-1" />
+                        <div>
+                          <div className="font-medium">{option.name}</div>
+                          <div className="text-xs text-muted-foreground">{option.description}</div>
+                          <div className="font-medium">₦{option.price.toLocaleString("en-NG")}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </RadioGroup>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between font-semibold text-lg">
@@ -222,3 +262,4 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
+
