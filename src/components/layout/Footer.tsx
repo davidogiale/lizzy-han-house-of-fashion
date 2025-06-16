@@ -55,22 +55,22 @@ const Footer: React.FC = () => {
             <h3 className="font-inter text-lg font-semibold mb-4">Shop</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/shop/dresses" className="text-gray-300 hover:text-accent transition-colors">
+                <Link to="/shop/category/dresses" className="text-gray-300 hover:text-accent transition-colors">
                   Dresses
                 </Link>
               </li>
               <li>
-                <Link to="/shop/tops" className="text-gray-300 hover:text-accent transition-colors">
+                <Link to="/shop/category/tops" className="text-gray-300 hover:text-accent transition-colors">
                   Tops
                 </Link>
               </li>
               <li>
-                <Link to="/shop/bottoms" className="text-gray-300 hover:text-accent transition-colors">
+                <Link to="/shop/category/bottoms" className="text-gray-300 hover:text-accent transition-colors">
                   Bottoms
                 </Link>
               </li>
               <li>
-                <Link to="/shop/accessories" className="text-gray-300 hover:text-accent transition-colors">
+                <Link to="/shop/category/accessories" className="text-gray-300 hover:text-accent transition-colors">
                   Accessories
                 </Link>
               </li>
