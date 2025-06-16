@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -72,16 +71,6 @@ const Footer: React.FC = () => {
               <li>
                 <Link to="/shop/category/accessories" className="text-gray-300 hover:text-accent transition-colors">
                   Accessories
-                </Link>
-              </li>
-              <li>
-                <HashLink smooth to="/#new-arrivals" className="text-gray-300 hover:text-accent transition-colors">
-                  New Arrivals
-                </HashLink>
-              </li>
-              <li>
-                <Link to="/shop/sale" className="text-gray-300 hover:text-accent transition-colors">
-                  Sale
                 </Link>
               </li>
             </ul>
