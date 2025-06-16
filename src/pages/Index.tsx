@@ -13,12 +13,7 @@ const Index = () => {
     <Layout>
       <Hero />
       <FeaturedCollections />
-      
-      {/* Add id here */}
-      <div id="new-arrivals">
-        <NewArrivalsCarousel />
-      </div>
-
+      <NewArrivalsCarousel />
       <ShopTheLook />
       <CustomerFavorites />
       {/* <InstagramFeed /> */}
