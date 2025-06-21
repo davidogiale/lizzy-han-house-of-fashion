@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { Heart } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/hooks/useCart';
@@ -23,14 +26,11 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
   const { user } = useAuth();
   const { addToCart } = useCart();
   const [isAdding, setIsAdding] = useState<string | null>(null);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   const handleAddToCart = async (productId: string) => {
     if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to add items to your cart.",
-        variant: "destructive",
-      });
+      setShowAuthDialog(true);
       return;
     }
 
@@ -110,6 +110,26 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
           <p className="text-dark">Try adjusting your filters to find what you're looking for.</p>
         </div>
       )}
+
+      {/* Authentication Required Dialog */}
+      <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Authentication Required</DialogTitle>
+            <DialogDescription>
+              You must be logged in to add items to your cart.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Button onClick={() => window.location.href = '/account'} className="w-full">
+              Go to Login
+            </Button>
+            <Button variant="outline" onClick={() => setShowAuthDialog(false)} className="w-full">
+              Continue Shopping
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
