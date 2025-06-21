@@ -140,12 +140,14 @@ const AdminDashboard = () => {
   // ----- DESKTOP LAYOUT -----
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full overflow-hidden">
         <AdminSidebar currentPage={currentPage} onPageChange={setCurrentPage} />
-        <SidebarInset>
+        <SidebarInset className="flex flex-col min-w-0 flex-1">
           <AdminHeader />
-          <main className="flex-1 p-6">
-            {renderPage()}
+          <main className="flex-1 p-6 overflow-auto">
+            <div className="max-w-full">
+              {renderPage()}
+            </div>
           </main>
         </SidebarInset>
       </div>
@@ -154,4 +156,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
