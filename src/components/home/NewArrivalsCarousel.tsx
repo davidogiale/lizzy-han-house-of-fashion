@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart, Loader2 } from 'lucide-react';
+import { ShoppingCart, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
@@ -92,12 +92,6 @@ const NewArrivalsCarousel: React.FC = () => {
                         className="w-full h-64 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       />
                     </Link>
-                    <button 
-                      className="absolute top-4 right-4 p-2 rounded-full bg-white hover:bg-accent transition-colors shadow-sm"
-                      aria-label="Add to wishlist"
-                    >
-                      <Heart size={16} />
-                    </button>
                     <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 py-3 px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
                       <div className="flex gap-2">
                         <Button 

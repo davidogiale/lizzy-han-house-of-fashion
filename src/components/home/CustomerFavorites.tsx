@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
 
 const CustomerFavorites: React.FC = () => {
@@ -58,12 +59,6 @@ const CustomerFavorites: React.FC = () => {
                     className="w-full h-64 lg:h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                 </Link>
-                <button 
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white hover:bg-accent transition-colors shadow-sm"
-                  aria-label="Add to wishlist"
-                >
-                  <Heart size={16} />
-                </button>
               </div>
               <div className="p-4">
                 <Link to={`/product/${product.id}`} className="block">

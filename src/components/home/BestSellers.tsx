@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
 
 const BestSellers: React.FC = () => {
@@ -55,12 +56,6 @@ const BestSellers: React.FC = () => {
                     className="w-full h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                 </Link>
-                <button 
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white hover:bg-accent transition-colors"
-                  aria-label="Add to wishlist"
-                >
-                  <Heart size={16} />
-                </button>
                 <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 py-3 px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
                   <button className="w-full bg-primary text-white py-2 hover:bg-primary/90 transition-colors">
                     Add to Cart
