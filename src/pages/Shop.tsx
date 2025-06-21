@@ -8,57 +8,10 @@ import ProductsGrid from '@/components/shop/ProductsGrid';
 
 type Product = Database['public']['Tables']['products']['Row'];
 
-const categories = [
-  { id: 'Dresses', name: 'Dresses' },
-  { id: 'Tops', name: 'Tops' },
-  { id: 'Bottoms', name: 'Bottoms' },
-  { id: 'Accessories', name: 'Accessories' },
-];
 
 const Shop: React.FC = () => {
   const { products, loading, error } = useProducts();
-  const [priceRange, setPriceRange] = useState<number[]>([0, 200]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<string>('newest');
   
-  const toggleCategory = (category: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    );
-  };
-  
-  const toggleStatus = (status: string) => {
-    setSelectedStatuses(prev => 
-      prev.includes(status) 
-        ? prev.filter(s => s !== status)
-        : [...prev, status]
-    );
-  };
-  
-  const filteredProducts = products.filter(product => {
-    // Filter by price range
-    if (Number(product.price) < priceRange[0] || Number(product.price) > priceRange[1]) {
-      return false;
-    }
-    // Filter by category
-    if (selectedCategories.length > 0 && !selectedCategories.includes(product.category)) {
-      return false;
-    }
-    // Filter by status
-    if (selectedStatuses.length > 0 && !selectedStatuses.includes(product.status)) {
-      return false;
-    }
-    return true;
-  });
-
-  const handlePriceChange = (value: number[]) => {
-    setPriceRange(value);
-  };
-
   if (loading) {
     return (
       <Layout>
@@ -89,17 +42,6 @@ const Shop: React.FC = () => {
       <div className="container-custom py-8">
         <h1 className="text-4xl font-playfair font-bold mb-8">Shop Collection</h1>
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* <ShopFiltersSidebar
-            mobileFiltersOpen={mobileFiltersOpen}
-            setMobileFiltersOpen={setMobileFiltersOpen}
-            priceRange={priceRange}
-            onPriceChange={handlePriceChange}
-            categories={categories}
-            selectedCategories={selectedCategories}
-            toggleCategory={toggleCategory}
-            selectedStatuses={selectedStatuses}
-            toggleStatus={toggleStatus}
-          /> */}
           <ProductsGrid
             filteredProducts={filteredProducts}
             sortBy={sortBy}
