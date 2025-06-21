@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   Carousel,
   CarouselContent,
@@ -20,14 +21,11 @@ const NewArrivalsCarousel: React.FC = () => {
   const { user } = useAuth();
   const { addToCart } = useCart();
   const [isAdding, setIsAdding] = useState<string | null>(null);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   const handleAddToCart = async (productId: string) => {
     if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to add items to your cart.",
-        variant: "destructive",
-      });
+      setShowAuthDialog(true);
       return;
     }
 
@@ -138,6 +136,26 @@ const NewArrivalsCarousel: React.FC = () => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
+
+        {/* Authentication Required Dialog */}
+        <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Authentication Required</DialogTitle>
+              <DialogDescription>
+                You must be logged in to add items to your cart.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-3">
+              <Button onClick={() => window.location.href = '/account'} className="w-full">
+                Go to Login
+              </Button>
+              <Button variant="outline" onClick={() => setShowAuthDialog(false)} className="w-full">
+                Continue Shopping
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
