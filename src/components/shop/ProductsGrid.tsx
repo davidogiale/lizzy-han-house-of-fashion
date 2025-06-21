@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Heart } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -66,16 +67,21 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="bg-white group">
+          <div key={product.id} className="bg-white group rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="relative overflow-hidden">
               <a href={`/product/${product.id}`}>
                 <img 
                   src={product.image_url || '/placeholder.svg'} 
                   alt={product.name} 
-                  className="w-full h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-64 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
               </a>
-              
+              <button 
+                className="absolute top-4 right-4 p-2 rounded-full bg-white hover:bg-accent transition-colors shadow-sm"
+                aria-label="Add to wishlist"
+              >
+                <Heart size={16} />
+              </button>
               <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 py-3 px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
                 <button
                   className="w-full bg-primary text-white py-2 hover:bg-primary/90 transition-colors disabled:opacity-50"
@@ -92,9 +98,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   {product.name}
                 </h3>
               </a>
-              <p className="text-dark font-semibold">
-                ₦{Number(product.price).toLocaleString("en-NG")}
-              </p>
+              <p className="text-dark font-semibold">₦{product.price}</p>
             </div>
           </div>
         ))}
