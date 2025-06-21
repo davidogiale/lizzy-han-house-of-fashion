@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Loader2 } from 'lucide-react';
@@ -8,9 +9,32 @@ import ProductsGrid from '@/components/shop/ProductsGrid';
 
 type Product = Database['public']['Tables']['products']['Row'];
 
-
 const Shop: React.FC = () => {
   const { products, loading, error } = useProducts();
+  const [sortBy, setSortBy] = useState('newest');
+  
+  // Apply sorting to products
+  const sortedProducts = React.useMemo(() => {
+    if (!products) return [];
+    
+    const sorted = [...products];
+    switch (sortBy) {
+      case 'price-low':
+        return sorted.sort((a, b) => Number(a.price) - Number(b.price));
+      case 'price-high':
+        return sorted.sort((a, b) => Number(b.price) - Number(a.price));
+      case 'popular':
+        // For now, just use newest since we don't have popularity data
+        return sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      case 'newest':
+      default:
+        return sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    }
+  }, [products, sortBy]);
+
+  // For now, filteredProducts is the same as sortedProducts
+  // This can be extended later with actual filtering logic
+  const filteredProducts = sortedProducts;
   
   if (loading) {
     return (
