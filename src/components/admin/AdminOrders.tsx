@@ -55,7 +55,7 @@ export function AdminOrders() {
   });
 
   return (
-    <div className="space-y-6 max-w-full">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="min-w-0 flex-1">
@@ -73,7 +73,6 @@ export function AdminOrders() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto w-full max-w-full">
         <Card className="min-w-[1000px] md:min-w-0">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
@@ -161,7 +160,6 @@ export function AdminOrders() {
             </Table>
           </CardContent>
         </Card>
-      </div>
     </div>
   );
 }
