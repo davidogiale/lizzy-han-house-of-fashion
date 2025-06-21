@@ -1,12 +1,24 @@
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Package, Users, TrendingUp } from 'lucide-react';
+import {
+  BarChart3, // <-- new icon
+  Package,
+  Users,
+  TrendingUp,
+} from "lucide-react"; // replaced DollarSign
 import { fetchAdminStats } from "./adminStats";
 
+// Update the iconMap to use BarChart3 instead of DollarSign
 const iconMap = {
-  revenue: DollarSign,
+  revenue: BarChart3,
   orders: Package,
   customers: Users,
   growth: TrendingUp,
@@ -18,7 +30,6 @@ export function AdminOverview() {
     queryFn: fetchAdminStats,
   });
 
-  // Show loading or error states
   if (isLoading) {
     return (
       <div className="flex py-12 justify-center items-center">
@@ -28,7 +39,6 @@ export function AdminOverview() {
   }
 
   if (!stats || stats.error || error) {
-    // Ensure we extract message string if stats.error is an object
     const statsErrorMessage =
       typeof stats?.error === 'object' && stats?.error !== null && 'message' in stats.error
         ? (stats.error as any).message
@@ -46,11 +56,10 @@ export function AdminOverview() {
     );
   }
 
-  // Stats to display
   const cards = [
     {
       title: "Total Revenue",
-      value: stats.allRevenue.toLocaleString('en-US', { style: "currency", currency: "USD" }),
+      value: `₦${stats.allRevenue.toLocaleString('en-NG')}`,
       change: `+${stats.revenueGrowth.toFixed(1)}% from last month`,
       icon: iconMap.revenue,
     },
@@ -69,14 +78,13 @@ export function AdminOverview() {
     {
       title: "Growth",
       value: `+${stats.revenueGrowth.toFixed(1)}%`,
-      change: `Revenue growth from last month`,
+      change: "Revenue growth from last month",
       icon: iconMap.growth,
     },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Stats Grid */}
       <div className="w-full">
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((stat) => (
@@ -96,3 +104,4 @@ export function AdminOverview() {
     </div>
   );
 }
+

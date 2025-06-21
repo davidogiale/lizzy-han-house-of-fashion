@@ -11,165 +11,49 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="font-playfair text-xl font-bold mb-4">Vogue</h3>
+            <h3 className="font-playfair text-xl font-bold mb-4">Lizzy Hans House of Fashion</h3>
             <p className="text-gray-300 mb-4">
-              Elevating women's style with our premium collection of modern, sustainable fashion that celebrates individuality and confidence.
+              Elevating personal style with our premium collection of modern, sustainable fashion for men and women — celebrating individuality and confidence.
             </p>
             <div className="flex space-x-4">
-              <a
-                href="https://facebook.com/example"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                title="Visit us on Facebook"
-                className="text-white hover:text-accent transition-colors"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="https://instagram.com/example"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                title="Visit us on Instagram"
-                className="text-white hover:text-accent transition-colors"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="https://twitter.com/example"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-                title="Visit us on Twitter"
-                className="text-white hover:text-accent transition-colors"
-              >
-                <Twitter size={20} />
+              <a href="https://www.instagram.com/Lizzyhanhouseoffashion/" target="_blank" rel="noopener noreferrer">
+                <Instagram className="text-gray-300 hover:text-white" />
               </a>
             </div>
           </div>
 
-          {/* Shop */}
+          {/* Customer Service Links */}
           <div>
-            <h3 className="font-inter text-lg font-semibold mb-4">Shop</h3>
-            <ul className="space-y-2">
+            <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
+            <ul className="space-y-2 text-gray-300">
               <li>
-                <Link to="/shop/category/dresses" className="text-gray-300 hover:text-accent transition-colors">
-                  Dresses
-                </Link>
+                <Link to="./shipping-and-returns" className="hover:text-white transition-colors">Shipping & Returns</Link>
               </li>
               <li>
-                <Link to="/shop/category/tops" className="text-gray-300 hover:text-accent transition-colors">
-                  Tops
-                </Link>
+                <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
               </li>
               <li>
-                <Link to="/shop/category/bottoms" className="text-gray-300 hover:text-accent transition-colors">
-                  Bottoms
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop/category/accessories" className="text-gray-300 hover:text-accent transition-colors">
-                  Accessories
-                </Link>
+                <Link to="/terms-and-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Optional: Add more columns like Contact Info, Newsletter, etc. */}
           <div>
-            <h3 className="font-inter text-lg font-semibold mb-4">Customer Service</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/contact" className="text-gray-300 hover:text-accent transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/faqs" className="text-gray-300 hover:text-accent transition-colors">
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link to="/shipping" className="text-gray-300 hover:text-accent transition-colors">
-                  Shipping & Returns
-                </Link>
-              </li>
-              <li>
-                <Link to="/size-guide" className="text-gray-300 hover:text-accent transition-colors">
-                  Size Guide
-                </Link>
-              </li>
-            </ul>
+            <h4 className="text-lg font-semibold mb-4">Contact</h4>
+            <p className="text-gray-300">Email: egovincent06@gmail.com</p>
+            <p className="text-gray-300">Phone: +234 8067526146</p>
           </div>
 
-          {/* Policies */}
           <div>
-            <h3 className="font-inter text-lg font-semibold mb-4">Policies</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/privacy-policy" className="text-gray-300 hover:text-accent transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-gray-300 hover:text-accent transition-colors">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link to="/return-policy" className="text-gray-300 hover:text-accent transition-colors">
-                  Return Policy
-                </Link>
-              </li>
-            </ul>
+            <h4 className="text-lg font-semibold mb-4">Stay Updated</h4>
+            <p className="text-gray-300 mb-2">Get the latest news and exclusive offers.</p>
+            {/* You can later add a newsletter form here */}
           </div>
         </div>
 
-        {/* Payment & Copyright */}
-        <div className="mt-12 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <p
-              className="text-sm text-gray-400 select-all"
-              tabIndex={0}
-              title="Copyright - select to copy"
-            >
-              &copy; {currentYear} Vogue Women's Fashion. All rights reserved.
-            </p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-400">We accept:</span>
-            <div className="flex space-x-2">
-              <div
-                className="bg-white h-6 w-10 rounded flex items-center justify-center"
-                aria-label="VISA"
-                title="VISA"
-              >
-                <span className="text-xs text-primary font-bold">VISA</span>
-              </div>
-              <div
-                className="bg-white h-6 w-10 rounded flex items-center justify-center"
-                aria-label="MasterCard"
-                title="MasterCard"
-              >
-                <span className="text-xs text-primary font-bold">MC</span>
-              </div>
-              <div
-                className="bg-white h-6 w-10 rounded flex items-center justify-center"
-                aria-label="American Express"
-                title="American Express"
-              >
-                <span className="text-xs text-primary font-bold">AMEX</span>
-              </div>
-              <div
-                className="bg-white h-6 w-10 rounded flex items-center justify-center"
-                aria-label="PayPal"
-                title="PayPal"
-              >
-                <span className="text-xs text-primary font-bold">PP</span>
-              </div>
-            </div>
-          </div>
+        <div className="text-center mt-12 text-gray-400 text-sm">
+          &copy; {currentYear} Lizzy Hans House of Fashion. All rights reserved.
         </div>
       </div>
     </footer>
@@ -177,3 +61,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+

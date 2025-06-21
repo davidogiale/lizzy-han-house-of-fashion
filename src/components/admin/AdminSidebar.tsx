@@ -34,12 +34,7 @@ const menuItems = [
     icon: Users,
     href: "customers",
   },
-  {
-    title: "Settings",
-    icon: Settings,
-    href: "settings",
-  },
-];
+ ];
 
 interface AdminSidebarProps {
   currentPage: string;

@@ -140,7 +140,7 @@ export function AdminProducts() {
                         </div>
                       </TableCell>
                       <TableCell>{product.category}</TableCell>
-                      <TableCell>${product.price}</TableCell>
+                      <TableCell>₦{product.price}</TableCell>
                       <TableCell>{product.stock}</TableCell>
                       <TableCell>
                         <Tooltip>

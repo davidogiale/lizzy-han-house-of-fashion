@@ -29,7 +29,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="font-playfair text-2xl font-bold">
-            Vogue
+           Lizzy Hans House of Fashion      
           </Link>
 
           {/* Mobile Menu Button */}
