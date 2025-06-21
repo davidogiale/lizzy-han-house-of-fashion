@@ -70,7 +70,7 @@ const AdminDashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => window.location.href = '/'} className="w-full">
+            <Button onClick={() => window.location.href = '/Account'} className="w-full">
               Go to Login
             </Button>
           </CardContent>
