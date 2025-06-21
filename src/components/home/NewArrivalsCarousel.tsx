@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Loader2 } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
@@ -14,7 +14,7 @@ import {
 import { useProducts } from '@/hooks/useProducts';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/hooks/useCart';
-import { toast } from '@/hooks/use-toast';
+import NewArrivalsCarouselSkeleton from './skeletons/NewArrivalsCarouselSkeleton';
 
 const NewArrivalsCarousel: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -40,15 +40,7 @@ const NewArrivalsCarousel: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <section className="py-16 bg-muted">
-        <div className="container-custom">
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        </div>
-      </section>
-    );
+    return <NewArrivalsCarouselSkeleton />;
   }
 
   if (error) {
@@ -101,7 +93,7 @@ const NewArrivalsCarousel: React.FC = () => {
                           disabled={isAdding === product.id}
                         >
                           {isAdding === product.id ? (
-                            <Loader2 className="animate-spin" />
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                           ) : (
                             <ShoppingCart size={14} />
                           )}

@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
+import CustomerFavoritesSkeleton from './skeletons/CustomerFavoritesSkeleton';
 
 const CustomerFavorites: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -11,15 +11,7 @@ const CustomerFavorites: React.FC = () => {
   const favorites = products.slice(1, 7);
 
   if (loading) {
-    return (
-      <section className="py-16 bg-white">
-        <div className="container-custom">
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        </div>
-      </section>
-    );
+    return <CustomerFavoritesSkeleton />;
   }
 
   if (error) {

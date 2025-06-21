@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
 import { useProducts } from '@/hooks/useProducts';
+import BestSellersSkeleton from './skeletons/BestSellersSkeleton';
 
 const BestSellers: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -11,15 +11,7 @@ const BestSellers: React.FC = () => {
   const bestSellers = products.slice(0, 4);
 
   if (loading) {
-    return (
-      <section className="py-16 bg-muted">
-        <div className="container-custom">
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        </div>
-      </section>
-    );
+    return <BestSellersSkeleton />;
   }
 
   if (error) {
