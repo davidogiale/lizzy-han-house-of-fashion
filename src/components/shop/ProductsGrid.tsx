@@ -5,6 +5,7 @@ import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/hooks/useCart';
 import { toast } from '@/hooks/use-toast';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Product = Database['public']['Tables']['products']['Row'];
 
@@ -25,13 +26,24 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
 
   const handleAddToCart = async (productId: string) => {
     if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to add items to your cart.",
-        variant: "destructive",
-      });
-      return;
-    }
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Login to purchase Required</CardTitle>
+            <CardDescription>
+              You must be logged in to access the cart.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => window.location.href = '/'} className="w-full">
+              Go to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
     setIsAdding(productId);
     try {
