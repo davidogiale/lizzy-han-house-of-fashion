@@ -16,6 +16,7 @@ import { useCart } from '@/hooks/useCart';
 
 const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { cartCount } = useCart();
 
@@ -84,7 +85,82 @@ const Header: React.FC = () => {
               )}
             </Link>
           </div>
+
+          {/* Tablet Hamburger Menu Button */}
+          <button
+            className="md:flex lg:hidden text-primary hover:text-accent transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Tablet Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:block lg:hidden mt-4 py-4 border-t border-gray-200">
+            <nav className="flex flex-col space-y-4">
+              <Link 
+                to="/shop" 
+                className="text-primary hover:text-accent transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Shop
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-primary hover:text-accent transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <button 
+                className="text-primary hover:text-accent transition-colors text-left"
+                onClick={() => {
+                  setIsSearchOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                Search
+              </button>
+              <Link 
+                to="/cart" 
+                className="text-primary hover:text-accent transition-colors flex items-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <ShoppingCart size={20} className="mr-2" />
+                Cart {cartCount > 0 && `(${cartCount})`}
+              </Link>
+              {user ? (
+                <>
+                  <Link 
+                    to="/account" 
+                    className="text-primary hover:text-accent transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    My Account
+                  </Link>
+                  <button 
+                    className="text-primary hover:text-accent transition-colors text-left"
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link 
+                  to="/account" 
+                  className="text-primary hover:text-accent transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Account
+                </Link>
+              )}
+            </nav>
+          </div>
+        )}
       </div>
       
       <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
