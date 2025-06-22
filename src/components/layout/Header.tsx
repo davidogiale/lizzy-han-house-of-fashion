@@ -86,9 +86,9 @@ const Header: React.FC = () => {
             </Link>
           </div>
 
-          {/* Tablet Hamburger Menu Button */}
+          {/* Tablet Hamburger Menu Button - Hidden on mobile, shown on tablet only */}
           <button
-            className="md:flex lg:hidden text-primary hover:text-accent transition-colors"
+            className="hidden md:flex lg:hidden text-primary hover:text-accent transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
