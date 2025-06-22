@@ -5,20 +5,30 @@ import Layout from '@/components/layout/Layout';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import ProductsGrid from '@/components/shop/ProductsGrid';
-import { Loader2, SearchX } from 'lucide-react';
+import { Loader2, SearchX, Search as SearchIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Product = Database['public']['Tables']['products']['Row'];
 
 const Search: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const query = searchParams.get('q');
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>('newest');
+  const [searchInput, setSearchInput] = useState(query || '');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmedQuery = searchInput.trim();
+    if (trimmedQuery) {
+      setSearchParams({ q: trimmedQuery });
+    }
+  };
 
   useEffect(() => {
     if (!query) {
@@ -78,17 +88,6 @@ const Search: React.FC = () => {
       </Layout>
     );
   }
-  
-  if (!query) {
-    return (
-      <Layout>
-        <div className="container-custom py-16 text-center pb-24 md:pb-16">
-            <h1 className="text-2xl font-bold mb-4">Search for products</h1>
-            <p className="text-muted-foreground">Enter a term in the search bar to find what you're looking for.</p>
-        </div>
-      </Layout>
-    )
-  }
 
   if (error) {
     return (
@@ -101,36 +100,52 @@ const Search: React.FC = () => {
     );
   }
 
-  if (products.length === 0) {
-    return (
-        <Layout>
-            <div className="container-custom py-16 text-center pb-24 md:pb-16">
-                <SearchX size={64} className="mx-auto text-muted-foreground mb-4" />
-                <h1 className="text-3xl font-playfair font-bold mb-4">No results for "{query}"</h1>
-                <p className="text-dark text-lg mb-8">
-                    We couldn't find any products matching your search. Try searching for something else.
-                </p>
-                <Link to="/shop">
-                    <Button className="btn-primary">
-                        Browse Collection
-                    </Button>
-                </Link>
-            </div>
-        </Layout>
-    );
-  }
-
   return (
     <Layout>
       <div className="container-custom py-8 pb-24 md:pb-8">
-        <h1 className="text-4xl font-playfair font-bold mb-2">Search Results</h1>
-        <p className="text-muted-foreground mb-8">Found {products.length} products for "{query}".</p>
+        <h1 className="text-4xl font-playfair font-bold mb-6">Search</h1>
+        
+        {/* Search Input */}
+        <form onSubmit={handleSearch} className="mb-8">
+          <div className="relative">
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Input
+              type="text"
+              placeholder="Search for sweaters, cardigans..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="pl-10 h-12 text-base"
+            />
+          </div>
+        </form>
 
-        <ProductsGrid
-          filteredProducts={sortedProducts}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
+        {!query ? (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground">Enter a search term to find products.</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-16">
+            <SearchX size={64} className="mx-auto text-muted-foreground mb-4" />
+            <h2 className="text-3xl font-playfair font-bold mb-4">No results for "{query}"</h2>
+            <p className="text-dark text-lg mb-8">
+              We couldn't find any products matching your search. Try searching for something else.
+            </p>
+            <Link to="/shop">
+              <Button className="btn-primary">
+                Browse Collection
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <>
+            <p className="text-muted-foreground mb-8">Found {products.length} products for "{query}".</p>
+            <ProductsGrid
+              filteredProducts={sortedProducts}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+            />
+          </>
+        )}
       </div>
     </Layout>
   );
