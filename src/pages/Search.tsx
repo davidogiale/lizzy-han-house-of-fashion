@@ -82,7 +82,7 @@ const Search: React.FC = () => {
   if (!query) {
     return (
       <Layout>
-        <div className="container-custom py-16 text-center">
+        <div className="container-custom py-16 text-center pb-24 md:pb-16">
             <h1 className="text-2xl font-bold mb-4">Search for products</h1>
             <p className="text-muted-foreground">Enter a term in the search bar to find what you're looking for.</p>
         </div>
@@ -93,7 +93,7 @@ const Search: React.FC = () => {
   if (error) {
     return (
       <Layout>
-        <div className="container-custom py-16 text-center">
+        <div className="container-custom py-16 text-center pb-24 md:pb-16">
           <h3 className="text-lg font-semibold mb-2 text-destructive">Error searching for products</h3>
           <p className="text-muted-foreground">{error}</p>
         </div>
@@ -104,7 +104,7 @@ const Search: React.FC = () => {
   if (products.length === 0) {
     return (
         <Layout>
-            <div className="container-custom py-16 text-center">
+            <div className="container-custom py-16 text-center pb-24 md:pb-16">
                 <SearchX size={64} className="mx-auto text-muted-foreground mb-4" />
                 <h1 className="text-3xl font-playfair font-bold mb-4">No results for "{query}"</h1>
                 <p className="text-dark text-lg mb-8">
@@ -122,7 +122,7 @@ const Search: React.FC = () => {
 
   return (
     <Layout>
-      <div className="container-custom py-8">
+      <div className="container-custom py-8 pb-24 md:pb-8">
         <h1 className="text-4xl font-playfair font-bold mb-2">Search Results</h1>
         <p className="text-muted-foreground mb-8">Found {products.length} products for "{query}".</p>
 

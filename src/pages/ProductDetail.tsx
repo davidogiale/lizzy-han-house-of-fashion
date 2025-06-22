@@ -111,7 +111,7 @@ const ProductDetail: React.FC = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="container-custom py-8 flex justify-center items-center h-[60vh]">
+        <div className="container-custom py-8 flex justify-center items-center h-[60vh] pb-24 md:pb-8">
           <Loader2 className="h-16 w-16 animate-spin text-primary" />
         </div>
       </Layout>
@@ -121,7 +121,7 @@ const ProductDetail: React.FC = () => {
   if (error || !product) {
     return (
       <Layout>
-        <div className="container-custom py-8 text-center">
+        <div className="container-custom py-8 text-center pb-24 md:pb-8">
           <h2 className="text-2xl font-bold mb-4 text-destructive">Product Not Found</h2>
           <p className="text-muted-foreground mb-6">{error || "The product you're looking for doesn't exist."}</p>
           <Link to="/shop">
@@ -134,7 +134,7 @@ const ProductDetail: React.FC = () => {
 
   return (
     <Layout>
-      <div className="container-custom py-8">
+      <div className="container-custom py-8 pb-24 md:pb-8">
         {/* Breadcrumbs */}
         <div className="flex items-center text-sm mb-8">
           <Link to="/" className="text-dark hover:text-accent transition-colors">

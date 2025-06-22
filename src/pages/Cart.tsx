@@ -121,7 +121,7 @@ const Cart: React.FC = () => {
   if (isLoadingCart) {
     return (
       <Layout>
-        <div className="container-custom py-16 flex justify-center items-center h-[60vh]">
+        <div className="container-custom py-16 flex justify-center items-center h-[60vh] pb-24 md:pb-16">
           <Loader2 className="h-16 w-16 animate-spin text-primary" />
         </div>
       </Layout>
@@ -131,7 +131,7 @@ const Cart: React.FC = () => {
   if (cartError) {
     return (
       <Layout>
-        <div className="container-custom py-16 text-center">
+        <div className="container-custom py-16 text-center pb-24 md:pb-16">
           <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading cart</h3>
           <p className="text-muted-foreground">{cartError.message}</p>
         </div>
@@ -142,7 +142,7 @@ const Cart: React.FC = () => {
   if (!user) {
     return (
       <Layout>
-        <div className="container-custom py-16 text-center">
+        <div className="container-custom py-16 text-center pb-24 md:pb-16">
             <ShoppingBag size={64} className="mx-auto text-muted-foreground mb-4" />
             <h2 className="text-xl font-semibold mb-2">Log in to view your cart</h2>
             <p className="text-muted-foreground mb-6">
@@ -158,7 +158,7 @@ const Cart: React.FC = () => {
 
   return (
     <Layout>
-      <div className="container-custom py-16">
+      <div className="container-custom py-16 pb-24 md:pb-16">
         <h1 className="text-3xl font-playfair font-bold mb-8">Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <div className="text-center py-16">

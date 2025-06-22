@@ -168,7 +168,7 @@ const Account: React.FC = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="container-custom py-16 text-center">
+        <div className="container-custom py-16 text-center pb-24 md:pb-16">
           <Loader2 className="h-8 w-8 animate-spin mx-auto" />
           <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
@@ -179,7 +179,7 @@ const Account: React.FC = () => {
   if (user) {
     return (
       <Layout>
-        <div className="container-custom py-16">
+        <div className="container-custom py-16 pb-24 md:pb-16">
           <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-playfair font-bold">My Account</h1>
@@ -235,7 +235,7 @@ const Account: React.FC = () => {
 
   return (
     <Layout>
-      <div className="container-custom py-16">
+      <div className="container-custom py-16 pb-24 md:pb-16">
         <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-sm border">
           <h1 className="text-2xl font-playfair font-bold text-center mb-6">
             {isLogin ? 'Welcome Back' : 'Create Account'}

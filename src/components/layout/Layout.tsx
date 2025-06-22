@@ -2,6 +2,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import BottomNavigation from './BottomNavigation';
 import { Toaster } from "@/components/ui/toaster";
 import { useLocation } from 'react-router-dom';
 
@@ -12,9 +13,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   
-  // Pages that should hide footer on mobile (when bottom nav is shown)
+  // Pages that should show bottom navigation and hide footer on mobile
   const pagesWithBottomNav = ['/shop', '/search', '/cart', '/account'];
-  const shouldHideFooterOnMobile = pagesWithBottomNav.includes(location.pathname);
+  const isProductPage = location.pathname.startsWith('/product/');
+  const shouldShowBottomNav = pagesWithBottomNav.includes(location.pathname) || isProductPage;
+  const shouldHideFooterOnMobile = shouldShowBottomNav;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -25,6 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className={shouldHideFooterOnMobile ? 'hidden md:block' : ''}>
         <Footer />
       </div>
+      {shouldShowBottomNav && <BottomNavigation />}
       <Toaster />
     </div>
   );
