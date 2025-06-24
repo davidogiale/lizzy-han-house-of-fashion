@@ -7,25 +7,21 @@ import { AdminOverview } from "@/components/admin/AdminOverview";
 import { AdminOrders } from "@/components/admin/AdminOrders";
 import { AdminProducts } from "@/components/admin/AdminProducts";
 import { AdminCustomers } from "@/components/admin/AdminCustomers";
-import { AdminSettings } from "@/components/admin/AdminSettings";
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
-import { Menu } from 'lucide-react';
+import { BarChart3, Package, Users, ShoppingCart } from 'lucide-react';
 
 const ADMIN_SECTIONS = [
-  { value: 'overview', label: 'Overview' },
-  { value: 'orders', label: 'Orders' },
-  { value: 'products', label: 'Products' },
-  { value: 'customers', label: 'Customers' },
-  { value: 'settings', label: 'Settings' },
+  { value: 'overview', label: 'Overview', icon: BarChart3 },
+  { value: 'orders', label: 'Orders', icon: ShoppingCart },
+  { value: 'products', label: 'Products', icon: Package },
+  { value: 'customers', label: 'Customers', icon: Users },
 ];
 
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
   const isMobile = useIsMobile();
 
@@ -39,8 +35,6 @@ const AdminDashboard = () => {
         return <AdminProducts />;
       case 'customers':
         return <AdminCustomers />;
-      case 'settings':
-        return <AdminSettings />;
       default:
         return <AdminOverview />;
     }
@@ -84,55 +78,48 @@ const AdminDashboard = () => {
     const currentSection = ADMIN_SECTIONS.find(sec => sec.value === currentPage);
 
     return (
-      <div className="min-h-screen w-full bg-background">
+      <div className="min-h-screen w-full bg-background pb-20">
         {/* Mobile Header */}
-        <header className="sticky top-0 z-40 bg-background shadow-sm flex items-center justify-between px-4 py-2">
-          <button
-            className="flex items-center justify-center p-2 -ml-2"
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open navigation menu"
-            type="button"
-          >
-            <Menu size={28} />
-          </button>
+        <header className="sticky top-0 z-40 bg-background shadow-sm flex items-center justify-center px-4 py-4">
           <span className="font-bold text-lg truncate">
-            {currentSection?.label ?? ""}
+            {currentSection?.label ?? "Admin Dashboard"}
           </span>
-          <div className="w-8" /> {/* placeholder for menu alignment */}
         </header>
-        {/* Drawer Menu */}
-        <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
-          <DrawerContent className="p-0">
-            <DrawerHeader>
-              <DrawerTitle>Admin Sections</DrawerTitle>
-            </DrawerHeader>
-            <nav className="flex flex-col gap-1 p-4">
-              {ADMIN_SECTIONS.map((section) => (
-                <button
-                  key={section.value}
-                  className={`text-left rounded px-3 py-3 font-medium text-base transition-colors ${
-                    section.value === currentPage
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
-                  }`}
-                  onClick={() => {
-                    setCurrentPage(section.value);
-                    setDrawerOpen(false);
-                  }}
-                >
-                  {section.label}
-                </button>
-              ))}
-            </nav>
-            <div className="flex justify-end p-4">
-              <DrawerClose asChild>
-                <Button variant="outline">Close</Button>
-              </DrawerClose>
-            </div>
-          </DrawerContent>
-        </Drawer>
+        
         {/* Content */}
         <main className="p-3 pb-8">{renderPage()}</main>
+        
+        {/* Bottom Navigation */}
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+          <div className="flex items-center justify-around py-2">
+            {ADMIN_SECTIONS.map((section) => {
+              const Icon = section.icon;
+              const isActive = currentPage === section.value;
+              
+              return (
+                <button
+                  key={section.value}
+                  className="flex flex-col items-center justify-center py-2 px-3"
+                  onClick={() => setCurrentPage(section.value)}
+                >
+                  <Icon 
+                    size={24} 
+                    className={`${
+                      isActive ? 'text-primary' : 'text-gray-600'
+                    } transition-colors`}
+                  />
+                  <span 
+                    className={`text-xs mt-1 ${
+                      isActive ? 'text-primary font-medium' : 'text-gray-600'
+                    } transition-colors`}
+                  >
+                    {section.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
       </div>
     );
   }
