@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden bg-background">
+    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#CFBBB0' }}>
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content */}
@@ -82,4 +82,3 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
-
