@@ -30,7 +30,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="font-playfair text-2xl font-bold">
-           Lizzy Hans House of Fashion      
+           Lizzy Han House of Fashion      
           </Link>
 
           {/* Desktop Navigation */}
