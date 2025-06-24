@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,18 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Eye, Download } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Eye, Download, Calendar, User, MapPin, Phone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { OrderDetailsDialog } from "./OrderDetailsDialog";
 
 type Order = {
   id: string;
@@ -45,6 +40,9 @@ async function fetchOrders(): Promise<Order[]> {
 }
 
 export function AdminOrders() {
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const {
     data: orders,
     isLoading,
@@ -53,6 +51,11 @@ export function AdminOrders() {
     queryKey: ["admin-orders"],
     queryFn: fetchOrders,
   });
+
+  const handleOrderClick = (order: Order) => {
+    setSelectedOrder(order);
+    setDialogOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -72,94 +75,106 @@ export function AdminOrders() {
         </div>
       </div>
 
-      {/* Table */}
-        <Card className="min-w-[1000px] md:min-w-0">
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>
-              {isLoading
-                ? "Loading..."
-                : isError
-                ? "Error loading orders"
-                : (orders?.length ?? 0) + " total orders"}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[140px]">Order ID</TableHead>
-                  <TableHead className="w-[140px]">User ID</TableHead>
-                  <TableHead className="w-[150px]">Date</TableHead>
-                  <TableHead className="w-[100px]">Total</TableHead>
-                  <TableHead className="w-[150px]">Shipping Name</TableHead>
-                  <TableHead className="w-[200px]">Shipping Address</TableHead>
-                  <TableHead className="w-[100px]">Postal Code</TableHead>
-                  <TableHead className="w-[80px]">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading || isError ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center">
-                      {isLoading
-                        ? "Loading orders..."
-                        : "Could not load orders. Please try again."}
-                    </TableCell>
-                  </TableRow>
-                ) : orders && orders.length > 0 ? (
-                  orders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="truncate font-medium">
-                        {order.id}
-                      </TableCell>
-                      <TableCell className="truncate">
-                        {order.user_id}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(order.created_at).toLocaleDateString()}{" "}
-                        {new Date(order.created_at).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {order.total.toLocaleString("en-NG", {
-                          style: "currency",
-                          currency: "NGN",
-                        })}
-                      </TableCell>
-                      <TableCell>{order.shipping_address_full_name}</TableCell>
-                      <TableCell>
-                        <div className="whitespace-pre-line">
-                          {order.shipping_address_line}
-                          {"\n"}
-                          {order.shipping_address_city},{" "}
-                          {order.shipping_address_state}
-                          {"\n"}
-                          {order.shipping_address_phone}
-                        </div>
-                      </TableCell>
-                      <TableCell>{order.shipping_address_postal_code}</TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                          <span className="sr-only">View order</span>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center">
-                      No orders found.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+      {/* Orders Grid */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold">Recent Orders</h3>
+          <p className="text-sm text-muted-foreground">
+            {isLoading
+              ? "Loading..."
+              : isError
+              ? "Error loading orders"
+              : (orders?.length ?? 0) + " total orders"}
+          </p>
+        </div>
+
+        {isLoading ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <div className="h-4 bg-muted rounded w-3/4"></div>
+                    <div className="h-3 bg-muted rounded w-1/2"></div>
+                    <div className="h-3 bg-muted rounded w-2/3"></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : isError ? (
+          <Card>
+            <CardContent className="p-6 text-center text-destructive">
+              Could not load orders. Please try again.
+            </CardContent>
+          </Card>
+        ) : orders && orders.length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {orders.map((order) => (
+              <Card 
+                key={order.id} 
+                className="cursor-pointer hover:shadow-md transition-shadow"
+                onClick={() => handleOrderClick(order)}
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-sm font-mono truncate">
+                      #{order.id.slice(-8)}
+                    </CardTitle>
+                    <Badge variant="outline" className="text-xs">
+                      {order.status}
+                    </Badge>
+                  </div>
+                  <CardDescription className="text-lg font-semibold text-foreground">
+                    {order.total.toLocaleString("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
+                    })}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <User className="h-4 w-4" />
+                      <span className="truncate">{order.shipping_address_full_name}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span className="truncate">
+                        {order.shipping_address_city}, {order.shipping_address_state}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Calendar className="h-4 w-4" />
+                      <span>
+                        {new Date(order.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-4 pt-3 border-t">
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <Card>
+            <CardContent className="p-6 text-center text-muted-foreground">
+              No orders found.
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      <OrderDetailsDialog 
+        order={selectedOrder}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
     </div>
   );
 }
