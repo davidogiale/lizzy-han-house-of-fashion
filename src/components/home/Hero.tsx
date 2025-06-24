@@ -5,16 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#CFBBB0' }}>
-      {/* Floating logo */}
-      <div className="absolute top-8 right-8 z-10 animate-bounce">
-        <img 
-          src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
-          alt="Lizzy Hans Logo" 
-          className="w-20 h-20 opacity-80 animate-pulse"
-        />
-      </div>
-      
+    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#D4B895' }}>
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content */}
@@ -34,37 +25,19 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right side - Image grid */}
-          <div className="hidden lg:grid grid-cols-2 gap-4 h-96">
-            <div className="space-y-4">
-              <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg h-32 flex items-center justify-center">
+          {/* Right side - Large floating logo in flower shape */}
+          <div className="hidden lg:flex justify-center items-center">
+            <div className="animate-bounce">
+              <div 
+                className="w-80 h-80 animate-pulse flex items-center justify-center"
+                style={{
+                  clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+                }}
+              >
                 <img 
-                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/DB35CB1F1F74EDF76ADDD1796CE3E91E/21159802_ce59f5fb-72ef-45df-b7ae-c83f5c52b4d8.jpg" 
-                  alt="Women's Outfit" 
-                  className="w-full h-full object-cover object-[90%] rounded-lg"
-                />
-              </div>
-              <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg h-56 flex items-center justify-center">
-                <img 
-                  src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=669&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Men's Jacket" 
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg h-56 flex items-center justify-center">
-                <img 
-                  src="https://fg-image.fashiongo.net/Vendors/hvghazox0w/ProductImage/large/44E761E6AF3B0E59A26BAF60243D6286/21846599_3ecb1cd6-a445-4338-9cbe-c05aa5d8713f.jpg" 
-                  alt="Women's Dress" 
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-              <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg h-32 flex items-center justify-center">
-                <img 
-                  src="https://images.unsplash.com/photo-1675877879221-871aa9f7c314?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Men's Streetwear" 
-                  className="w-full h-full object-cover object-[90%] rounded-lg"
+                  src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
+                  alt="Lizzy Hans Logo" 
+                  className="w-full h-full object-cover opacity-100"
                 />
               </div>
             </div>
@@ -73,18 +46,20 @@ const Hero: React.FC = () => {
       </div>
       
       {/* Mobile image section */}
-      <div className="lg:hidden mt-8 px-4">
-        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-          <img 
-            src="https://images.unsplash.com/photo-1536766768597-16839e7e7d0e" 
-            alt="Men's Style" 
-            className="w-full h-32 object-cover rounded-lg"
-          />
-          <img 
-            src="https://images.unsplash.com/photo-1542060748-10c28b62716f" 
-            alt="Women's Style" 
-            className="w-full h-32 object-cover rounded-lg"
-          />
+      <div className="lg:hidden mt-8 px-4 flex justify-center">
+        <div className="animate-bounce">
+          <div 
+            className="w-40 h-40 animate-pulse flex items-center justify-center"
+            style={{
+              clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+            }}
+          >
+            <img 
+              src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
+              alt="Lizzy Hans Logo" 
+              className="w-full h-full object-cover opacity-100"
+            />
+          </div>
         </div>
       </div>
     </div>
