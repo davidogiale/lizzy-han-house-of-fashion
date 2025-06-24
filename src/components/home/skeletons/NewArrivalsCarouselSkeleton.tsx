@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const NewArrivalsCarouselSkeleton: React.FC = () => {
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom">
         <div className="flex justify-between items-center mb-8">
           <Skeleton className="h-9 w-48" />

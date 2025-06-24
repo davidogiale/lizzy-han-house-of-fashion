@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const CustomerFavoritesSkeleton: React.FC = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom">
         <div className="text-center mb-12">
           <Skeleton className="h-9 w-64 mx-auto mb-4" />

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -37,7 +38,7 @@ const collections: Collection[] = [
 
 const FeaturedCollections: React.FC = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom">
         <h2 className="text-3xl font-playfair font-bold text-center mb-12">Shop by Category</h2>
         

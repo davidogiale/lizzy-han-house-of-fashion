@@ -16,7 +16,7 @@ const CustomerFavorites: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-16 bg-white">
+      <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
         <div className="container-custom">
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
@@ -28,7 +28,7 @@ const CustomerFavorites: React.FC = () => {
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-playfair font-bold mb-4">Customer Favorites</h2>

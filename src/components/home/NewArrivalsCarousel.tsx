@@ -45,7 +45,7 @@ const NewArrivalsCarousel: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-16 bg-muted">
+      <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
         <div className="container-custom">
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
@@ -57,7 +57,7 @@ const NewArrivalsCarousel: React.FC = () => {
   }
 
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-playfair font-bold">New Arrivals</h2>
