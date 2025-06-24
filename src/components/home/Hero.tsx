@@ -34,8 +34,8 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right side - Single product image */}
-          <div className="flex justify-center lg:justify-end">
+          {/* Right side - Single product image (hidden on tablet and mobile) */}
+          <div className="hidden lg:flex justify-center lg:justify-end">
             <img 
               src="/lovable-uploads/a57170ea-7321-47af-b1a7-dc64f6d7ee3d.png" 
               alt="Featured Product" 
