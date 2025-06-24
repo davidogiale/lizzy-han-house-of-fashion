@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
           {/* Left side - Text content with logo */}
           <div className="text-center lg:text-left">
             {/* Logo */}
-            <div className="flex justify-center lg:justify-start mb-10">
+            <div className="flex justify-center lg:justify-start mb-6">
               <img 
                 src="/lovable-uploads/e31a658b-c8be-4ac9-a826-aa9eea4a9b70.png" 
                 alt="Lizzy Hans House of Fashion Logo" 
