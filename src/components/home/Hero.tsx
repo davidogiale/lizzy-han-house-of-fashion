@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
   return (
     <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full lg:pt-8">
           {/* Left side - Text content with logo */}
           <div className="text-center lg:text-left">
             {/* Logo */}
