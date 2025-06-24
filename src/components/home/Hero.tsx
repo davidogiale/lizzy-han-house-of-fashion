@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#D4B895' }}>
+    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#CFBBB0' }}>
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content */}
@@ -25,19 +25,31 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right side - Large floating logo in flower shape */}
-          <div className="hidden lg:flex justify-center items-center">
-            <div className="animate-bounce">
-              <div 
-                className="w-80 h-80 animate-pulse flex items-center justify-center"
-                style={{
-                  clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-                }}
-              >
+          {/* Right side - Image grid */}
+          <div className="hidden lg:block">
+            <div className="grid grid-cols-2 gap-4 h-96">
+              <div className="space-y-4">
                 <img 
-                  src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
-                  alt="Lizzy Hans Logo" 
-                  className="w-full h-full object-cover opacity-100"
+                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=240&fit=crop" 
+                  alt="Fashion style 1" 
+                  className="w-full h-40 object-cover rounded-lg hover-scale"
+                />
+                <img 
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop" 
+                  alt="Fashion style 2" 
+                  className="w-full h-32 object-cover rounded-lg hover-scale"
+                />
+              </div>
+              <div className="space-y-4 mt-8">
+                <img 
+                  src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop" 
+                  alt="Fashion style 3" 
+                  className="w-full h-32 object-cover rounded-lg hover-scale"
+                />
+                <img 
+                  src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=240&fit=crop" 
+                  alt="Fashion style 4" 
+                  className="w-full h-40 object-cover rounded-lg hover-scale"
                 />
               </div>
             </div>
@@ -46,20 +58,18 @@ const Hero: React.FC = () => {
       </div>
       
       {/* Mobile image section */}
-      <div className="lg:hidden mt-8 px-4 flex justify-center">
-        <div className="animate-bounce">
-          <div 
-            className="w-40 h-40 animate-pulse flex items-center justify-center"
-            style={{
-              clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-            }}
-          >
-            <img 
-              src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
-              alt="Lizzy Hans Logo" 
-              className="w-full h-full object-cover opacity-100"
-            />
-          </div>
+      <div className="lg:hidden mt-8 px-4">
+        <div className="grid grid-cols-2 gap-3">
+          <img 
+            src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=300&h=200&fit=crop" 
+            alt="Fashion style 1" 
+            className="w-full h-32 object-cover rounded-lg"
+          />
+          <img 
+            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&h=200&fit=crop" 
+            alt="Fashion style 2" 
+            className="w-full h-32 object-cover rounded-lg"
+          />
         </div>
       </div>
     </div>
