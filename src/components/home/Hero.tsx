@@ -34,51 +34,14 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right side - Image grid */}
-          <div className="hidden lg:block">
-            <div className="grid grid-cols-2 gap-4 h-96">
-              <div className="space-y-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Fashion style 1" 
-                  className="w-full h-40 object-cover rounded-lg hover-scale"
-                />
-                <img 
-                  src="https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNsb3RoaW5nfGVufDB8fDB8fHww" 
-                  alt="Fashion style 2" 
-                  className="w-full h-32 object-cover rounded-lg hover-scale"
-                />
-              </div>
-              <div className="space-y-4 mt-8">
-                <img 
-                  src="https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGNsb3RoaW5nfGVufDB8fDB8fHww" 
-                  alt="Fashion style 3" 
-                  className="w-full h-32 object-cover rounded-lg hover-scale"
-                />
-                <img 
-                  src="https://images.unsplash.com/photo-1578681994506-b8f463449011?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fGNsb3RoaW5nfGVufDB8fDB8fHww" 
-                  alt="Fashion style 4" 
-                  className="w-full h-40 object-cover rounded-lg hover-scale"
-                />
-              </div>
-            </div>
+          {/* Right side - Single product image */}
+          <div className="flex justify-center lg:justify-end">
+            <img 
+              src="/lovable-uploads/a57170ea-7321-47af-b1a7-dc64f6d7ee3d.png" 
+              alt="Featured Product" 
+              className="w-full max-w-md h-auto object-contain hover-scale"
+            />
           </div>
-        </div>
-      </div>
-      
-      {/* Mobile image section */}
-      <div className="lg:hidden mt-8 px-4">
-        <div className="grid grid-cols-2 gap-3">
-          <img 
-            src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=435&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-            alt="Fashion style 1" 
-            className="w-full h-32 object-cover rounded-lg"
-          />
-          <img 
-            src="https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNsb3RoaW5nfGVufDB8fDB8fHww" 
-            alt="Fashion style 2" 
-            className="w-full h-32 object-cover rounded-lg"
-          />
         </div>
       </div>
     </div>
