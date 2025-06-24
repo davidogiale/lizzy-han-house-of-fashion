@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,15 @@ import { Button } from "@/components/ui/button";
 const Hero: React.FC = () => {
   return (
     <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#CFBBB0' }}>
+      {/* Floating logo */}
+      <div className="absolute top-8 right-8 z-10 animate-bounce">
+        <img 
+          src="/lovable-uploads/fc31f651-1643-45e6-bd2e-80cbc9b673f4.png" 
+          alt="Lizzy Hans Logo" 
+          className="w-20 h-20 opacity-80 animate-pulse"
+        />
+      </div>
+      
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content */}
