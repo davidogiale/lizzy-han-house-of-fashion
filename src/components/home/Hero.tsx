@@ -5,11 +5,20 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#CFBBB0' }}>
+    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
-          {/* Left side - Text content */}
+          {/* Left side - Text content with logo */}
           <div className="text-center lg:text-left">
+            {/* Logo */}
+            <div className="flex justify-center lg:justify-start mb-6">
+              <img 
+                src="/lovable-uploads/e31a658b-c8be-4ac9-a826-aa9eea4a9b70.png" 
+                alt="Lizzy Hans House of Fashion Logo" 
+                className="w-24 h-24 object-contain"
+              />
+            </div>
+            
             <h1 className="text-foreground text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
               Effortless Style for Everyone
             </h1>
