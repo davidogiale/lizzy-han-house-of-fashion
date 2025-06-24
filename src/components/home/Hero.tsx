@@ -8,10 +8,10 @@ const Hero: React.FC = () => {
     <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full lg:pt-16">
-          {/* Left side - Text content with logo */}
+          {/* Left side - Text content with logo (mobile only) */}
           <div className="text-center lg:text-left">
-            {/* Logo */}
-            <div className="flex justify-center lg:justify-start mb-6">
+            {/* Logo - only visible on mobile */}
+            <div className="flex justify-center lg:hidden mb-6">
               <img 
                 src="/lovable-uploads/e31a658b-c8be-4ac9-a826-aa9eea4a9b70.png" 
                 alt="Lizzy Hans House of Fashion Logo" 
@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
           {/* Right side - Single product image (hidden on tablet and mobile) */}
           <div className="hidden lg:flex justify-center lg:justify-end">
             <img 
-              src="/lovable-uploads/a57170ea-7321-47af-b1a7-dc64f6d7ee3d.png" 
+              src="/lovable-uploads/a17eca2a-f6d5-4609-a0af-9afa779857e9.png" 
               alt="Featured Product" 
               className="w-full max-w-md h-auto object-contain hover-scale"
             />
