@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Package } from 'lucide-react';
 
 type Order = {
+  id: string;
   status: string;
   created_at: string;
   shipping_method: string;
@@ -25,6 +26,7 @@ export const OrderSummaryCard = ({ order }: OrderSummaryCardProps) => {
             {order.status}
           </Badge>
         </CardTitle>
+        <p className="text-muted-foreground font-mono text-sm">#{order.id.slice(-8)}</p>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-2 text-sm">
