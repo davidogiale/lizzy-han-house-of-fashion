@@ -23,7 +23,7 @@ type OrderItem = {
   order_id: string;
   product_id: string;
   quantity: number;
-  price_at_time: number;
+  price: number;
   products: {
     id: string;
     name: string;
