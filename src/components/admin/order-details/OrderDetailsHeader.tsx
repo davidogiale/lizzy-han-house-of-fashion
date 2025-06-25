@@ -86,7 +86,7 @@ export const OrderDetailsHeader = ({
       </div>
       
       {/* On mobile, show controls on a separate row */}
-      <div className="flex md:hidden items-center gap-2 justify-end">
+      <div className="flex md:hidden items-center justify-between">
         <Select value={order.status} onValueChange={onStatusChange}>
           <SelectTrigger className="w-32">
             <SelectValue />
