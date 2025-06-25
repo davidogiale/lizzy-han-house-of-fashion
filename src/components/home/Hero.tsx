@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
           {/* Right side - Single product image (hidden on tablet and mobile) */}
           <div className="hidden lg:flex justify-center lg:justify-end">
             <img 
-              src="/lovable-uploads/a17eca2a-f6d5-4609-a0af-9afa779857e9.png" 
+              src="/lovable-uploads/1e459818-c233-4d0f-90d3-00c12e848693.png" 
               alt="Featured Product" 
               className="w-full max-w-md h-auto object-contain hover-scale"
             />
