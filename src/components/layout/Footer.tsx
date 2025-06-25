@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
@@ -11,7 +12,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="font-playfair text-xl font-bold mb-4">Lizzy Hans House of Fashion</h3>
+            <h3 className="font-playfair text-xl font-bold mb-4">Lizzy Han House of Fashion</h3>
             <p className="text-gray-300 mb-4">
               Elevating personal style with our premium collection of modern, sustainable fashion for men and women — celebrating individuality and confidence.
             </p>
@@ -53,7 +54,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="text-center mt-12 text-gray-400 text-sm">
-          &copy; {currentYear} Lizzy Hans House of Fashion. All rights reserved.
+          &copy; {currentYear} Lizzy Han House of Fashion. All rights reserved.
         </div>
       </div>
     </footer>
@@ -61,4 +62,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-

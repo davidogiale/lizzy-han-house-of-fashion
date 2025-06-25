@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ export function AdminHeader() {
 
   return (
     <header className="flex items-center justify-between p-4 bg-gray-100">
-      <h1 className="text-xl font-bold">Lizzy Hans House of Fashion</h1>
+      <h1 className="text-xl font-bold">Lizzy Han House of Fashion</h1>
       <div className="flex items-center space-x-4">
         <SidebarTrigger />
         <TooltipProvider>
