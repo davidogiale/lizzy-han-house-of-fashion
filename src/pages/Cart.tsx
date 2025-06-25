@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from "@/components/ui/button";
@@ -67,6 +66,39 @@ const Cart: React.FC = () => {
 
     setIsCheckingOut(true);
     try {
+      // Insert new order
+      const { data: orderData, error: orderError } = await supabase.from('orders').insert({
+        user_id: user.id,
+        total,
+        shipping_address_full_name: shippingAddress.fullName,
+        shipping_address_phone: shippingAddress.phone,
+        shipping_address_line: shippingAddress.address,
+        shipping_address_city: shippingAddress.city,
+        shipping_address_state: shippingAddress.state,
+        shipping_address_postal_code: shippingAddress.postalCode,
+        shipping_method: selectedShipping,
+      }).select().single();
+
+      if (orderError) {
+        throw new Error("Order creation failed: " + orderError.message);
+      }
+
+      // Insert order items
+      const orderItems = cartItems.map(item => ({
+        order_id: orderData.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price: item.products?.price ?? 0,
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) {
+        throw new Error("Failed to save order items: " + itemsError.message);
+      }
+
       // Initialize Paystack
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: { 
@@ -80,26 +112,7 @@ const Cart: React.FC = () => {
         throw new Error(error.message);
       }
 
-      // Save the order record before redirect
       if (data && data.data.authorization_url) {
-        // Insert new order
-        const { error: orderError } = await supabase.from('orders').insert({
-          user_id: user.id,
-          total,
-          shipping_address_full_name: shippingAddress.fullName,
-          shipping_address_phone: shippingAddress.phone,
-          shipping_address_line: shippingAddress.address,
-          shipping_address_city: shippingAddress.city,
-          shipping_address_state: shippingAddress.state,
-          shipping_address_postal_code: shippingAddress.postalCode,
-          shipping_method: selectedShipping,
-          // status: Default is 'pending' per db schema.
-        });
-
-        if (orderError) {
-          throw new Error("Order creation failed: " + orderError.message);
-        }
-
         window.location.href = data.data.authorization_url;
       } else {
         console.error("Paystack response did not contain authorization_url", data);
