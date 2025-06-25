@@ -6,7 +6,7 @@ import { Package } from 'lucide-react';
 type OrderItem = {
   id: string;
   quantity: number;
-  price_at_time: number;
+  price: number;
   products: {
     id: string;
     name: string;
@@ -69,7 +69,7 @@ export const OrderItemsCard = ({ orderItems, itemsError }: OrderItemsCardProps) 
                 </div>
                 <div className="text-right">
                   <p className="font-medium">
-                    {item.price_at_time.toLocaleString("en-NG", {
+                    {item.price.toLocaleString("en-NG", {
                       style: "currency",
                       currency: "NGN",
                     })}
