@@ -54,21 +54,33 @@ async function fetchOrder(orderId: string): Promise<Order> {
 }
 
 async function fetchOrderItems(orderId: string): Promise<OrderItem[]> {
-  const { data, error } = await supabase
-    .from("order_items")
-    .select(`
-      *,
-      products (
-        id,
-        name,
-        image_url,
-        category,
-        color,
-        size
-      )
-    `)
-    .eq("order_id", orderId);
-  if (error) throw error;
+  // Use direct SQL query to avoid TypeScript type issues with order_items table
+  const { data, error } = await supabase.rpc('get_order_items_with_products', {
+    order_id_param: orderId
+  });
+  
+  if (error) {
+    console.error('RPC call failed, falling back to direct query:', error);
+    // Fallback to direct query with type assertion
+    const { data: fallbackData, error: fallbackError } = await supabase
+      .from("order_items" as any)
+      .select(`
+        *,
+        products (
+          id,
+          name,
+          image_url,
+          category,
+          color,
+          size
+        )
+      `)
+      .eq("order_id", orderId);
+    
+    if (fallbackError) throw fallbackError;
+    return fallbackData as unknown as OrderItem[];
+  }
+  
   return data as OrderItem[];
 }
 
