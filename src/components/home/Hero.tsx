@@ -7,9 +7,9 @@ const Hero: React.FC = () => {
   return (
     <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#E8D5C4' }}>
       <div className="container-custom h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full lg:pt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content with logo (mobile only) */}
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left flex flex-col justify-center">
             {/* Logo - only visible on mobile */}
             <div className="flex justify-center lg:hidden mb-6">
               <img 
@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Right side - Single product image (hidden on tablet and mobile) */}
-          <div className="hidden lg:flex justify-center lg:justify-end">
+          <div className="hidden lg:flex justify-center lg:justify-end items-center">
             <img 
               src="/lovable-uploads/1e459818-c233-4d0f-90d3-00c12e848693.png" 
               alt="Featured Product" 
