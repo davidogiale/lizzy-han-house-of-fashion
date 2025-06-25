@@ -24,6 +24,7 @@ type OrderItem = {
   product_id: string;
   quantity: number;
   price: number;
+  created_at: string;
   products: {
     id: string;
     name: string;
@@ -45,15 +46,34 @@ async function fetchOrder(orderId: string): Promise<Order> {
 }
 
 async function fetchOrderItems(orderId: string): Promise<OrderItem[]> {
-  const { data, error } = await supabase.rpc('get_order_items_with_products' as any, {
-    order_id_param: orderId
-  });
+  console.log('Fetching order items for order:', orderId);
+  
+  const { data, error } = await supabase
+    .from('order_items')
+    .select(`
+      id,
+      order_id,
+      product_id,
+      quantity,
+      price,
+      created_at,
+      products (
+        id,
+        name,
+        image_url,
+        category,
+        color,
+        size
+      )
+    `)
+    .eq('order_id', orderId);
   
   if (error) {
     console.error('Error fetching order items:', error);
     throw error;
   }
   
+  console.log('Fetched order items:', data);
   return (data as OrderItem[]) || [];
 }
 

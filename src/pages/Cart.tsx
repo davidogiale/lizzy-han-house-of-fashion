@@ -99,6 +99,16 @@ const Cart: React.FC = () => {
         throw new Error("Failed to save order items: " + itemsError.message);
       }
 
+      // Clear cart after successful order
+      const { error: clearCartError } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (clearCartError) {
+        console.warn("Failed to clear cart:", clearCartError);
+      }
+
       // Initialize Paystack
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: { 
