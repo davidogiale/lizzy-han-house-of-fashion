@@ -45,37 +45,16 @@ async function fetchOrder(orderId: string): Promise<Order> {
 }
 
 async function fetchOrderItems(orderId: string): Promise<OrderItem[]> {
-  try {
-    // Try RPC function first
-    const { data, error } = await supabase.rpc('get_order_items_with_products' as any, {
-      order_id_param: orderId
-    });
-    
-    if (!error && data) {
-      return data as OrderItem[];
-    }
-  } catch (rpcError) {
-    console.error('RPC call failed, falling back to direct query:', rpcError);
-  }
-
-  // Fallback to direct query with joins
-  const { data: fallbackData, error: fallbackError } = await supabase
-    .from("order_items")
-    .select(`
-      *,
-      products (
-        id,
-        name,
-        image_url,
-        category,
-        color,
-        size
-      )
-    `)
-    .eq("order_id", orderId);
+  const { data, error } = await supabase.rpc('get_order_items_with_products' as any, {
+    order_id_param: orderId
+  });
   
-  if (fallbackError) throw fallbackError;
-  return (fallbackData as any) || [];
+  if (error) {
+    console.error('Error fetching order items:', error);
+    throw error;
+  }
+  
+  return (data as OrderItem[]) || [];
 }
 
 export const useOrderQuery = (orderId: string | undefined) => {
