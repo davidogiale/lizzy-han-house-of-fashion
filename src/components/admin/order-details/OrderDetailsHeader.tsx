@@ -30,23 +30,23 @@ export const OrderDetailsHeader = ({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <Button
           variant="ghost"
           onClick={() => navigate('/admin')}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 p-2 md:px-4"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Orders
+          <span className="hidden md:inline">Back to Orders</span>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold">Order Details</h1>
-          <p className="text-muted-foreground font-mono">#{order.id.slice(-8)}</p>
+          <h1 className="text-xl md:text-2xl font-bold">Order Details</h1>
+          <p className="text-muted-foreground font-mono text-sm">#{order.id.slice(-8)}</p>
         </div>
       </div>
       <div className="flex items-center gap-2">
         <Select value={order.status} onValueChange={onStatusChange}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-32 md:w-40">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
