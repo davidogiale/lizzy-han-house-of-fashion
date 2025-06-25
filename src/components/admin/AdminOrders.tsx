@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, Download, Calendar, User, MapPin, Phone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { OrderDetailsDialog } from "./OrderDetailsDialog";
+import { useNavigate } from "react-router-dom";
 
 type Order = {
   id: string;
@@ -40,8 +40,7 @@ async function fetchOrders(): Promise<Order[]> {
 }
 
 export function AdminOrders() {
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   const {
     data: orders,
@@ -53,8 +52,7 @@ export function AdminOrders() {
   });
 
   const handleOrderClick = (order: Order) => {
-    setSelectedOrder(order);
-    setDialogOpen(true);
+    navigate(`/admin/order/${order.id}`);
   };
 
   return (
@@ -169,12 +167,6 @@ export function AdminOrders() {
           </Card>
         )}
       </div>
-
-      <OrderDetailsDialog 
-        order={selectedOrder}
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-      />
     </div>
   );
 }

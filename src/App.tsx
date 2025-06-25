@@ -14,6 +14,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Cart from "./pages/Cart";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminOrderDetails from "./pages/AdminOrderDetails";
 import ShippingAndReturns from "./pages/ShippingAndReturns"; 
 import NotFound from "./pages/NotFound";
 import Search from "./pages/Search";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<Search />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/order/:orderId" element={<AdminOrderDetails />} />
 	    <Route path="/shipping-and-returns" element={<ShippingAndReturns />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
