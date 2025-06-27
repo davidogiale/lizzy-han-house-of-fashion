@@ -14,8 +14,8 @@ const Hero: React.FC = () => {
             <div className="flex justify-center lg:hidden mb-6">
               <img 
                 src="/lovable-uploads/e31a658b-c8be-4ac9-a826-aa9eea4a9b70.png" 
-                alt="Lizzy Hans House of Fashion Logo" 
-                className="w-24 h-24 object-contain"
+                alt="Lizzy Han House of Fashion Logo" 
+                className="w-32 h-32 object-contain"
               />
             </div>
             
