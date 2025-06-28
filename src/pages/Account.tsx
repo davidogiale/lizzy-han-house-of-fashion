@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -102,15 +101,7 @@ const Account: React.FC = () => {
           });
           navigate('/');
         } else {
-          toast({
-            title: "Account created successfully!",
-            description: "Please check your email to verify your account.",
-          });
-          setEmail('');
-          setPassword('');
-          setConfirmPassword('');
-          setFirstName('');
-          setLastName('');
+          navigate('/email-verification');
         }
       }
     } catch (error) {

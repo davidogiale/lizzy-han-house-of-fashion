@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import Search from "./pages/Search";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import EmailVerification from "./pages/EmailVerification";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/shop/category/:categorySlug" element={<CategoryProductsPage />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/email-verification" element={<EmailVerification />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             {/* <Route path="/wishlist" element={<Wishlist />} /> */}
             <Route path="/cart" element={<Cart />} />
