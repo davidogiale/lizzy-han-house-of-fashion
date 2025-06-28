@@ -109,12 +109,13 @@ const Cart: React.FC = () => {
         console.warn("Failed to clear cart:", clearCartError);
       }
 
-      // Initialize Paystack
+      // Initialize Paystack with order ID as reference
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: { 
           amount: total, 
           email: user.email,
           currency: 'NGN',
+          reference: orderData.id, // Use order ID as Paystack reference
         },
       });
 

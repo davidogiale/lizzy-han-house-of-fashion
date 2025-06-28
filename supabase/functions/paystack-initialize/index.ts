@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { amount, email, currency } = await req.json();
+    const { amount, email, currency, reference } = await req.json();
 
     if (!amount || !email || !currency) {
       return new Response(JSON.stringify({ error: 'Amount, email, and currency are required' }), {
@@ -24,17 +24,24 @@ serve(async (req) => {
       });
     }
 
+    const paymentData = {
+      email,
+      amount: Math.round(amount * 100), // Paystack expects amount in smallest currency unit (e.g., kobo, cents)
+      currency: currency,
+    };
+
+    // Add reference if provided
+    if (reference) {
+      paymentData.reference = reference;
+    }
+
     const response = await fetch(PAYSTACK_API_URL, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        amount: Math.round(amount * 100), // Paystack expects amount in smallest currency unit (e.g., kobo, cents)
-        currency: currency,
-      }),
+      body: JSON.stringify(paymentData),
     });
 
     const data = await response.json();
