@@ -66,8 +66,28 @@ const Cart: React.FC = () => {
 
     setIsCheckingOut(true);
     try {
-      // Insert new order
+      // Initialize Paystack first to get the reference
+      const { data: paystackData, error: paystackError } = await supabase.functions.invoke('paystack-initialize', {
+        body: { 
+          amount: total, 
+          email: user.email,
+          currency: 'NGN',
+        },
+      });
+
+      if (paystackError) {
+        throw new Error(paystackError.message);
+      }
+
+      if (!paystackData || !paystackData.data.reference) {
+        throw new Error('Could not get payment reference from Paystack.');
+      }
+
+      const paystackReference = paystackData.data.reference;
+
+      // Create order using Paystack reference as order ID
       const { data: orderData, error: orderError } = await supabase.from('orders').insert({
+        id: paystackReference, // Use Paystack reference as order ID
         user_id: user.id,
         total,
         shipping_address_full_name: shippingAddress.fullName,
@@ -85,7 +105,7 @@ const Cart: React.FC = () => {
 
       // Insert order items
       const orderItems = cartItems.map(item => ({
-        order_id: orderData.id,
+        order_id: paystackReference, // Use Paystack reference as order ID
         product_id: item.product_id,
         quantity: item.quantity,
         price: item.products?.price ?? 0,
@@ -109,24 +129,11 @@ const Cart: React.FC = () => {
         console.warn("Failed to clear cart:", clearCartError);
       }
 
-      // Initialize Paystack with order ID as reference
-      const { data, error } = await supabase.functions.invoke('paystack-initialize', {
-        body: { 
-          amount: total, 
-          email: user.email,
-          currency: 'NGN',
-          reference: orderData.id, // Use order ID as Paystack reference
-        },
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      if (data && data.data.authorization_url) {
-        window.location.href = data.data.authorization_url;
+      // Redirect to Paystack payment page
+      if (paystackData.data.authorization_url) {
+        window.location.href = paystackData.data.authorization_url;
       } else {
-        console.error("Paystack response did not contain authorization_url", data);
+        console.error("Paystack response did not contain authorization_url", paystackData);
         throw new Error('Could not retrieve payment authorization URL.');
       }
 
