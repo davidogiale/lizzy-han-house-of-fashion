@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, Loader2 } from 'lucide-react';
+import { supabase } from "@/integrations/supabase/client";
 
 interface ImageUploadProps {
   onImageUploaded: (url: string) => void;
@@ -17,46 +18,35 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
   const [dragActive, setDragActive] = useState(false);
   const { toast } = useToast();
 
-  const uploadToCloudinary = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'Ovie Clothing Store');
-    formData.append('cloud_name', 'dhbegegnv');
-
-    console.log('Uploading to Cloudinary with preset: ml_default');
-    console.log('File details:', { name: file.name, size: file.size, type: file.type });
+  const uploadToSupabase = async (file: File) => {
+    console.log('Uploading to Supabase storage:', file.name);
+    
+    // Generate unique filename
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `product-images/${fileName}`;
 
     try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dhbegegnv/image/upload`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
+      const { data, error } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, file);
 
-      console.log('Cloudinary response status:', response.status);
-      
-      const responseText = await response.text();
-      console.log('Cloudinary raw response:', responseText);
-
-      if (!response.ok) {
-        let errorMessage = `Upload failed with status ${response.status}`;
-        try {
-          const errorData = JSON.parse(responseText);
-          errorMessage = errorData.error?.message || errorMessage;
-          console.error('Cloudinary error details:', errorData);
-        } catch (e) {
-          console.error('Could not parse error response:', responseText);
-        }
-        throw new Error(errorMessage);
+      if (error) {
+        console.error('Supabase upload error:', error);
+        throw error;
       }
 
-      const data = JSON.parse(responseText);
-      console.log('Cloudinary success response:', data);
-      return data.secure_url;
+      console.log('Upload successful:', data);
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      console.log('Public URL:', publicUrl);
+      return publicUrl;
     } catch (error) {
-      console.error('Cloudinary upload error:', error);
+      console.error('Supabase upload error:', error);
       throw error;
     }
   };
@@ -84,7 +74,7 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
 
     setUploading(true);
     try {
-      const imageUrl = await uploadToCloudinary(file);
+      const imageUrl = await uploadToSupabase(file);
       console.log('Upload successful, URL:', imageUrl);
       onImageUploaded(imageUrl);
       toast({
