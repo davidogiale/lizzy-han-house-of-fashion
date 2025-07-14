@@ -1,8 +1,3 @@
-Here's a professional and portfolio-ready `README.md` file for your **Lizzy Han House of Fashion** e-commerce app built with **Supabase** and **Vite**:
-
----
-
-
 # Lizzy Han House of Fashion 👗✨
 
 An elegant and responsive online clothing store built for a client using modern web technologies like **Supabase** and **Vite**. This e-commerce platform showcases stylish fashion pieces while enabling seamless user experiences for browsing, cart management, and secure checkout.
