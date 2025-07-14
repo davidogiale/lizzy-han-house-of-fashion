@@ -1,73 +1,84 @@
-# Welcome to your Lovable project
+Here's a professional and portfolio-ready `README.md` file for your **Lizzy Han House of Fashion** e-commerce app built with **Supabase** and **Vite**:
 
-## Project info
+---
 
-**URL**: https://lovable.dev/projects/bbdc6ea5-b8b0-4d5c-b95d-b102be99229f
 
-## How can I edit this code?
+# Lizzy Han House of Fashion 👗✨
 
-There are several ways of editing your application.
+An elegant and responsive online clothing store built for a client using modern web technologies like **Supabase** and **Vite**. This e-commerce platform showcases stylish fashion pieces while enabling seamless user experiences for browsing, cart management, and secure checkout.
 
-**Use Lovable**
+## 🛍️ Overview
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/bbdc6ea5-b8b0-4d5c-b95d-b102be99229f) and start prompting.
+**Lizzy Han House of Fashion** is a custom-built fashion e-commerce website designed to represent a real-world clothing brand. The project combines a sleek UI with powerful backend features like authentication, database management, and file storage — all powered by **Supabase**.
 
-Changes made via Lovable will be committed automatically to this repo.
+![screenshot](https://via.placeholder.com/1000x500?text=Lizzy+Han+Fashion+Preview) <!-- Replace with actual screenshot if available -->
 
-**Use your preferred IDE**
+## ⚙️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Frontend**: Vite + React + Tailwind CSS
+- **Backend-as-a-Service**: Supabase (PostgreSQL, Auth, Storage)
+- **Deployment**:   Lovable / Vercel / Netlify *(depending on where it’s hosted)*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## ✨ Features
 
-Follow these steps:
+- 🛒 **Product Browsing** – Clean, responsive catalog of fashion items
+- 🔐 **Authentication** – Email/password sign-up & login via Supabase Auth
+- 🧺 **Cart & Checkout** – Add-to-cart functionality with quantity management
+- 💳 **Order Flow** – Checkout process with dummy or integrated payment support (Stripe / paystack optional)
+- 🖼️ **Image Storage** – Product images uploaded and served from Supabase Storage
+- 🔍 **Search & Filters** – Easy product filtering by category or price
+- 🧑‍💼 **Admin-ready Structure** – Easily extendable to support inventory and order management
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📁 Folder Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+lizzy-han-house-of-fashion/
+├── public/                 # Static files
+├── src/
+│   ├── components/         # Reusable UI components
+│   ├── pages/              # Page routes (Home, Product, Checkout, etc.)
+│   └── App.tsx             # Main app entry point
+├── supabase/               # SQL scripts, schema, storage rules
+├── vite.config.ts
+└── README.md
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📸 Screenshots
 
-**Use GitHub Codespaces**
+<img width="1382" height="3487" alt="image" src="https://github.com/user-attachments/assets/315d9ae9-39f8-44dd-a0da-37c6772cd8ec" />
+<img width="1366" height="1716" alt="image" src="https://github.com/user-attachments/assets/b49e9ebf-4202-4175-a45d-71110755389c" />
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
 
-This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+<details>
+  <summary>🖼️ Click to expand</summary>
 
-## How can I deploy this project?
+Home Page(https://lizzy-han-house-of-fashion.lovable.app/)
+Product Page(https://lizzy-han-house-of-fashion.lovable.app/shop)
 
-Simply open [Lovable](https://lovable.dev/projects/bbdc6ea5-b8b0-4d5c-b95d-b102be99229f) and click on Share -> Publish.
+</details>
 
-## Can I connect a custom domain to my Lovable project?
+## 🙋‍♀️ About the Client
 
-Yes, you can!
+This project was commissioned by a fashion brand to serve as their digital storefront. All branding, product content, and visual themes were tailored to their brand identity.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🤝 Acknowledgments
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+* [Supabase](https://supabase.com) – For providing the backend infrastructure
+* [Vite](https://vitejs.dev) – For lightning-fast frontend tooling
+* [Tailwind CSS](https://tailwindcss.com) – For utility-first styling
+
+## 📌 License
+
+This project is client-owned. Code displayed here is for portfolio and educational purposes only. Do not redistribute without permission.
+
+---
+
+**👨‍💻 Built by David Ogiale(https://github.com/davidogiale)**
+
+
+
+---
+
