@@ -5,6 +5,7 @@ An elegant and responsive online clothing store built for a client using modern 
 ## 🛍️ Overview
 
 **Lizzy Han House of Fashion** is a custom-built fashion e-commerce website designed to represent a real-world clothing brand. The project combines a sleek UI with powerful backend features like authentication, database management, and file storage — all powered by **Supabase**.
+[View the app](https://lizzy-han-house-of-fashion.lovable.app)
 
 ## ⚙️ Tech Stack
 
