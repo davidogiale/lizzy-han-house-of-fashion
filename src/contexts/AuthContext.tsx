@@ -14,6 +14,31 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const GUEST_CART_KEY = 'guest_cart';
+
+const mergeGuestCartToUser = async (userId: string) => {
+  try {
+    const guestCartStr = localStorage.getItem(GUEST_CART_KEY);
+    if (!guestCartStr) return;
+    
+    const guestCart = JSON.parse(guestCartStr);
+    if (!guestCart || guestCart.length === 0) return;
+    
+    // Add each guest cart item to user's cart
+    for (const item of guestCart) {
+      await supabase.rpc('add_to_cart', {
+        p_product_id: item.product_id,
+        p_quantity: item.quantity,
+      });
+    }
+    
+    // Clear guest cart after successful merge
+    localStorage.removeItem(GUEST_CART_KEY);
+  } catch (error) {
+    console.error('Error merging guest cart:', error);
+  }
+};
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -26,6 +51,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        
+        // Merge guest cart when user signs in
+        if (event === 'SIGNED_IN' && session?.user) {
+          setTimeout(() => {
+            mergeGuestCartToUser(session.user.id);
+          }, 0);
+        }
       }
     );
 

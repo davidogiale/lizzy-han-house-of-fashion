@@ -48,10 +48,12 @@ const Cart: React.FC = () => {
   const handleCheckout = async () => {
     if (!user) {
       toast({
-        title: "Authentication Required",
-        description: "Please log in to proceed with your order.",
+        title: "Create an Account",
+        description: "Please create an account or log in to complete your purchase.",
         variant: "destructive",
       });
+      // Optionally redirect to account page
+      window.location.href = '/account';
       return;
     }
 
@@ -163,27 +165,22 @@ const Cart: React.FC = () => {
     );
   }
 
-  if (!user) {
-    return (
-      <Layout>
-        <div className="container-custom py-16 text-center pb-24 md:pb-16">
-            <ShoppingBag size={64} className="mx-auto text-muted-foreground mb-4" />
-            <h2 className="text-xl font-semibold mb-2">Log in to view your cart</h2>
-            <p className="text-muted-foreground mb-6">
-              Please log in to see your saved items.
-            </p>
-            <Link to="/account">
-              <Button className="btn-primary">Log In / Sign Up</Button>
-            </Link>
-          </div>
-      </Layout>
-    );
-  }
-
   return (
     <Layout>
       <div className="container-custom py-16 pb-24 md:pb-16">
         <h1 className="text-3xl font-playfair font-bold mb-8">Shopping Cart</h1>
+        
+        {!user && cartItems.length > 0 && (
+          <div className="mb-6 p-4 bg-accent/10 border border-accent rounded-lg">
+            <p className="text-sm text-foreground">
+              <strong>Shopping as a guest?</strong> You'll need to create an account or log in to complete your purchase.
+              <Link to="/account" className="ml-2 underline font-semibold hover:text-accent">
+                Create Account
+              </Link>
+            </p>
+          </div>
+        )}
+        
         {cartItems.length === 0 ? (
           <div className="text-center py-16">
             <ShoppingBag size={64} className="mx-auto text-muted-foreground mb-4" />
