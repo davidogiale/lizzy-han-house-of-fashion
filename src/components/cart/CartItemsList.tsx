@@ -81,7 +81,7 @@ const CartItemsList: React.FC<CartItemsListProps> = ({
                       <Plus size={16} />
                     </Button>
                   </div>
-                  <p className="font-semibold text-lg">
+                  <p className="font-medium md:font-semibold text-base md:text-lg">
                     ₦{(item.products.price * item.quantity).toLocaleString("en-NG")}
                   </p>
                 </div>
