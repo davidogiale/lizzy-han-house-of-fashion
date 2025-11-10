@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
-    <div className="relative h-[70vh] overflow-hidden" style={{ backgroundColor: '#E8D5C4' }}>
-      <div className="container-custom h-full flex items-center">
+    <div className="relative min-h-[70vh] overflow-hidden pb-12 md:pb-0" style={{ backgroundColor: '#E8D5C4' }}>
+      <div className="container-custom h-full flex items-center py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
           {/* Left side - Text content with logo (mobile only) */}
           <div className="text-center lg:text-left flex flex-col justify-center">
