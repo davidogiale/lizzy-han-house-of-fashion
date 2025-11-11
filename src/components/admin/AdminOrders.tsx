@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Download, Calendar, User, MapPin, Phone } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Eye, Download, Calendar, User, MapPin, RefreshCw } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 type Order = {
   id: string;
@@ -41,6 +42,9 @@ async function fetchOrders(): Promise<Order[]> {
 
 export function AdminOrders() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const {
     data: orders,
@@ -55,6 +59,71 @@ export function AdminOrders() {
     navigate(`/admin/order/${order.id}`);
   };
 
+  const verifyPendingOrders = async () => {
+    if (!orders || orders.length === 0) return;
+    
+    setIsVerifying(true);
+    const pendingOrders = orders.filter(order => order.status === 'pending');
+    
+    if (pendingOrders.length === 0) {
+      toast({
+        title: "No pending orders",
+        description: "All orders have been verified.",
+      });
+      setIsVerifying(false);
+      return;
+    }
+
+    console.log(`Verifying ${pendingOrders.length} pending orders...`);
+
+    try {
+      const verificationPromises = pendingOrders.map(async (order) => {
+        try {
+          const { data, error } = await supabase.functions.invoke('paystack-verify-status', {
+            body: { reference: order.id }
+          });
+          
+          if (error) {
+            console.error(`Error verifying order ${order.id}:`, error);
+          } else {
+            console.log(`Order ${order.id} verified:`, data);
+          }
+        } catch (err) {
+          console.error(`Error verifying order ${order.id}:`, err);
+        }
+      });
+
+      await Promise.all(verificationPromises);
+      
+      // Refresh the orders list
+      await queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+      
+      toast({
+        title: "Verification Complete",
+        description: `Verified ${pendingOrders.length} pending order(s).`,
+      });
+    } catch (error) {
+      console.error('Error during verification:', error);
+      toast({
+        title: "Verification Error",
+        description: "Failed to verify some orders. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  // Auto-verify pending orders on mount
+  useEffect(() => {
+    if (orders && orders.length > 0) {
+      const hasPendingOrders = orders.some(order => order.status === 'pending');
+      if (hasPendingOrders) {
+        verifyPendingOrders();
+      }
+    }
+  }, [orders?.length]); // Only run when orders first load
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -65,7 +134,16 @@ export function AdminOrders() {
             Manage customer orders and track shipments
           </p>
         </div>
-        <div className="flex-shrink-0">
+        <div className="flex gap-2 flex-shrink-0">
+          <Button 
+            variant="outline" 
+            className="w-full sm:w-auto"
+            onClick={verifyPendingOrders}
+            disabled={isVerifying || isLoading}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isVerifying ? 'animate-spin' : ''}`} />
+            Verify Payments
+          </Button>
           <Button className="w-full sm:w-auto">
             <Download className="h-4 w-4 mr-2" />
             Export Orders

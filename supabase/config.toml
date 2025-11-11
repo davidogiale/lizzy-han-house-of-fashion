@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.paystack-webhook]
 verify_jwt = false
+
+[functions.paystack-verify-status]
+verify_jwt = true

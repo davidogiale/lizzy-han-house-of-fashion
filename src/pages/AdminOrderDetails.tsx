@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useOrderQuery, useOrderItemsQuery } from '@/hooks/useOrderQueries';
@@ -9,10 +9,15 @@ import { OrderSummaryCard } from '@/components/admin/order-details/OrderSummaryC
 import { OrderItemsCard } from '@/components/admin/order-details/OrderItemsCard';
 import { CustomerInfoCard } from '@/components/admin/order-details/CustomerInfoCard';
 import { ShippingAddressCard } from '@/components/admin/order-details/ShippingAddressCard';
+import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
+import { useToast } from "@/hooks/use-toast";
 
 const AdminOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { data: order, isLoading: orderLoading, isError: orderError } = useOrderQuery(orderId);
   const { data: orderItems, isLoading: itemsLoading, isError: itemsError } = useOrderItemsQuery(orderId);
@@ -29,6 +34,34 @@ const AdminOrderDetails = () => {
       deleteOrderMutation.mutate(order.id);
     }
   };
+
+  // Auto-verify payment status if order is pending
+  useEffect(() => {
+    const verifyPaymentStatus = async () => {
+      if (order && order.status === 'pending') {
+        console.log(`Verifying payment status for order ${order.id}...`);
+        
+        try {
+          const { data, error } = await supabase.functions.invoke('paystack-verify-status', {
+            body: { reference: order.id }
+          });
+          
+          if (error) {
+            console.error('Error verifying payment status:', error);
+          } else {
+            console.log('Payment status verified:', data);
+            // Refresh order data
+            await queryClient.invalidateQueries({ queryKey: ["order", orderId] });
+            await queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+          }
+        } catch (err) {
+          console.error('Error verifying payment:', err);
+        }
+      }
+    };
+
+    verifyPaymentStatus();
+  }, [order?.id, order?.status]);
 
   if (orderLoading || itemsLoading) {
     return (
