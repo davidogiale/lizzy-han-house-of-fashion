@@ -40,7 +40,7 @@ export function AdminProducts() {
   const handleImageClick = (product: Product) => {
     console.log('Image clicked for product:', product.id);
     setSelectedProduct(product);
-    setViewDialogOpen(true);
+    setEditDialogOpen(true);
   };
 
   const handleStatusBadgeClick = (status: string) => {
@@ -130,7 +130,7 @@ export function AdminProducts() {
                               />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p>Click to view product details</p>
+                              <p>Click to edit product</p>
                             </TooltipContent>
                           </Tooltip>
                           <div>
