@@ -8,6 +8,7 @@ import { AdminOrders } from "@/components/admin/AdminOrders";
 import { AdminProducts } from "@/components/admin/AdminProducts";
 import { AdminCustomers } from "@/components/admin/AdminCustomers";
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -23,6 +24,7 @@ const ADMIN_SECTIONS = [
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
   const { user, loading, signOut } = useAuth();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const isMobile = useIsMobile();
 
   const renderPage = () => {
@@ -40,13 +42,13 @@ const AdminDashboard = () => {
     }
   };
 
-  // Show loading state while checking authentication
-  if (loading) {
+  // Show loading state while checking authentication and admin status
+  if (loading || adminLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-lg font-semibold">Loading...</h2>
-          <p className="text-muted-foreground">Checking authentication</p>
+          <p className="text-muted-foreground">Checking authentication and permissions</p>
         </div>
       </div>
     );
@@ -66,6 +68,27 @@ const AdminDashboard = () => {
           <CardContent>
             <Button onClick={() => window.location.href = '/Account'} className="w-full">
               Go to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show unauthorized message if not admin
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+            <CardDescription>
+              You do not have permission to access the admin dashboard. Admin privileges are required.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => window.location.href = '/'} className="w-full">
+              Go to Home
             </Button>
           </CardContent>
         </Card>

@@ -1,5 +1,5 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const PAYSTACK_SECRET_KEY = Deno.env.get('PAYSTACK_SECRET_KEY');
 const PAYSTACK_API_URL = 'https://api.paystack.co/transaction/initialize';
@@ -15,25 +15,72 @@ serve(async (req) => {
   }
 
   try {
-    const { amount, email, currency, reference } = await req.json();
+    // Verify authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
-    if (!amount || !email || !currency) {
-      return new Response(JSON.stringify({ error: 'Amount, email, and currency are required' }), {
+    // Create Supabase client with user's token
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    // Get authenticated user
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    if (userError || !user) {
+      console.error('Auth error:', userError);
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { reference } = await req.json();
+
+    if (!reference) {
+      return new Response(JSON.stringify({ error: 'Order reference is required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    const paymentData = {
-      email,
-      amount: Math.round(amount * 100), // Paystack expects amount in smallest currency unit (e.g., kobo, cents)
-      currency: currency,
-    };
+    // Verify the order belongs to this user and get order details
+    const { data: order, error: orderError } = await supabaseClient
+      .from('orders')
+      .select('user_id, total')
+      .eq('id', reference)
+      .single();
 
-    // Add reference if provided
-    if (reference) {
-      paymentData.reference = reference;
+    if (orderError || !order) {
+      console.error('Order fetch error:', orderError);
+      return new Response(JSON.stringify({ error: 'Order not found' }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
+
+    // Verify ownership
+    if (order.user_id !== user.id) {
+      console.error('Order ownership mismatch');
+      return new Response(JSON.stringify({ error: 'Unauthorized - Order does not belong to user' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Use validated data from database
+    const paymentData = {
+      email: user.email,
+      amount: Math.round(order.total * 100), // Paystack expects amount in smallest currency unit (kobo)
+      currency: 'NGN',
+      reference: reference,
+    };
 
     const response = await fetch(PAYSTACK_API_URL, {
       method: 'POST',
