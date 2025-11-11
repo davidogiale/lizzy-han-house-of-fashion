@@ -43,8 +43,8 @@ const Header: React.FC = () => {
             </Link>
           </nav>
 
-          {/* Desktop Icon Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          {/* Desktop & Tablet Icon Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
             <button 
               className="text-primary hover:text-accent transition-colors"
               onClick={() => setIsSearchOpen(true)}
