@@ -10,6 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { ImageUpload } from './ImageUpload';
+import { DeleteProductDialog } from './DeleteProductDialog';
+import { Trash2 } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type Product = Database['public']['Tables']['products']['Row'];
@@ -26,6 +28,7 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: product?.name || '',
     category: product?.category || '',
@@ -277,16 +280,42 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
               placeholder="Product description..."
             />
           </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading || !user}>
-              {loading ? 'Saving...' : (mode === 'add' ? 'Add Product' : 'Save Changes')}
-            </Button>
+          <DialogFooter className="flex-row justify-between sm:justify-between">
+            {mode === 'edit' && product && (
+              <Button 
+                type="button" 
+                variant="destructive" 
+                onClick={() => setDeleteDialogOpen(true)} 
+                disabled={loading}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete
+              </Button>
+            )}
+            <div className="flex gap-2 ml-auto">
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading || !user}>
+                {loading ? 'Saving...' : (mode === 'add' ? 'Add Product' : 'Save Changes')}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>
+
+      {mode === 'edit' && product && (
+        <DeleteProductDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          productName={product.name}
+          productId={product.id}
+          onSuccess={() => {
+            onOpenChange(false);
+            onSuccess?.();
+          }}
+        />
+      )}
     </Dialog>
   );
 }
