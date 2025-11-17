@@ -38,6 +38,20 @@ serve(async (req) => {
       }
     );
 
+    if (!paystackResponse.ok) {
+      const errorText = await paystackResponse.text();
+      console.error('Paystack API error:', errorText);
+      
+      return new Response(JSON.stringify({ 
+        error: 'Transaction not found on Paystack',
+        message: 'This order was not processed through Paystack or the reference is invalid.',
+        statusCode: paystackResponse.status
+      }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const paystackData = await paystackResponse.json();
     console.log('Paystack verification response:', paystackData);
 

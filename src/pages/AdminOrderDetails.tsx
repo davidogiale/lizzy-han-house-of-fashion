@@ -46,7 +46,21 @@ const AdminOrderDetails = () => {
       });
       
       if (error) {
-        throw error;
+        // Check if it's a "not found" error (test/dummy order)
+        if (error.message?.includes('not found') || error.message?.includes('404')) {
+          toast({
+            title: "Order Not Found on Paystack",
+            description: "This appears to be a test order not processed through Paystack. Consider deleting it.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Verification Error",
+            description: error.message || "Failed to verify payment status.",
+            variant: "destructive",
+          });
+        }
+        return;
       }
       
       toast({
@@ -56,11 +70,11 @@ const AdminOrderDetails = () => {
       
       await queryClient.invalidateQueries({ queryKey: ["order", orderId] });
       await queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error verifying payment:', err);
       toast({
         title: "Error",
-        description: "Failed to verify payment status. Please try again.",
+        description: err.message || "Failed to verify payment status. Please try again.",
         variant: "destructive",
       });
     } finally {
