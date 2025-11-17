@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { ArrowLeft, Trash2 } from 'lucide-react';
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, Trash2, RefreshCw } from 'lucide-react';
 
 type Order = {
   id: string;
@@ -17,6 +19,8 @@ interface OrderDetailsHeaderProps {
   onDeleteOrder: () => void;
   deleteDialogOpen: boolean;
   setDeleteDialogOpen: (open: boolean) => void;
+  onVerifyPayment: () => void;
+  verifyingPayment: boolean;
 }
 
 export const OrderDetailsHeader = ({ 
@@ -24,9 +28,16 @@ export const OrderDetailsHeader = ({
   onStatusChange, 
   onDeleteOrder, 
   deleteDialogOpen, 
-  setDeleteDialogOpen 
+  setDeleteDialogOpen,
+  onVerifyPayment,
+  verifyingPayment
 }: OrderDetailsHeaderProps) => {
   const navigate = useNavigate();
+  
+  const isShipped = order.status === 'shipped';
+  const handleShippedToggle = (checked: boolean) => {
+    onStatusChange(checked ? 'shipped' : 'processing');
+  };
 
   return (
     <div className="space-y-4">

@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 const AdminOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [verifyingPayment, setVerifyingPayment] = useState(false);
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -32,6 +33,38 @@ const AdminOrderDetails = () => {
   const handleDeleteOrder = () => {
     if (order) {
       deleteOrderMutation.mutate(order.id);
+    }
+  };
+
+  const handleVerifyPayment = async () => {
+    if (!order) return;
+    
+    setVerifyingPayment(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('paystack-verify-status', {
+        body: { reference: order.id }
+      });
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast({
+        title: "Payment Verified",
+        description: `Order status updated to: ${data.status}`,
+      });
+      
+      await queryClient.invalidateQueries({ queryKey: ["order", orderId] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+    } catch (err) {
+      console.error('Error verifying payment:', err);
+      toast({
+        title: "Error",
+        description: "Failed to verify payment status. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setVerifyingPayment(false);
     }
   };
 
@@ -97,6 +130,8 @@ const AdminOrderDetails = () => {
           onDeleteOrder={handleDeleteOrder}
           deleteDialogOpen={deleteDialogOpen}
           setDeleteDialogOpen={setDeleteDialogOpen}
+          onVerifyPayment={handleVerifyPayment}
+          verifyingPayment={verifyingPayment}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
