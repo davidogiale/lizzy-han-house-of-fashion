@@ -74,9 +74,13 @@ export function AdminOrders() {
       return;
     }
 
-    console.log(`Verifying ${pendingOrders.length} pending orders...`);
+    console.log(`Verifying ${pendingOrders.length} pending orders with Paystack...`);
 
     try {
+      let successCount = 0;
+      let notFoundCount = 0;
+      let errorCount = 0;
+
       const verificationPromises = pendingOrders.map(async (order) => {
         try {
           const { data, error } = await supabase.functions.invoke('paystack-verify-status', {
@@ -84,12 +88,20 @@ export function AdminOrders() {
           });
           
           if (error) {
-            console.error(`Error verifying order ${order.id}:`, error);
+            if (error.message?.includes('not found') || error.message?.includes('404')) {
+              console.warn(`Order ${order.id} not found on Paystack (likely test/dummy order)`);
+              notFoundCount++;
+            } else {
+              console.error(`Error verifying order ${order.id}:`, error);
+              errorCount++;
+            }
           } else {
-            console.log(`Order ${order.id} verified:`, data);
+            console.log(`Order ${order.id} verified successfully:`, data);
+            successCount++;
           }
         } catch (err) {
-          console.error(`Error verifying order ${order.id}:`, err);
+          console.error(`Exception verifying order ${order.id}:`, err);
+          errorCount++;
         }
       });
 
@@ -98,15 +110,29 @@ export function AdminOrders() {
       // Refresh the orders list
       await queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
       
-      toast({
-        title: "Verification Complete",
-        description: `Verified ${pendingOrders.length} pending order(s).`,
-      });
+      if (notFoundCount > 0) {
+        toast({
+          title: "Verification Complete with Issues",
+          description: `${successCount} verified, ${notFoundCount} not found on Paystack (test orders), ${errorCount} errors. Consider deleting test orders.`,
+          variant: "default",
+        });
+      } else if (successCount > 0) {
+        toast({
+          title: "Verification Complete",
+          description: `Successfully verified ${successCount} order(s) from Paystack.`,
+        });
+      } else {
+        toast({
+          title: "No Valid Orders",
+          description: "No orders found on Paystack. These may be test orders that need to be deleted.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.error('Error during verification:', error);
       toast({
         title: "Verification Error",
-        description: "Failed to verify some orders. Please try again.",
+        description: "Failed to verify orders. Please check console for details.",
         variant: "destructive",
       });
     } finally {
