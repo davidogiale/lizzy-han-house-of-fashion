@@ -11,7 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { ImageUpload } from './ImageUpload';
 import { DeleteProductDialog } from './DeleteProductDialog';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Check } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type Product = Database['public']['Tables']['products']['Row'];
@@ -285,19 +285,16 @@ export function ProductFormDialog({ open, onOpenChange, product, mode, onSuccess
               <Button 
                 type="button" 
                 variant="destructive" 
+                size="icon"
                 onClick={() => setDeleteDialogOpen(true)} 
                 disabled={loading}
               >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete
+                <Trash2 className="h-4 w-4" />
               </Button>
             )}
             <div className="flex gap-2 ml-auto">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={loading || !user}>
-                {loading ? 'Saving...' : (mode === 'add' ? 'Add Product' : 'Save Changes')}
+              <Button type="submit" size="icon" disabled={loading || !user}>
+                <Check className="h-4 w-4" />
               </Button>
             </div>
           </DialogFooter>
