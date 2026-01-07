@@ -40,12 +40,12 @@ const HeroImageGrid: React.FC = () => {
          
          We want a 3x2 grid on desktop, so we need exactly 6 items. 
       */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {gridProducts.map((product, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        {gridProducts.map((product) => (
           <Link
             to={`/product/${product.id}`}
             key={product.id}
-            className="group relative block w-full h-[400px] lg:h-[500px] overflow-hidden"
+            className="group relative block w-full h-[400px] md:h-[500px] lg:h-[500px] overflow-hidden"
           >
             {/* Image */}
             <div className="absolute inset-0 w-full h-full overflow-hidden">
