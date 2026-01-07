@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import Hero from '@/components/home/Hero';
+import HeroCarousel from '@/components/home/HeroCarousel';
 import FeaturedCollections from '@/components/home/FeaturedCollections';
 import NewArrivalsCarousel from '@/components/home/NewArrivalsCarousel';
 import ShopTheLook from '@/components/home/ShopTheLook';
@@ -9,7 +9,7 @@ import CustomerFavorites from '@/components/home/CustomerFavorites';
 const Index = () => {
   return (
     <Layout>
-      <Hero />
+      <HeroCarousel />
       <FeaturedCollections />
       <NewArrivalsCarousel />
       <ShopTheLook />

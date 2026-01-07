@@ -1,6 +1,5 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -89,8 +88,8 @@
   /* Prevent horizontal scroll on the body */
   body {
     @apply font-inter overflow-x-hidden;
-    background-color: #E8D5C4;
-    color: #1E1E1E;
+    background-color: #e8d5c4;
+    color: #1e1e1e;
   }
 
   * {
@@ -106,15 +105,40 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-6 py-3 hover:bg-primary/90 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+    @apply bg-primary text-white px-6 py-3 hover:bg-primary/90 transition-colors
+      font-inter font-semibold text-base uppercase tracking-wider;
   }
   .btn-accent {
-    @apply bg-accent text-primary px-6 py-3 hover:bg-accent/90 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+    @apply bg-accent text-primary px-6 py-3 hover:bg-accent/90 transition-colors
+      font-inter font-semibold text-base uppercase tracking-wider;
   }
   .btn-outline {
-    @apply border-2 border-primary text-primary px-6 py-3 hover:bg-primary/5 transition-colors font-inter font-semibold text-base uppercase tracking-wider;
+    @apply border-2 border-primary text-primary px-6 py-3 hover:bg-primary/5
+      transition-colors font-inter font-semibold text-base uppercase
+      tracking-wider;
   }
   .container-custom {
     @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
   }
 }
