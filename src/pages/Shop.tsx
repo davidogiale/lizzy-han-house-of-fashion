@@ -74,9 +74,11 @@ const Shop: React.FC = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="container-custom py-8">
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin" />
+        <div className="bg-white min-h-[50vh]">
+          <div className="container-custom py-8">
+            <div className="flex justify-center items-center h-64">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
           </div>
         </div>
       </Layout>
@@ -86,10 +88,12 @@ const Shop: React.FC = () => {
   if (error) {
     return (
       <Layout>
-        <div className="container-custom py-8">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading products</h3>
-            <p className="text-muted-foreground">{error}</p>
+        <div className="bg-white min-h-[50vh]">
+          <div className="container-custom py-8">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold mb-2 text-destructive">Error loading products</h3>
+              <p className="text-muted-foreground">{error}</p>
+            </div>
           </div>
         </div>
       </Layout>
@@ -98,26 +102,28 @@ const Shop: React.FC = () => {
 
   return (
     <Layout>
-      <div className="container-custom py-8 pb-24 md:pb-8">
-        <h1 className="text-4xl font-playfair font-bold mb-8">Shop Collection</h1>
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="bg-white min-h-screen">
+        <div className="container-custom py-8 pb-24 md:pb-8">
+          <h1 className="text-4xl font-playfair font-bold mb-8">Shop Collection</h1>
+          <div className="flex flex-col lg:flex-row gap-8">
 
-          <div className="w-full lg:w-1/4">
-             <PriceFilter
-                min={minPrice}
-                max={maxPrice}
-                currentMin={priceRange[0]}
-                currentMax={priceRange[1]}
-                onPriceChange={setPriceRange}
-                onFilter={handleFilter}
-             />
-          </div>
-          <div className="w-full lg:w-3/4">
-            <ProductsGrid
-              filteredProducts={filteredProducts}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-            />
+            <div className="w-full lg:w-1/4">
+               <PriceFilter
+                  min={minPrice}
+                  max={maxPrice}
+                  currentMin={priceRange[0]}
+                  currentMax={priceRange[1]}
+                  onPriceChange={setPriceRange}
+                  onFilter={handleFilter}
+               />
+            </div>
+            <div className="w-full lg:w-3/4">
+              <ProductsGrid
+                filteredProducts={filteredProducts}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+              />
+            </div>
           </div>
         </div>
       </div>
