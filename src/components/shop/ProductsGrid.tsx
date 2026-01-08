@@ -64,34 +64,48 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
         </Select>
       </div>
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="bg-white group rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div className="relative overflow-hidden">
-              <a href={`/product/${product.id}`}>
+          <div key={product.id} className="group">
+            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-3">
+              <a href={`/product/${product.id}`} className="block w-full h-full">
                 <img 
                   src={product.image_url || '/placeholder.svg'} 
                   alt={product.name} 
-                  className="w-full h-64 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
               </a>
-              <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 py-3 px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+              <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
                 <button
-                  className="w-full bg-primary text-white py-2 hover:bg-primary/90 transition-colors disabled:opacity-50"
-                  onClick={() => handleAddToCart(product.id)}
+                  className="w-full bg-white text-black py-3 shadow-lg hover:bg-gray-50 transition-colors disabled:opacity-50 text-sm uppercase tracking-widest font-medium"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAddToCart(product.id);
+                  }}
                   disabled={isAdding === product.id}
                 >
                   {isAdding === product.id ? 'Adding...' : 'Add to Cart'}
                 </button>
               </div>
             </div>
-            <div className="p-4">
+
+            {/* Visual Carousel Indicators */}
+            <div className="grid grid-cols-4 gap-1 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="h-[2px] w-full bg-black"></div>
+              <div className="h-[2px] w-full bg-gray-200"></div>
+              <div className="h-[2px] w-full bg-gray-200"></div>
+              <div className="h-[2px] w-full bg-gray-200"></div>
+            </div>
+
+            <div className="space-y-1">
               <a href={`/product/${product.id}`} className="block">
-                <h3 className="font-inter font-semibold text-lg mb-1 hover:text-accent transition-colors">
+                <h3 className="font-normal text-base text-gray-800">
                   {product.name}
                 </h3>
               </a>
-              <p className="text-dark font-semibold">₦{product.price}</p>
+              <p className="font-bold text-lg text-black">
+                {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(Number(product.price))}
+              </p>
             </div>
           </div>
         ))}
