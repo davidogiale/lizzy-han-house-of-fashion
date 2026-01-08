@@ -32,7 +32,7 @@ const HeroImageGrid: React.FC = () => {
   }
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-white p-4">
       {/* 
          Mobile: 1 column
          Tablet: 2 columns
