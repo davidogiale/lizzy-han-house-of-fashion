@@ -142,7 +142,7 @@ const HeroImageGrid: React.FC = () => {
                       {product.name}
                     </p>
                     <Link 
-                      to={`/product/${product.id}`}
+                      to="/shop"
                       className="inline-flex items-center text-lg font-medium hover:opacity-80 transition-opacity"
                     >
                       Shop {product.category === 'Dresses' ? 'Dress' : 'Now'} <ArrowRight className="ml-2 h-5 w-5" />
