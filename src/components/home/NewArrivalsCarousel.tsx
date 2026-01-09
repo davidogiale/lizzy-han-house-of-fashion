@@ -76,7 +76,7 @@ const NewArrivalsCarousel: React.FC = () => {
         >
           <CarouselContent>
             {products.map((product) => (
-              <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4">
+              <CarouselItem key={product.id} className="basis-1/2 md:basis-1/2 lg:basis-1/4">
                 <div className="group">
                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-3">
                     <Link to={`/product/${product.id}`} className="block w-full h-full">
