@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, ShoppingBag, Maximize2, Loader2 } from 'lucide-react';
+import { Heart, ShoppingBag, Maximize2, Loader2, RefreshCw } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -67,7 +67,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
         </Select>
       </div>
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
         {filteredProducts.map((product) => (
           <div key={product.id} className="group">
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-3">
@@ -78,22 +78,39 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
               </a>
-              <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 z-10">
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex flex-col gap-2 opacity-100 lg:translate-x-4 lg:opacity-0 lg:group-hover:translate-x-0 lg:group-hover:opacity-100 transition-all duration-300 z-10">
                 <button 
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
                   onClick={(e) => {
                     e.preventDefault();
-                    // Wishlist functionality to be implemented
                     toast({
                       title: "Added to Wishlist",
                       description: "This feature is coming soon!",
                     });
                   }}
                 >
-                  <Heart size={18} />
+                  <Heart size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </button>
+                <button 
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/product/${product.id}`);
+                  }}
+                >
+                  <Maximize2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </button>
+                <button 
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Rotate functionality
+                  }}
+                >
+                  <RefreshCw size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
                 <button
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
                   onClick={(e) => {
                     e.preventDefault();
                     handleAddToCart(product.id);
@@ -101,20 +118,10 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   disabled={isAdding === product.id}
                 >
                   {isAdding === product.id ? (
-                      <Loader2 size={18} className="animate-spin" />
+                      <Loader2 size={16} className="animate-spin sm:w-[18px] sm:h-[18px]" />
                   ) : (
-                      <ShoppingBag size={18} />
+                      <ShoppingBag size={16} className="sm:w-[18px] sm:h-[18px]" />
                   )}
-                </button>
-                <button 
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Fullscreen/Quickview functionality
-                    navigate(`/product/${product.id}`);
-                  }}
-                >
-                  <Maximize2 size={18} />
                 </button>
               </div>
             </div>
@@ -129,11 +136,11 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
 
             <div className="space-y-1">
               <a href={`/product/${product.id}`} className="block">
-                <h3 className="font-normal text-base text-gray-800">
+                <h3 className="font-normal text-sm sm:text-base text-gray-800 truncate">
                   {product.name}
                 </h3>
               </a>
-              <p className="font-bold text-lg text-black">
+              <p className="font-bold text-base sm:text-lg text-black">
                 {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(Number(product.price))}
               </p>
             </div>
