@@ -55,9 +55,6 @@ const Header: React.FC = () => {
             <Link to="/shop" className="text-primary hover:text-accent transition-colors uppercase">
               Shop
             </Link>
-            <Link to="#" className="text-primary hover:text-accent transition-colors uppercase">
-              Blog
-            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-primary hover:text-accent transition-colors uppercase outline-none">
                 About Us <ChevronDown size={14} />
