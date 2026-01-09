@@ -1,14 +1,41 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Heart, ShoppingBag, Maximize2, Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useProducts } from '@/hooks/useProducts';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/hooks/useCart';
+import { toast } from '@/hooks/use-toast';
 import CustomerFavoritesSkeleton from './skeletons/CustomerFavoritesSkeleton';
 
 const CustomerFavorites: React.FC = () => {
   const { products, loading, error } = useProducts();
+  const { user } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const [isAdding, setIsAdding] = useState<string | null>(null);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-  // Show products 2-7 as customer favorites (different from best sellers)
+  // Show products 2-7 as customer favorites
   const favorites = products.slice(1, 7);
+
+  const handleAddToCart = async (productId: string) => {
+    if (!user) {
+      setShowAuthDialog(true);
+      return;
+    }
+
+    setIsAdding(productId);
+    try {
+      await addToCart({ productId, quantity: 1 });
+    } catch (e) {
+      console.error("Failed to add to cart:", e);
+    } finally {
+      setIsAdding(null);
+    }
+  };
 
   if (loading) {
     return <CustomerFavoritesSkeleton />;
@@ -16,7 +43,7 @@ const CustomerFavorites: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
+      <section className="py-16 bg-white">
         <div className="container-custom">
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-2">Unable to load products</h3>
@@ -28,41 +55,106 @@ const CustomerFavorites: React.FC = () => {
   }
 
   return (
-    <section className="py-16" style={{ backgroundColor: '#E8D5C4' }}>
+    <section className="py-16 bg-white">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-playfair font-bold mb-4">Customer Favorites</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Discover the pieces our customers can't stop raving about
-          </p>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-helvetica font-bold">Customer Favorites</h2>
+          <Link to="/shop" className="text-primary hover:text-accent underline transition-colors">
+            View All
+          </Link>
         </div>
         
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
           {favorites.map((product) => (
-            <div key={product.id} className="bg-white group relative">
-              <div className="relative overflow-hidden">
-                <div className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold z-10 hidden lg:block">
-                  Customer Favorite
-                </div>
-                <Link to={`/product/${product.id}`}>
+            <div key={product.id} className="group">
+              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-3">
+                <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img 
                     src={product.image_url || '/placeholder.svg'} 
                     alt={product.name} 
-                    className="w-full h-64 lg:h-80 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
                 </Link>
+                <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                  <button 
+                    className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toast({
+                        title: "Added to Wishlist",
+                        description: "This feature is coming soon!",
+                      });
+                    }}
+                  >
+                    <Heart size={18} />
+                  </button>
+                  <button
+                    className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToCart(product.id);
+                    }}
+                    disabled={isAdding === product.id}
+                  >
+                    {isAdding === product.id ? (
+                        <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                        <ShoppingBag size={18} />
+                    )}
+                  </button>
+                  <button 
+                    className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate(`/product/${product.id}`);
+                    }}
+                  >
+                    <Maximize2 size={18} />
+                  </button>
+                </div>
               </div>
-              <div className="p-4">
+
+              {/* Visual Carousel Indicators */}
+              <div className="grid grid-cols-4 gap-1 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="h-[2px] w-full bg-black"></div>
+                <div className="h-[2px] w-full bg-gray-200"></div>
+                <div className="h-[2px] w-full bg-gray-200"></div>
+                <div className="h-[2px] w-full bg-gray-200"></div>
+              </div>
+
+              <div className="space-y-1">
                 <Link to={`/product/${product.id}`} className="block">
-                  <h3 className="font-inter font-semibold text-lg mb-1 hover:text-accent transition-colors">
+                  <h3 className="font-normal text-base text-gray-800">
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-dark font-semibold">₦{product.price}</p>
+                <p className="font-bold text-lg text-black">
+                  {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(Number(product.price))}
+                </p>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Authentication Required Dialog */}
+        <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Authentication Required</DialogTitle>
+              <DialogDescription>
+                You must be logged in to add items to your cart.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-3">
+              <Button onClick={() => window.location.href = '/account'} className="w-full">
+                Go to Login
+              </Button>
+              <Button variant="outline" onClick={() => setShowAuthDialog(false)} className="w-full">
+                Continue Shopping
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
