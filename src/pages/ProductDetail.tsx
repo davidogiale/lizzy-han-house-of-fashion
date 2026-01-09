@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
-import { Minus, Plus, Heart, ShoppingCart, Loader2 } from 'lucide-react';
+import { Minus, Plus, Heart, ShoppingCart, Loader2, Share2, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from '@/hooks/use-toast';
 import BestSellers from '@/components/home/BestSellers';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,6 +28,7 @@ const ProductDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   
   useEffect(() => {
@@ -108,6 +117,28 @@ const ProductDetail: React.FC = () => {
     });
   };
 
+  const handleWhatsAppOrder = () => {
+    if (!product) return;
+    const message = `Hello, I'm interested in ordering: ${product.name}\nPrice: ₦${Number(product.price).toLocaleString("en-NG")}\nSize: ${selectedSize || 'Not specified'}\nQuantity: ${quantity}\nLink: ${window.location.href}`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/2348123456789?text=${encodedMessage}`, '_blank');
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: product?.name,
+        url: window.location.href,
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link copied!",
+        description: "The product link has been copied to your clipboard.",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -125,7 +156,7 @@ const ProductDetail: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4 text-destructive">Product Not Found</h2>
           <p className="text-muted-foreground mb-6">{error || "The product you're looking for doesn't exist."}</p>
           <Link to="/shop">
-            <Button variant="outline">Go back to Shop</Button>
+            <Button variant="outline" className="rounded-none">Go back to Shop</Button>
           </Link>
         </div>
       </Layout>
@@ -154,84 +185,139 @@ const ProductDetail: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Product Images */}
           <div className="lg:w-1/2">
-            <div className="relative overflow-hidden mb-4">
+            <div className="relative group overflow-hidden">
               <img 
                 src={product.image_url || '/placeholder.svg'} 
                 alt={product.name} 
                 className="w-full h-auto aspect-[4/5] object-cover object-center"
               />
+              <button className="absolute bottom-4 left-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-dark">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                </svg>
+              </button>
             </div>
           </div>
           
           {/* Product Info */}
           <div className="lg:w-1/2">
-            <h1 className="text-3xl font-playfair font-bold mb-4">{product.name}</h1>
+            <h1 className="text-3xl font-sans font-bold mb-2">{product.name}</h1>
             
-            <p className="text-2xl font-bold mb-6">
-              ₦{Number(product.price).toLocaleString("en-NG")}
+            <p className="text-2xl mb-4 text-[#1A1A1A]">
+              ₦{Number(product.price).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+
+            <p className="text-muted-foreground mb-8 text-sm">
+              {product.description || 'No description available.'}
             </p>
             
-            {/* Color and Size Information */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              {product.color && (
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Color: </span>
-                  <span className="text-sm font-semibold">{product.color}</span>
-                </div>
-              )}
-              {product.size && (
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Size: </span>
-                  <span className="text-sm font-semibold">{product.size}</span>
-                </div>
-              )}
+            {/* Size Selector */}
+            <div className="mb-8 max-w-md">
+              <label className="block text-xs uppercase tracking-wider mb-2 font-medium">size</label>
+              <Select value={selectedSize} onValueChange={setSelectedSize}>
+                <SelectTrigger className="w-full rounded-none border-gray-300 h-10">
+                  <SelectValue placeholder="Choose an option" />
+                </SelectTrigger>
+                <SelectContent>
+                  {product.size ? (
+                    product.size.split(',').map((s) => (
+                      <SelectItem key={s.trim()} value={s.trim()}>
+                        {s.trim()}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <>
+                      <SelectItem value="S">Small</SelectItem>
+                      <SelectItem value="M">Medium</SelectItem>
+                      <SelectItem value="L">Large</SelectItem>
+                      <SelectItem value="XL">Extra Large</SelectItem>
+                    </>
+                  )}
+                </SelectContent>
+              </Select>
             </div>
             
-            <div className="mb-6">
-              <h3 className="font-semibold mb-2">Description</h3>
-              <p className="text-dark">{product.description || 'No description available.'}</p>
-            </div>
-            
-            {/* Quantity */}
-            <div className="mb-6">
-              <h3 className="font-semibold mb-2">Quantity</h3>
-              <div className="flex items-center">
+            {/* Quantity and Add to Cart Row */}
+            <div className="flex gap-4 mb-4">
+              <div className="flex items-center border border-gray-300">
                 <button 
                   onClick={decreaseQuantity}
-                  className="w-10 h-10 border border-gray-300 flex items-center justify-center rounded-l-md hover:bg-muted"
+                  className="w-10 h-11 flex items-center justify-center hover:bg-muted transition-colors"
                 >
-                  <Minus size={16} />
+                  <Minus size={14} />
                 </button>
-                <span className="w-12 h-10 border-t border-b border-gray-300 flex items-center justify-center bg-muted">
+                <span className="w-10 h-11 flex items-center justify-center font-medium">
                   {quantity}
                 </span>
                 <button 
                   onClick={increaseQuantity}
-                  className="w-10 h-10 border border-gray-300 flex items-center justify-center rounded-r-md hover:bg-muted"
+                  className="w-10 h-11 flex items-center justify-center hover:bg-muted transition-colors"
                 >
-                  <Plus size={16} />
+                  <Plus size={14} />
                 </button>
               </div>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              
               <Button 
                 onClick={handleAddToCart} 
-                className="btn-primary flex-1 flex items-center justify-center gap-2"
+                className="flex-1 rounded-none bg-[#808080] hover:bg-[#666666] text-white h-11 font-medium"
                 disabled={isAddingToCart}
               >
                 {isAddingToCart ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <ShoppingCart size={16} />
-                )}
-                {isAddingToCart ? 'Adding...' : 'Add to Cart'}
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : null}
+                {isAddingToCart ? 'Adding...' : 'Add to cart'}
               </Button>
-              <Button onClick={handleAddToWishlist} variant="outline" className="btn-outline flex items-center justify-center gap-2">
+            </div>
+
+            {/* Buy Now Button */}
+            <Button 
+              className="w-full rounded-none bg-[#EBEBEB] hover:bg-[#DEDEDE] text-black h-11 mb-4 font-medium"
+            >
+              Buy Now
+            </Button>
+
+            {/* Order on WhatsApp Button */}
+            <Button 
+              onClick={handleWhatsAppOrder}
+              className="w-full rounded-none bg-black hover:bg-gray-900 text-white h-11 flex items-center justify-center gap-2 mb-8 font-medium"
+            >
+              Order on WhatsApp
+            </Button>
+
+            {/* Actions: Wishlist and Share */}
+            <div className="flex items-center gap-6 mb-8 text-sm text-gray-600">
+              <button 
+                onClick={handleAddToWishlist}
+                className="flex items-center gap-2 hover:text-black transition-colors"
+              >
                 <Heart size={16} />
-                Add to Wishlist
-              </Button>
+                <span>Add to Wishlist</span>
+              </button>
+              <button 
+                onClick={handleShare}
+                className="flex items-center gap-2 hover:text-black transition-colors"
+              >
+                <Share2 size={16} />
+                <span>Share this Product</span>
+              </button>
+            </div>
+
+            <Separator className="mb-8" />
+
+            {/* Product Meta Info */}
+            <div className="space-y-1 text-sm">
+              <div className="flex gap-1">
+                <span className="text-gray-500">SKU:</span>
+                <span className="text-gray-500 uppercase">N/A</span>
+              </div>
+              <div className="flex gap-1">
+                <span className="text-gray-500 uppercase">Categories:</span>
+                <span className="font-bold uppercase">{product.category || 'ALL DRESS, MAXI DRESS'}</span>
+              </div>
+              <div className="flex gap-1">
+                <span className="text-gray-500 uppercase">Tags:</span>
+                <span className="font-bold">long, red</span>
+              </div>
             </div>
           </div>
         </div>
