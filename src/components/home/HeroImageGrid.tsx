@@ -83,7 +83,7 @@ const HeroImageGrid: React.FC = () => {
             {product.name}
           </h3>
         </div>
-        <div className="bg-white text-black rounded-none p-2 transform rotate-45 group-hover:rotate-0 transition-transform duration-300">
+        <div className="bg-white text-black rounded-full p-2 transform rotate-45 group-hover:rotate-0 transition-transform duration-300">
           <ArrowUpRight size={20} />
         </div>
       </div>

@@ -80,7 +80,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
               </a>
               <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex flex-col gap-2 opacity-100 lg:translate-x-4 lg:opacity-0 lg:group-hover:translate-x-0 lg:group-hover:opacity-100 transition-all duration-300 z-10">
                 <button 
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-none shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
                   onClick={(e) => {
                     e.preventDefault();
                     toast({
@@ -92,7 +92,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   <Heart size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
                 <button 
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-none shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
                   onClick={(e) => {
                     e.preventDefault();
                     navigate(`/product/${product.id}`);
@@ -101,7 +101,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                   <Maximize2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
                 <button
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-none shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
+                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
                   onClick={(e) => {
                     e.preventDefault();
                     handleAddToCart(product.id);
