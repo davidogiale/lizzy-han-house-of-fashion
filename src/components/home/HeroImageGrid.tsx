@@ -83,7 +83,7 @@ const HeroImageGrid: React.FC = () => {
             {product.name}
           </h3>
         </div>
-        <div className="bg-white text-black rounded-full p-2 transform rotate-45 group-hover:rotate-0 transition-transform duration-300">
+        <div className="bg-white text-black rounded-none p-2 transform rotate-45 group-hover:rotate-0 transition-transform duration-300">
           <ArrowUpRight size={20} />
         </div>
       </div>
@@ -158,7 +158,7 @@ const HeroImageGrid: React.FC = () => {
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 rounded-none transition-all duration-300 ${
                 index === selectedIndex ? 'bg-white scale-110' : 'bg-white/40'
               }`}
               onClick={() => emblaApi?.scrollTo(index)}

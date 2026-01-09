@@ -137,7 +137,7 @@ export function ImageUpload({ onImageUploaded, currentImageUrl, onImageRemoved }
               type="button"
               variant="destructive"
               size="sm"
-              className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+              className="absolute -top-2 -right-2 h-6 w-6 rounded-none p-0"
               onClick={onImageRemoved}
             >
               <X className="h-3 w-3" />
