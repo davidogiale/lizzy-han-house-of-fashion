@@ -58,7 +58,7 @@ const BestSellers: React.FC = () => {
     <section className="py-16 bg-muted">
       <div className="container-custom">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-playfair font-bold">Best Sellers</h2>
+          <h2 className="text-3xl font-helvetica font-bold">Best Sellers</h2>
           <Link to="/shop" className="text-primary hover:text-accent underline transition-colors">
             View All
           </Link>

@@ -314,17 +314,13 @@ const ProductDetail: React.FC = () => {
                 <span className="text-gray-500 uppercase">Categories:</span>
                 <span className="font-bold uppercase">{product.category || 'ALL DRESS, MAXI DRESS'}</span>
               </div>
-              <div className="flex gap-1">
-                <span className="text-gray-500 uppercase">Tags:</span>
-                <span className="font-bold">long, red</span>
-              </div>
             </div>
           </div>
         </div>
         
         {/* You May Also Like Section */}
         <div className="mt-16">
-          <h2 className="text-3xl font-playfair font-bold text-center mb-8">You May Also Like</h2>
+          <h2 className="text-3xl font-helvetica font-bold text-center mb-8">You May Also Like</h2>
           <BestSellers />
         </div>
       </div>
