@@ -158,7 +158,7 @@ const ProductDetail: React.FC = () => {
               <img 
                 src={product.image_url || '/placeholder.svg'} 
                 alt={product.name} 
-                className="w-full h-auto aspect-[4/5] object-cover object-center rounded-lg"
+                className="w-full h-auto aspect-[4/5] object-cover object-center"
               />
             </div>
           </div>
