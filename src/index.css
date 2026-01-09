@@ -88,7 +88,7 @@
   /* Prevent horizontal scroll on the body */
   body {
     @apply font-inter overflow-x-hidden;
-    background-color: #e8d5c4;
+    background-color: #ffffff;
     color: #1e1e1e;
   }
 
