@@ -86,9 +86,9 @@ const NewArrivalsCarousel: React.FC = () => {
                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                       />
                     </Link>
-                    <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                    <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex flex-col gap-2 opacity-100 lg:translate-x-4 lg:opacity-0 lg:group-hover:translate-x-0 lg:group-hover:opacity-100 transition-all duration-300 z-10">
                       <button 
-                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
                         onClick={(e) => {
                           e.preventDefault();
                           toast({
@@ -97,10 +97,19 @@ const NewArrivalsCarousel: React.FC = () => {
                           });
                         }}
                       >
-                        <Heart size={18} />
+                        <Heart size={16} className="sm:w-[18px] sm:h-[18px]" />
+                      </button>
+                      <button 
+                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/product/${product.id}`);
+                        }}
+                      >
+                        <Maximize2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                       </button>
                       <button
-                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
+                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
                         onClick={(e) => {
                           e.preventDefault();
                           handleAddToCart(product.id);
@@ -108,19 +117,10 @@ const NewArrivalsCarousel: React.FC = () => {
                         disabled={isAdding === product.id}
                       >
                         {isAdding === product.id ? (
-                            <Loader2 size={18} className="animate-spin" />
+                            <Loader2 size={16} className="animate-spin sm:w-[18px] sm:h-[18px]" />
                         ) : (
-                            <ShoppingBag size={18} />
+                            <ShoppingBag size={16} className="sm:w-[18px] sm:h-[18px]" />
                         )}
-                      </button>
-                      <button 
-                        className="bg-white hover:bg-black hover:text-white text-gray-800 p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate(`/product/${product.id}`);
-                        }}
-                      >
-                        <Maximize2 size={18} />
                       </button>
                     </div>
                   </div>
@@ -135,11 +135,11 @@ const NewArrivalsCarousel: React.FC = () => {
 
                   <div className="space-y-1">
                     <Link to={`/product/${product.id}`} className="block">
-                      <h3 className="font-normal text-base text-gray-800">
+                      <h3 className="font-normal text-sm sm:text-base text-gray-800 truncate">
                         {product.name}
                       </h3>
                     </Link>
-                    <p className="font-bold text-lg text-black">
+                    <p className="font-bold text-base sm:text-lg text-black">
                       {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(Number(product.price))}
                     </p>
                   </div>
