@@ -100,15 +100,6 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({
                 >
                   <Maximize2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
-                <button 
-                  className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Rotate functionality
-                  }}
-                >
-                  <RefreshCw size={16} className="sm:w-[18px] sm:h-[18px]" />
-                </button>
                 <button
                   className="bg-white hover:bg-black hover:text-white text-gray-800 p-2 sm:p-2.5 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center transform hover:scale-110 disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-800"
                   onClick={(e) => {
