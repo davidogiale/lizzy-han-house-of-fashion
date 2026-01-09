@@ -62,7 +62,7 @@ const NewArrivalsCarousel: React.FC = () => {
     <section className="py-16" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="container-custom">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-helvetica font-bold">New Arrivals</h2>
+          <h2 className="text-xl md:text-2xl font-helvetica font-bold mb-8 uppercase tracking-wide text-left">New Arrivals</h2>
           <Link to="/shop" className="text-primary hover:text-accent underline transition-colors">
             View All
           </Link>
