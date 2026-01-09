@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '@/hooks/useProducts';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 const FeaturedCollections: React.FC = () => {
   const { products, loading } = useProducts();
@@ -37,7 +42,39 @@ const FeaturedCollections: React.FC = () => {
       <div className="container-custom">
         <h2 className="text-xl md:text-2xl font-helvetica font-bold mb-8 uppercase tracking-wide text-left">Shop by Category</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        {/* Mobile View - Carousel */}
+        <div className="md:hidden">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {collections.map((collection, index) => (
+                <CarouselItem key={index} className="basis-1/3 pl-2">
+                  <Link 
+                    to={collection.link} 
+                    className="group block"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden mb-2">
+                      <img 
+                        src={collection.image} 
+                        alt={collection.name}
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                    <h3 className="text-center font-medium text-xs text-gray-900 font-helvetica leading-tight">{collection.name}</h3>
+                  </Link>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
+
+        {/* Desktop View - Grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-4 md:gap-8">
           {collections.map((collection, index) => (
             <Link 
               to={collection.link} 
