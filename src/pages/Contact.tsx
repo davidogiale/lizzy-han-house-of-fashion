@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
   return (
     <Layout>
       <div className="container-custom py-16">
-        <h1 className="text-4xl font-playfair font-bold text-center mb-8">Contact Lizzy Hans House of Fashion</h1>
+        <h1 className="text-4xl font-helvetica font-bold text-center mb-8">Contact Lizzy Hans House of Fashion</h1>
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
           <div className="mb-4">
             <Input
