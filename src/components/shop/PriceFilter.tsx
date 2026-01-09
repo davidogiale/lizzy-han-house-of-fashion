@@ -26,7 +26,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
 
   return (
     <div className="w-full max-w-xs space-y-4">
-      <h3 className="text-lg font-medium text-black font-playfair">Filter by price</h3>
+      <h3 className="text-lg font-medium text-black font-inter">Filter by price</h3>
       
       <div className="pt-2 pb-6">
         <Slider

@@ -104,7 +104,7 @@ const Shop: React.FC = () => {
     <Layout>
       <div className="bg-white min-h-screen">
         <div className="container-custom py-8 pb-24 md:pb-8">
-          <h1 className="text-4xl font-playfair font-bold mb-8">Shop Collection</h1>
+          <h1 className="text-4xl font-inter font-bold mb-8">Shop Collection</h1>
           <div className="flex flex-col lg:flex-row gap-8">
 
             <div className="w-full lg:w-1/4">
