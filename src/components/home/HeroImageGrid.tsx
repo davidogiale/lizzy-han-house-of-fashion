@@ -1,15 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useProducts } from '@/hooks/useProducts';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { Database } from '@/integrations/supabase/types';
+import type { EmblaCarouselType } from 'embla-carousel-react';
 
 type Product = Database['public']['Tables']['products']['Row'];
 
 const HeroImageGrid: React.FC = () => {
   const { products, loading } = useProducts();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    
+    // Auto-scroll functionality
+    const autoplay = setInterval(() => {
+      if (emblaApi.canScrollNext()) {
+        emblaApi.scrollNext();
+      } else {
+        emblaApi.scrollTo(0);
+      }
+    }, 4000);
+
+    return () => clearInterval(autoplay);
+  }, [emblaApi, onSelect]);
 
   const gridProducts = React.useMemo(() => {
     // Filter products with images and take the first 6
@@ -19,20 +45,7 @@ const HeroImageGrid: React.FC = () => {
       .slice(0, 6);
   }, [products]);
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    if (!emblaApi) return;
 
-    const autoplay = setInterval(() => {
-      if (emblaApi.canScrollNext()) {
-        emblaApi.scrollNext();
-      } else {
-        emblaApi.scrollTo(0);
-      }
-    }, 3000);
-
-    return () => clearInterval(autoplay);
-  }, [emblaApi]);
 
   const ProductCard = ({ product, className }: { product: Product, className?: string }) => (
     <Link
@@ -101,15 +114,56 @@ const HeroImageGrid: React.FC = () => {
       */}
       
       {/* Mobile Carousel */}
-      <div className="block md:hidden overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y"> {/* touch-pan-y allows vertical scroll of page while swiping horizontal */}
-          {gridProducts.map((product) => (
-            <div className="flex-[0_0_100%] min-w-0 pr-4" key={product.id}>
-              <ProductCard 
-                product={product} 
-                className="w-full h-[400px]" 
-              />
-            </div>
+      {/* Mobile Carousel */}
+      <div className="block md:hidden relative group h-[500px]">
+        <div className="overflow-hidden h-full" ref={emblaRef}>
+          <div className="flex touch-pan-y h-full"> 
+            {gridProducts.map((product) => (
+              <div className="flex-[0_0_100%] min-w-0 relative h-full" key={product.id}>
+                 <div className="absolute inset-0">
+                    <img 
+                      src={product.image_url || '/placeholder.svg'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Gradient Overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+                 </div>
+                 
+                 {/* Text Content Overlay */}
+                 <div className="absolute inset-0 flex flex-col justify-center px-8 text-white z-10">
+                    <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3 text-white/90">
+                      Make a statement
+                    </p>
+                    <h2 className="text-4xl font-playfair font-bold leading-[1.15] mb-4 text-white drop-shadow-sm">
+                      Discover fashion <br/> that sets you apart
+                    </h2>
+                    <p className="text-sm text-white/80 font-medium mb-6">
+                      {product.name}
+                    </p>
+                    <Link 
+                      to={`/product/${product.id}`}
+                      className="inline-flex items-center text-lg font-medium hover:opacity-80 transition-opacity"
+                    >
+                      Shop {product.category === 'Dresses' ? 'Dress' : 'Now'} <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
+          {scrollSnaps.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === selectedIndex ? 'bg-white scale-110' : 'bg-white/40'
+              }`}
+              onClick={() => emblaApi?.scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
           ))}
         </div>
       </div>
