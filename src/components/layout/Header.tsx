@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCart } from '@/hooks/useCart';
+import OptimizedImage from '../ui/OptimizedImage';
 
 const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -43,7 +44,12 @@ const Header: React.FC = () => {
             </button>
             
             <Link to="/" className="flex-shrink-0">
-              <img src="/Lizz.png" alt="Lizzy Han" className="h-8 md:h-12 object-contain" />
+              <OptimizedImage 
+                src="/Lizz.png" 
+                alt="Lizzy Han" 
+                className="h-8 md:h-12 w-auto object-contain" 
+                priority={true}
+              />
             </Link>
           </div>
 

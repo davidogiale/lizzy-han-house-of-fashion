@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { Database } from '@/integrations/supabase/types';
 import type { EmblaCarouselType } from 'embla-carousel-react';
+import OptimizedImage from '../ui/OptimizedImage';
 
 type Product = Database['public']['Tables']['products']['Row'];
 
@@ -54,10 +55,12 @@ const HeroImageGrid: React.FC = () => {
     >
       {/* Image */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <img
+        <OptimizedImage
           src={product.image_url || '/placeholder.svg'}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          containerClassName="w-full h-full"
+          priority={true}
         />
       </div>
       
@@ -121,10 +124,12 @@ const HeroImageGrid: React.FC = () => {
             {gridProducts.map((product) => (
               <div className="flex-[0_0_100%] min-w-0 relative h-full" key={product.id}>
                  <div className="absolute inset-0">
-                    <img 
+                    <OptimizedImage 
                       src={product.image_url || '/placeholder.svg'} 
                       alt={product.name}
                       className="w-full h-full object-cover"
+                      containerClassName="w-full h-full"
+                      priority={true}
                     />
                     {/* Gradient Overlay for text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
