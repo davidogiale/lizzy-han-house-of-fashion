@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
-import { Minus, Plus, Heart, ShoppingCart, Loader2, Share2, MessageCircle } from 'lucide-react';
+import { Minus, Plus, Heart, ShoppingCart, Loader2, Share2, MessageCircle, X, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -30,6 +30,7 @@ const ProductDetail: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   
   useEffect(() => {
     const fetchProduct = async () => {
@@ -191,7 +192,11 @@ const ProductDetail: React.FC = () => {
                 alt={product.name} 
                 className="w-full h-auto aspect-[4/5] object-cover object-center"
               />
-              <button className="absolute bottom-4 left-4 w-10 h-10 bg-white/90 rounded-none flex items-center justify-center shadow-md hover:bg-white transition-colors">
+              <button 
+                onClick={() => setIsImageModalOpen(true)}
+                className="absolute bottom-4 left-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+                title="View full image"
+              >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-dark">
                   <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
                 </svg>
@@ -324,6 +329,36 @@ const ProductDetail: React.FC = () => {
           <BestSellers />
         </div>
       </div>
+
+      {/* Full Image Modal */}
+      {isImageModalOpen && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <button 
+            className="absolute top-6 left-6 text-white hover:text-gray-300 transition-colors z-[110] flex items-center gap-2 group"
+            onClick={() => setIsImageModalOpen(false)}
+          >
+            <span className="text-sm font-bold uppercase tracking-widest hidden md:inline">Back</span>
+          </button>
+
+          <button 
+            className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-[110]"
+            onClick={() => setIsImageModalOpen(false)}
+          >
+            <X size={32} />
+          </button>
+          
+          <div className="relative max-w-5xl w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={product.image_url || '/placeholder.svg'} 
+              alt={product.name} 
+              className="max-w-full max-h-full object-contain shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };
