@@ -17,6 +17,8 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 
+import OptimizedImage from '@/components/ui/OptimizedImage';
+
 type Product = Database['public']['Tables']['products']['Row'];
 
 const ProductDetail: React.FC = () => {
@@ -187,10 +189,12 @@ const ProductDetail: React.FC = () => {
           {/* Product Images */}
           <div className="lg:w-1/2">
             <div className="relative group overflow-hidden">
-              <img 
+              <OptimizedImage 
                 src={product.image_url || '/placeholder.svg'} 
                 alt={product.name} 
-                className="w-full h-auto aspect-[4/5] object-cover object-center"
+                className="w-full h-auto"
+                containerClassName="aspect-[4/5]"
+                priority={true}
               />
               <button 
                 onClick={() => setIsImageModalOpen(true)}
@@ -351,10 +355,12 @@ const ProductDetail: React.FC = () => {
           </button>
           
           <div className="relative max-w-5xl w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-            <img 
+            <OptimizedImage 
               src={product.image_url || '/placeholder.svg'} 
               alt={product.name} 
               className="max-w-full max-h-full object-contain shadow-2xl"
+              containerClassName="w-full h-full"
+              priority={true}
             />
           </div>
         </div>

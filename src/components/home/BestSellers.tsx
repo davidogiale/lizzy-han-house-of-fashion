@@ -9,6 +9,7 @@ import { toast } from '@/hooks/use-toast';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import BestSellersSkeleton from './skeletons/BestSellersSkeleton';
+import OptimizedImage from '../ui/OptimizedImage';
 
 const BestSellers: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -69,10 +70,11 @@ const BestSellers: React.FC = () => {
             <div key={product.id} className="group">
               <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-3">
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
-                  <img 
+                  <OptimizedImage 
                     src={product.image_url || '/placeholder.svg'} 
                     alt={product.name} 
                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    containerClassName="w-full h-full"
                   />
                 </Link>
                 <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex flex-col gap-2 opacity-100 lg:translate-x-4 lg:opacity-0 lg:group-hover:translate-x-0 lg:group-hover:opacity-100 transition-all duration-300 z-10">
