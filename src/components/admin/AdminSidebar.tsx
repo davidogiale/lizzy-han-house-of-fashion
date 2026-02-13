@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart3, Package, Users, ShoppingCart, Settings, Home } from 'lucide-react';
+import { BarChart3, Package, ShoppingCart, Settings, Home } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -29,12 +29,7 @@ const menuItems = [
     icon: Package,
     href: "products",
   },
-  {
-    title: "Customers",
-    icon: Users,
-    href: "customers",
-  },
- ];
+];
 
 interface AdminSidebarProps {
   currentPage: string;

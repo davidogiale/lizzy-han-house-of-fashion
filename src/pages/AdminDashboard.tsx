@@ -6,19 +6,17 @@ import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminOverview } from "@/components/admin/AdminOverview";
 import { AdminOrders } from "@/components/admin/AdminOrders";
 import { AdminProducts } from "@/components/admin/AdminProducts";
-import { AdminCustomers } from "@/components/admin/AdminCustomers";
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useIsMobile } from '@/hooks/use-mobile';
-import { BarChart3, Package, Users, ShoppingCart } from 'lucide-react';
+import { BarChart3, Package, ShoppingCart } from 'lucide-react';
 
 const ADMIN_SECTIONS = [
   { value: 'overview', label: 'Overview', icon: BarChart3 },
   { value: 'orders', label: 'Orders', icon: ShoppingCart },
   { value: 'products', label: 'Products', icon: Package },
-  { value: 'customers', label: 'Customers', icon: Users },
 ];
 
 const AdminDashboard = () => {
@@ -35,8 +33,6 @@ const AdminDashboard = () => {
         return <AdminOrders />;
       case 'products':
         return <AdminProducts />;
-      case 'customers':
-        return <AdminCustomers />;
       default:
         return <AdminOverview />;
     }

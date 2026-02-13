@@ -10,7 +10,6 @@ import {
 import {
   BarChart3,
   Package,
-  Users,
   TrendingUp,
 } from "lucide-react";
 import { fetchAdminStats } from "./adminStats";
@@ -19,7 +18,6 @@ import { fetchAdminStats } from "./adminStats";
 const iconMap = {
   revenue: BarChart3,
   orders: Package,
-  customers: Users,
   growth: TrendingUp,
 };
 
@@ -67,12 +65,6 @@ export function AdminOverview() {
       value: stats.totalOrders.toLocaleString(),
       change: `+${stats.orderGrowth.toFixed(1)}% from last month`,
       icon: iconMap.orders,
-    },
-    {
-      title: "Customers",
-      value: stats.customerCount.toLocaleString(),
-      change: `+${stats.customerGrowth.toFixed(1)}% from last month`,
-      icon: iconMap.customers,
     },
     {
       title: "Growth",
